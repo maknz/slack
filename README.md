@@ -10,7 +10,7 @@ You can install the package using the [Composer](https://getcomposer.org/) packa
 composer require maknz/slack:0.1.*
 ```
 
-Better yet, use a specific release (e.g. 0.1.0). Before the package is 1.0, I might make backwards-compatible breaks.
+I might make BC breaks on 0.x branches (e.g. 0.2, 0.3) but not on the minor releases (e.g. 0.1.3).
 
 ### Service provider and alias
 
