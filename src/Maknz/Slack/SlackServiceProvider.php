@@ -1,6 +1,7 @@
 <?php namespace Maknz\Slack;
 
 use Illuminate\Support\ServiceProvider;
+use GuzzleHttp\Client as Guzzle;
 
 class SlackServiceProvider extends ServiceProvider {
 
@@ -28,7 +29,17 @@ class SlackServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		//
+		$this->app['slack'] = $this->app->share(function($app) {
+
+			return new SlackClient(
+				new Guzzle,
+				$app['config']->get('slack::account'),
+				$app['config']->get('slack::token'),
+				$app['config']->get('slack::default_channel'),
+				$app['config']->get('slack::default_username')
+			);
+			
+		});
 	}
 
 	/**
@@ -38,7 +49,7 @@ class SlackServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array();
+		return array('slack');
 	}
 
 }
