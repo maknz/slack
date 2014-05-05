@@ -38,7 +38,23 @@ Publish the configuration with
 php artisan config:publish maknz/slack
 ```
 
-and add the URL to the webhook. If you haven't already created an incoming webhook for the package to use, [create one in your Slack backend](https://my.slack.com/services/new/incoming-webhook). The URL will be available under the "Instructions for creating Incoming WebHooks" panel.
+This will add the boilerplate configuration to `app/config/packages/maknz/slack/config.php`. You need to add the URL to the webhook the package should use. If you haven't already created an incoming webhook for the package to use, [create one in your Slack backend](https://my.slack.com/services/new/incoming-webhook). The URL will be available under the "Instructions for creating Incoming WebHooks" panel. You can also configure the default channel and username in the config file. 
+
+You can change the icon that will be used when editing the webhook in the Slack backend.
 
 ## Usage
 
+```php
+// Sending a message using the defaults in the configuration
+Slack::send('Hello world!');
+
+// Sending a message to a specific channel
+Slack::send('Hello world!', '#accounting');
+
+// Sending a message to a user
+Slack::send('Hello world!', '@maknz');
+
+// Sending a message to a channel, overriding the default username
+Slack::send('Hello world!', '#general', 'Robot');
+
+```
