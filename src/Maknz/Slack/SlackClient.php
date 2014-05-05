@@ -5,18 +5,11 @@ use GuzzleHttp\Client as Guzzle;
 class SlackClient {
 
   /**
-   * The Slack account name
+   * The Slack incoming webhook endpoint
    *
    * @var string
    */
-  protected $account;
-
-  /**
-   * The incoming webhook token
-   *
-   * @param string
-   */
-  protected $token;
+  protected $endpoint;
   
   /**
    * The channel we should send messages to
@@ -54,24 +47,9 @@ class SlackClient {
                             $defaultChannel,
                             $defaultUsername) {
     $this->client = $client;
-    $this->account = $account;
-    $this->token = $token;
+    $this->endpoint = $endpoint;
     $this->defaultChannel = $defaultChannel;
     $this->defaultUsername = $defaultUsername;
-
-  }
-
-  /**
-   * Generate the incoming webhook endpoint to send
-   * messages to.
-   *
-   * @return string
-   */
-  private function getEndpoint() {
-
-    return sprintf('https://%s.slack.com/services/hooks/incoming-webhook?token=%s',
-                   $this->account,
-                   $this->token);
 
   }
 
@@ -91,7 +69,7 @@ class SlackClient {
       'username' => $username ?: $this->defaultUsername,
     ]);
     
-    $this->client->post($this->getEndpoint(), ['body' => $payload]);
+    $this->client->post($this->endpoint, ['body' => $payload]);
 
   }
 
