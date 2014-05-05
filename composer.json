@@ -1,6 +1,7 @@
 {
     "name": "maknz/slack",
-    "description": "",
+    "description": "A simple Laravel 4 package for sending messages to Slack",
+    "license": "BSD-2-Clause",
     "authors": [
         {
             "name": "maknz",
@@ -9,12 +10,10 @@
     ],
     "require": {
         "php": ">=5.3.0",
-        "illuminate/support": "4.1.*"
+        "illuminate/support": "4.1.*",
+        "guzzlehttp/guzzle": "~4.0"
     },
     "autoload": {
-        "classmap": [
-            "src/migrations"
-        ],
         "psr-0": {
             "Maknz\\Slack\\": "src/"
         }
