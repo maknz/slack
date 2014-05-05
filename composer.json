@@ -1,6 +1,7 @@
 {
     "name": "maknz/slack",
     "description": "A simple Laravel 4 package for sending messages to Slack",
+    "keywords": ["laravel", "slack"],
     "license": "BSD-2-Clause",
     "authors": [
         {
