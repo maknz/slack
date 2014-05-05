@@ -38,12 +38,12 @@ class SlackClient {
    * Instantiate a new client
    *
    * @param \GuzzleHttp\Client $client
-   * @param string $account
-   * @param string $token
+   * @param string $endpoint
+   * @param string $defaultChannel
+   * @param string $defaultUsername
    */
   public function __construct(Guzzle $client, 
-                            $account,
-                            $token,
+                            $endpoint,
                             $defaultChannel,
                             $defaultUsername) {
     $this->client = $client;
