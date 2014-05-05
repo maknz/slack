@@ -46,6 +46,7 @@ class SlackClient {
                             $endpoint,
                             $defaultChannel,
                             $defaultUsername) {
+    
     $this->client = $client;
     $this->endpoint = $endpoint;
     $this->defaultChannel = $defaultChannel;
