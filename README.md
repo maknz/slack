@@ -10,6 +10,8 @@ You can install the package using the [Composer](https://getcomposer.org/) packa
 composer require maknz/slack:0.1.*
 ```
 
+Better yet, use a specific release (e.g. 0.1.0). Before the package is 1.0, I might make backwards-compatible breaks.
+
 ### Service provider and alias
 
 Next, add the `Maknz\Slack\SlackServiceProvider` service provider to the `providers` array in your `app/config.php` file.
