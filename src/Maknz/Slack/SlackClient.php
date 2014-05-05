@@ -83,7 +83,7 @@ class SlackClient {
    * @param string $username An optional non-default username
    * @return void
    */
-  private function send($message, $channel = null, $username = null) {
+  public function send($message, $channel = null, $username = null) {
 
     $payload = json_encode([
       'text' => $message,
