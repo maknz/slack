@@ -1,6 +1,11 @@
 # Slack
 
-A simple Laravel 4 package for sending messages to [Slack](https://slack.com) with [incoming webhooks](https://my.slack.com/services/new/incoming-webhook).
+A simple Laravel package for sending messages to [Slack](https://slack.com) with [incoming webhooks](https://my.slack.com/services/new/incoming-webhook).
+
+## Requirements
+
+* PHP 5.4 or greater
+* Laravel 4.1 or greater
 
 ## Installation
 
@@ -9,8 +14,6 @@ You can install the package using the [Composer](https://getcomposer.org/) packa
 ```sh
 composer require maknz/slack:0.1.*
 ```
-
-I might make BC breaks on unstable major releases (e.g. 0.2, 0.3) but not on the minor releases (e.g. 0.1.3). Once we're at 1.0, the API will stay consistent until a major release (e.g. 2.0).
 
 ### Service provider and alias
 
