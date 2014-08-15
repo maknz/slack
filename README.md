@@ -63,3 +63,7 @@ Slack::send('Hello world!', '@maknz');
 Slack::send('Hello world!', '#general', 'Robot');
 
 ```
+
+## Contributing
+
+I will happily look at any pull requests to improve the package and provide attribution for your contributions. Help share the improvements with everyone!
