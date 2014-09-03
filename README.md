@@ -62,7 +62,7 @@ Slack::send('Hello world!', '@maknz');
 // Sending a message to a channel, overriding the default username
 Slack::send('Hello world!', '#general', 'Robot');
 
-//Sending a message to a channell, overriding the default icon_url
+//Sending a message to a channel, overriding the default icon_url
 Slack::send('Hello world!', '#general', 'Robot','http://imgur.com/robotImage.jpeg');
 
 ```
