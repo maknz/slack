@@ -38,5 +38,16 @@ return [
   */
   
   'default_username' => 'PHP Bot',
+  
+  /*
+  |--------------------------------------------------------------------------
+  | Default icon url
+  |--------------------------------------------------------------------------
+  |
+  | The default icon_url we should post as if none is specified.
+  |
+  */
+
+  'default_icon_url' => false,
 
 ];
