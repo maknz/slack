@@ -71,10 +71,10 @@ class SlackClient {
    * @param string $channel An optional non-default channel
    * @param string $username An optional non-default username
    * @param string $icon_url An optional non-default url of an image
-   * @param array $attachements An optional attachement to send with the payload
+   * @param array $attachments An optional attachement to send with the payload
    * @return void
    */
-  public function send($message, $channel = null, $username = null, $icon_url, $attachments= null) {
+  public function send($message, $channel = null, $username = null, $icon_url = null, $attachments = null) {
 
     $payload = json_encode([
       'text' => $message,
