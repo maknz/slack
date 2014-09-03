@@ -36,7 +36,8 @@ class SlackServiceProvider extends ServiceProvider {
         new Guzzle,
         $app['config']->get('slack::endpoint'),
         $app['config']->get('slack::default_channel'),
-        $app['config']->get('slack::default_username')
+        $app['config']->get('slack::default_username'),
+        $app['config']->get('slack::default_icon_url')
       );
 
     });

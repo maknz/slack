@@ -26,6 +26,14 @@ class SlackClient {
    * @var string
    */
   protected $defaultUsername;
+  
+  /**
+   * The default icon url we should send messages with
+   * by default
+   *
+   * @var string
+   */
+  protected $defaultIcon;
 
   /**
    * The Guzzle HTTP client
@@ -45,12 +53,14 @@ class SlackClient {
   public function __construct(Guzzle $client, 
                             $endpoint,
                             $defaultChannel,
-                            $defaultUsername) {
+                            $defaultUsername,
+                            $defaultIcon) {
     
     $this->client = $client;
     $this->endpoint = $endpoint;
     $this->defaultChannel = $defaultChannel;
     $this->defaultUsername = $defaultUsername;
+    $this->defaultIcon = $defaultIcon;
 
   }
 
@@ -60,18 +70,18 @@ class SlackClient {
    * @param string $message The message to send
    * @param string $channel An optional non-default channel
    * @param string $username An optional non-default username
+   * @param string $icon_url An optional non-default url of an image
+   * @param array $attachments An optional attachement to send with the payload
    * @return void
    */
-  public function send($message, $channel = null, $username = null) {
+  public function send($message, $channel = null, $username = null, $icon_url = null, $attachments = null) {
 
     $payload = json_encode([
       'text' => $message,
       'channel' => $channel ?: $this->defaultChannel,
       'username' => $username ?: $this->defaultUsername,
-    ]);
-    
-    $this->client->post($this->endpoint, ['body' => $payload]);
-
+      'icon_url' => $icon_url ?: $this->defaultIcon,
+      'attachments' => $attachments ?: []
   }
 
 }
