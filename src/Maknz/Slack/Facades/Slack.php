@@ -9,6 +9,6 @@ class Slack extends Facade {
    *
    * @return string
    */
-  protected static function getFacadeAccessor() { return 'slack'; }
+  protected static function getFacadeAccessor() { return 'maknz.slack'; }
 
 }
