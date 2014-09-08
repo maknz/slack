@@ -59,7 +59,7 @@ You can change the default icon to be used in the Slack backend, or it can be ch
 
 ## Usage
 
-### Using Laravel
+These examples are showing the package when used with Laravel, but the methods are all the same regardless. See the section below on using the package outside of Laravel.
 
 #### Sending a message using the defaults in the config
 
