@@ -1,6 +1,6 @@
 {
     "name": "maknz/slack",
-    "description": "A simple Laravel 4 package for sending messages to Slack",
+    "description": "A simple PHP package for sending messages to Slack, with Laravel 4 support",
     "keywords": ["laravel", "slack"],
     "license": "BSD-2-Clause",
     "authors": [
@@ -11,8 +11,14 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "illuminate/support": "4.*",
-        "guzzlehttp/guzzle": "~4.0"
+        "guzzlehttp/guzzle": "~4.0",
+        "ext-mbstring": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.2.*"
+    },
+    "suggest": {
+        "illuminate/support": "Required for Laravel support"
     },
     "autoload": {
         "psr-0": {
