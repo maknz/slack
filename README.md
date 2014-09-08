@@ -212,7 +212,7 @@ $attachment = new Attachment([
 			'title' => 'A title',
 			'value' => 'A value',
 			'short' => true
-		]);
+		])
 	]
 ]);
 ```
