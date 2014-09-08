@@ -8,13 +8,6 @@ A simple PHP package for sending messages to [Slack](https://slack.com) with [in
 
 * PHP 5.4 or greater
 
-## Contributors
-
-I will happily look at any pull requests or suggestions to improve the package and provide attribution for your contributions. Help share the improvements with everyone!
-
-* [@maknz](https://github.com/maknz)
-* [@willwashburn](https://github.com/willwashburn)
-
 ## Installation
 
 You can install the package using the [Composer](https://getcomposer.org/) package manager. Assuming you have Composer installed globally:
@@ -230,3 +223,10 @@ $attachment = new Attachment([]);
 
 $attachment->setFields($bigArrayOfFields);
 ```
+
+## Contributors
+
+I will happily look at any pull requests or suggestions to improve the package and provide attribution for your contributions. Help share the improvements with everyone!
+
+* [@maknz](https://github.com/maknz)
+* [@willwashburn](https://github.com/willwashburn)
