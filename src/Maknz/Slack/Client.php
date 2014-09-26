@@ -69,16 +69,16 @@ class Client {
   /**
    * Instantiate a new client
    *
-   * @param array $config
-   * @param \GuzzleHttp\Client $guzzle
+   * @param string $endpoint The Slack webhook
    * @param array $attributes
+   * @param \GuzzleHttp\Client $guzzle
    * @return void
    */
   public function __construct($endpoint, array $attributes = [], Guzzle $guzzle = null)
   {
     $this->setEndpoint($endpoint);
 
-    if (isset($attributes['channel'])) $this->setChannel($attributes['username']);
+    if (isset($attributes['channel'])) $this->setChannel($attributes['channel']);
 
     if (isset($attributes['username'])) $this->setUsername($attributes['username']);
 

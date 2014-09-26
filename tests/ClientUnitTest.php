@@ -149,6 +149,25 @@ class ClientUnitTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals('http://www.fake.com/someimage.png', $client->getIcon());
   }
 
+  public function testInstantiationSetsCorrectValues()
+  {
+    $data = [
+      'channel' => '#test',
+      'username' => 'Test Username',
+      'icon' => ':heart_eyes:'
+    ];
+
+    $client = new Client($this->getEndpoint(), $data);
+
+    $this->assertEquals('#test', $client->getChannel());
+
+    $this->assertEquals('Test Username', $client->getUsername());
+
+    $this->assertEquals(':heart_eyes:', $client->getIcon());
+
+    $this->assertEquals(Client::ICON_TYPE_EMOJI, $client->getIconType());
+  }
+
   private function getClient()
   {
     return new Client($this->getEndpoint());
