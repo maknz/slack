@@ -313,7 +313,7 @@ class Client {
    */
   public function send($message)
   {
-    $payload = json_encode($this->preparePayload($message));
+    $payload = json_encode($this->preparePayload($message), JSON_UNESCAPED_UNICODE);
     
     $this->guzzle->post($this->endpoint, ['body' => $payload]);
   }
