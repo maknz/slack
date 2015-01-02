@@ -50,4 +50,15 @@ return [
 
   'icon' => null,
 
+  /*
+  |-------------------------------------------------------------
+  | Default link names
+  |-------------------------------------------------------------
+  |
+  | Whether slack should automatically convert @name's into mention links
+  |
+  */
+
+  'link_names' => false,
+
 ];
