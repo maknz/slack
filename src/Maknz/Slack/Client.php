@@ -41,6 +41,13 @@ class Client {
   protected $iconType;
 
   /**
+   * Whether names should be automatically converted into mentions
+   *
+   * @var bool
+   */
+  protected $link_names;
+
+  /**
    * An array of attachments to send
    *
    * @var array
@@ -83,6 +90,8 @@ class Client {
     if (isset($attributes['username'])) $this->setUsername($attributes['username']);
 
     if (isset($attributes['icon'])) $this->setIcon($attributes['icon']);
+
+    if (isset($attributes['link_names'])) $this->setLinkNames($attributes['link_names']);
 
     $this->guzzle = $guzzle ?: new Guzzle;
   }
@@ -152,6 +161,30 @@ class Client {
   public function setUsername($username)
   {
     $this->username = $username;
+
+    return $this;
+  }
+
+  /**
+   * Get whether usernames should be automatically linked by slack
+   *
+   * @param bool $link_names
+   * @return $this
+   */
+  public function getLinkNames()
+  {
+    return $this->link_names;
+  }
+
+  /**
+   * Set whether usernames should be automatically linked by slack
+   *
+   * @param bool $link_names
+   * @return $this
+   */
+  public function setLinkNames($link_names)
+  {
+    $this->link_names = $link_names ? 1 : 0;
 
     return $this;
   }
@@ -329,7 +362,8 @@ class Client {
     $payload = [
       'text' => $message,
       'channel' => $this->channel,
-      'username' => $this->username
+      'username' => $this->username,
+      'link_names' => $this->link_names
     ];
 
     if ($icon = $this->getIcon())

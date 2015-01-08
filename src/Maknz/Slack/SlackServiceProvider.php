@@ -36,7 +36,8 @@ class SlackServiceProvider extends ServiceProvider {
         [
           'channel' => $app['config']->get('slack::channel'),
           'username' => $app['config']->get('slack::username'),
-          'icon' => $app['config']->get('slack::icon')
+          'icon' => $app['config']->get('slack::icon'),
+          'link_names' => $app['config']->get('slack::link_names')
         ],
         new Guzzle
       );
