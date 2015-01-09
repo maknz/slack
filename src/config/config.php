@@ -21,18 +21,20 @@ return [
   |-------------------------------------------------------------
   |
   | The default channel we should post to. The channel can either be a
-  | channel like #general, a private #group, or a @username.
+  | channel like #general, a private #group, or a @username. Set to
+  | null to use the default set on the Slack webhook
   |
   */
 
-  'channel' => null,
+  'channel' => '#general',
 
   /*
   |-------------------------------------------------------------
   | Default username
   |-------------------------------------------------------------
   |
-  | The default username we should post as
+  | The default username we should post as. Set to null to use
+  | the default set on the Slack webhook
   |
   */
 
@@ -44,7 +46,8 @@ return [
   |-------------------------------------------------------------
   |
   | The default icon to use. This can either be a URL to an image or Slack
-  | emoji like :ghost: or :heart_eyes:
+  | emoji like :ghost: or :heart_eyes:. Set to null to use the default
+  | set on the Slack webhook
   |
   */
 
