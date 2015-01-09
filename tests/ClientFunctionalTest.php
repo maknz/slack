@@ -1,27 +1,31 @@
 <?php
+
 use Maknz\Slack\Client;
 use Maknz\Slack\Attachment;
-use Maknz\Slack\AttachmentField;
 
 class ClientFunctionalTest extends PHPUnit_Framework_TestCase {
 
-  public function testFunctionalPayloadBasic()
+  public function testPlainMessage()
   {
     $expectedHttpData = [
-      'username' => 'Test',
-      'channel' => '#general',
+      'username' => 'Archer',
+      'channel' => '@regan',
       'text' => 'Message',
+      'link_names' => false,
+      'unfurl_links' => false,
       'attachments' => []
     ];
 
-    $client = new Client($this->getEndpoint(), ['username' => 'Test']);
+    $client = new Client('http://fake.endpoint');
 
-    $payload = $client->preparePayload('Message');
+    $message = $client->to('@regan')->from('Archer')->setText('Message');
+
+    $payload = $client->preparePayload($message);
 
     $this->assertEquals($expectedHttpData, $payload);
   }
 
-  public function testFunctionalPayloadWithAttachment()
+  public function testMessageWithAttachments()
   {
     $attachmentArray = [
       'fallback' => 'Some fallback text',
@@ -35,21 +39,28 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase {
       'username' => 'Test',
       'channel' => '#general',
       'text' => 'Message',
+      'link_names' => false,
+      'unfurl_links' => false,
       'attachments' => [$attachmentArray]
     ];
 
-    $client = new Client($this->getEndpoint(), ['username' => 'Test']);
+    $client = new Client('http://fake.endpoint', [
+      'username' => 'Test',
+      'channel' => '#general'
+    ]);
+
+    $message = $client->createMessage()->setText('Message');
 
     $attachment = new Attachment($attachmentArray);
 
-    $client->attach($attachment);
+    $message->attach($attachment);
 
-    $payload = $client->preparePayload('Message');
+    $payload = $client->preparePayload($message);
 
     $this->assertEquals($expectedHttpData, $payload);
   }
 
-  public function testFunctionalPayloadWithAttachmentWithFields()
+  public function testMessageWithAttachmentsAndFields()
   {
     $attachmentArray = [
       'fallback' => 'Some fallback text',
@@ -74,23 +85,25 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase {
       'username' => 'Test',
       'channel' => '#general',
       'text' => 'Message',
+      'link_names' => false,
+      'unfurl_links' => false,
       'attachments' => [$attachmentArray]
     ];
 
-    $client = new Client($this->getEndpoint(), ['username' => $expectedHttpData['username']]);
+    $client = new Client('http://fake.endpoint', [
+      'username' => 'Test',
+      'channel' => '#general'
+    ]);
+
+    $message = $client->createMessage()->setText('Message');
 
     $attachment = new Attachment($attachmentArray);
 
-    $client->attach($attachment);
+    $message->attach($attachment);
 
-    $payload = $client->preparePayload('Message');
+    $payload = $client->preparePayload($message);
 
     $this->assertEquals($expectedHttpData, $payload);
-  }
-
-  private function getEndpoint()
-  {
-    return 'http://fake.endpoint';
   }
 
 }

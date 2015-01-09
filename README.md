@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/maknz/slack.svg?branch=master)](https://travis-ci.org/maknz/slack)
 
-A simple PHP package for sending messages to [Slack](https://slack.com) with [incoming webhooks](https://my.slack.com/services/new/incoming-webhook), focussed on ease-of-use and elegant syntax. Includes Laravel 4 support out of the box.
+A simple PHP package for sending messages to [Slack](https://slack.com) with [incoming webhooks](https://my.slack.com/services/new/incoming-webhook), focussed on ease-of-use and elegant syntax. Includes Laravel support out of the box.
 
 ## Requirements
 
@@ -10,15 +10,15 @@ A simple PHP package for sending messages to [Slack](https://slack.com) with [in
 
 ## Installation
 
-You can install the package using the [Composer](https://getcomposer.org/) package manager. Assuming you have Composer installed globally:
+You can install the package using the [Composer](https://getcomposer.org/) package manager. You can install it by running this command in your project root:
 
 ```sh
-composer require maknz/slack:0.3.*
+composer require maknz/slack:~1.0
 ```
 
-## Laravel 4 
+## Laravel
 
-We include a Laravel 4 facade which provides a nicer syntax for using the client and allows for automatic configuration of username, channel and icon.
+We include a Laravel 4 service provider which provides a nicer syntax for using the client and allows for setting defaults from a config file.
 
 Firstly, add the `Maknz\Slack\SlackServiceProvider` service provider to the `providers` array in your `app/config.php` file.
 
@@ -46,48 +46,78 @@ Publish the configuration with
 php artisan config:publish maknz/slack
 ```
 
-This will add the boilerplate configuration to `app/config/packages/maknz/slack/config.php`. You need to add the URL to the webhook the package should use. If you haven't already created an incoming webhook for the package to use, [create one in your Slack backend](https://my.slack.com/services/new/incoming-webhook). The URL will be available under the "Instructions for creating Incoming WebHooks" panel. You can also configure the default channel, username and icon in the config file.
+This will add the boilerplate configuration to `app/config/packages/maknz/slack/config.php`. You need to add the URL to the webhook the package should use. If you haven't already created an incoming webhook for the package to use, [create one in your Slack backend](https://my.slack.com/services/new/incoming-webhook). The URL will be available under the *Setup Instructions* panel. You can also configure the default channel, username and icon in the config file.
 
-You can change the default icon to be used in the Slack backend, or it can be changed to a URL or emoji client-side.
+If `null` is set for channel, username or icon, the defaults set up on the Slack webhook will be used.
 
-## Usage
+## Basic Usage
 
-These examples are showing the package when used with Laravel, but the methods are all the same regardless. See the section below on using the package outside of Laravel.
+### Instantiate the client
 
-#### Sending a message using the defaults in the config
+If you are using the package in Laravel, **you can skip this section** as the client is instantiated for you.
+
+#### Using the defaults set on the Slack webhook
 
 ```php
+$client = new Maknz\Slack\Client('http://your.slack.endpoint');
+```
+
+#### Using defaults set on the client
+```php
+$settings = [
+	'username' => 'Archer',
+	'link_names' => true
+];
+
+$client = new Maknz\Slack\Client('http://your.slack.endpoint', $settings);
+```
+
+### Sending messages
+
+To send messages, you will call methods on your client instance, or use the `Slack` facade if you are using the package in Laravel.
+
+#### Sending a basic message
+
+```php
+// With an instantiated client
+$client->send('Hello world!');
+
+// or the Laravel facade
 Slack::send('Hello world!');
 ```
 
-#### Sending a message to a different channel
+#### Sending a message to a non-default channel
 ```php
+// With an instantiated client
+$client->to('#accounting')->send('Are we rich yet?');
+
+// or the Laravel facade
 Slack::to('#accounting')->send('Are we rich yet?');
 ```
 
 #### Sending a message to a user
 ```php
-Slack::to('@regan')->send('Yo!');
+$client->to('@regan')->send('Yo!');
 ```
 
 #### Sending a message to a channel as a different username
 ```php
-Slack::from('Jake the Dog')->to('@FinnTheHuman')->send('Adventure time!');
+$client->from('Jake the Dog')->to('@FinnTheHuman')->send('Adventure time!');
 ```
 
 #### Sending a message with a different icon
 ```php
 // Either with a Slack emoji
-Slack::to('@regan')->withIcon(':ghost:')->send('Boo!');
+$client->to('@regan')->withIcon(':ghost:')->send('Boo!');
 
 // or a URL
-Slack::to('#accounting')->withIcon('http://example.com/accounting.png')->send('Some accounting notification');
+$client->to('#accounting')->withIcon('http://example.com/accounting.png')->send('Some accounting notification');
 ```
 
 #### Send an attachment
 
 ```php
-Slack::to('@regan')->attach([
+$client->to('@regan')->attach([
 	'fallback' => 'It is all broken, man', // Fallback text for plaintext clients, like IRC
 	'text' => 'It is all broken, man', // The text for inside the attachment
 	'pretext' => 'From user: JimBob' // Optional text to appear above the attachment and below the actual message
@@ -98,7 +128,7 @@ Slack::to('@regan')->attach([
 #### Send an attachment with fields
 
 ```php
-Slack::to('#operations')->attach([
+$client->to('#operations')->attach([
 	'fallback' => 'It is all broken, man',
 	'text' => 'It is all broken, man',
 	'pretext' => 'From user: JimBob'
@@ -117,73 +147,27 @@ Slack::to('#operations')->attach([
 ])->send('New alert from the monitoring system');
 ```
 
-### Chaining
-
-All setter-like methods are chainable, so rather than having to type:
-
-```php
-$client->from('Username');
-
-$client->to('@regan');
-
-$client->send('A message');
-```
-
-The method calls can be chained together:
-
-```php
-$client->from('Username')->to('@regan')->send('A message');
-```
-
-### Usage outside of Laravel
-
-All the same methods from the Laravel examples apply, the only difference is needing to instantiate a client manually.
-
-You will need to `use` the Client at the top of your class:
-
-```php
-use Maknz\Slack\Client;
-```
-
-#### Send using the class defaults
-
-This example sends 'Yo!' to #general as the user 'Robot', with the default webhook icon that Slack provide.
-
-```php
-$client = new Client('http://the.slack.endpoint');
-
-$client->send('Yo!'); 
-```
-
-#### Instantiate the client with config/defaults
-
-This example changes the default username, channel and icon from the class defaults. This is how the Laravel service provider works to set the defaults from the configuration file.
-
-```php
-$config = [
-	'username' => 'The Website Bot',
-	'channel' => '#operations',
-	'icon' => ':heart_eyes:'
-];
-
-$client = new Client('http://the.slack.endpoint', $config);
-
-$client->send('Test message');
-```
-
-### Changing the config on the fly
-
-As with the Laravel examples, the config can be changed on the fly.
-
-```php
-$client = new Client('http://the.slack.endpoint', ...);
-
-$client->from('A username')->to('#channel')->send('Hey');
-```
-
 ## Advanced usage
 
-When using attachments, the easiest way is to provide an array of data as shown in the examples, which is actually converted to an Attachment object under the hood. You can also attach an Attachment object to the client:
+### Explicit message creation
+
+For convenience, message objects are created implicitly by calling message methods on the client. We can however do this explicitly to avoid hitting the magic method.
+
+```php
+// Implicitly
+$client->to('@regan')->send('I am sending this implicitly');
+
+// Explicitly
+$message = $client->createMessage();
+
+$message->to('@regan')->setText('I am sending this explicitly');
+
+$message->send();
+```
+
+### Attachments
+
+When using attachments, the easiest way is to provide an array of data as shown in the examples, which is actually converted to an Attachment object under the hood. You can also attach an Attachment object to the message:
 
 ```php
 $attachment = new Attachment([
@@ -191,7 +175,15 @@ $attachment = new Attachment([
 	'text' => 'The attachment text'
 ]);
 
-$client->attach($attachment);
+// Explicitly create a message from the client
+// rather than using the magic passthrough methods
+$message = $client->createMessage();
+
+$message->attach($attachment);
+
+// Explicitly set the message text rather than
+// implicitly through the send method
+$message->setText('Hello world')->send();
 ```
 
 Each attachment field is also an object, an AttachmentField. They can be used as well instead of their data in array form:
@@ -213,9 +205,11 @@ $attachment = new Attachment([
 You can also set the attachments and fields directly if you have a whole lot of them:
 
 ```php
-$client = new Client(...);
-
+// implicitly create a message and set the attachments
 $client->setAttachments($bigArrayOfAttachments);
+
+// or explicitly
+$client->createMessage()->setAttachments($bigArrayOfAttachments);
 ```
 
 ```php
@@ -224,9 +218,12 @@ $attachment = new Attachment([]);
 $attachment->setFields($bigArrayOfFields);
 ```
 
-## Contributors
+## Contributing
 
-I will happily look at any pull requests or suggestions to improve the package and provide attribution for your contributions. Help share the improvements with everyone!
+If you having problems, spot a bug, or have a feature suggestion, please log and issue on Github. If you'd like to have a crack yourself, fork the package and make a pull request. Please include tests for any added or changed functionality. If it's a bug, include a regression test.
+
+### Conttributors
 
 * [@maknz](https://github.com/maknz)
 * [@willwashburn](https://github.com/willwashburn)
+* [@benubird](https://github.com/benubird)

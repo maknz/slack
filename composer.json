@@ -15,13 +15,14 @@
         "ext-mbstring": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.2.*"
+        "phpunit/phpunit": "4.2.*",
+        "mockery/mockery": "0.9.*"
     },
     "suggest": {
         "illuminate/support": "Required for Laravel support"
     },
     "autoload": {
-        "psr-0": {
+        "psr-4": {
             "Maknz\\Slack\\": "src/"
         }
     },

@@ -1,181 +1,71 @@
 <?php
 
 use Maknz\Slack\Client;
-use Maknz\Slack\Attachment;
-use Maknz\Slack\AttachmentField;
 
 class ClientUnitTest extends PHPUnit_Framework_TestCase {
 
-  public function testFrom()
+  public function testInstantiationWithNoDefaults()
   {
-    $c = $this->getClient();
+    $client = new Client('http://fake.endpoint');
 
-    $c->from('Jake the Dog');
+    $this->assertInstanceOf('Maknz\Slack\Client', $client);
 
-    $this->assertEquals('Jake the Dog', $c->getUsername());
+    $this->assertSame('http://fake.endpoint', $client->getEndpoint());
   }
 
-  public function testTo()
+  public function testInstantiationWithDefaults()
   {
-    $c = $this->getClient();
-
-    $c->to('Finn the Human');
-
-    $this->assertEquals('Finn the Human', $c->getChannel());
-  }
-
-  public function testAttachWithArray()
-  {
-    $c = $this->getClient();
-
-    $attachmentArray = [
-      'fallback' => 'Fallback text for IRC',
-      'text' => 'Attachment text',
-      'pretext' => 'Attachment pretext',
-      'color' => 'bad',
-      'fields' => []
+    $defaults = [
+      'channel' => '#random',
+      'username' => 'Archer',
+      'icon' => ':ghost:',
+      'link_names' => true,
+      'unfurl_links' => true
     ];
 
-    $c->attach($attachmentArray);
+    $client = new Client('http://fake.endpoint', $defaults);
 
-    $attachments = $c->getAttachments();
+    $this->assertSame($defaults['channel'], $client->getDefaultChannel());
 
-    $this->assertEquals(1, count($attachments));
+    $this->assertSame($defaults['username'], $client->getDefaultUsername());
 
-    $obj = $attachments[0];
+    $this->assertSame($defaults['icon'], $client->getDefaultIcon());
 
-    $this->assertEquals($attachmentArray['fallback'], $obj->getFallback());
+    $this->assertTrue($client->getLinkNames());
 
-    $this->assertEquals($attachmentArray['text'], $obj->getText());
-
-    $this->assertEquals($attachmentArray['pretext'], $obj->getPretext());
-
-    $this->assertEquals($attachmentArray['color'], $obj->getColor());
+    $this->assertTrue($client->getUnfurlLinks());
   }
 
-  public function testAttachWithObject()
+  public function testCreateMessage()
   {
-    $c = $this->getClient();
-
-    $obj = new Attachment([
-      'fallback' => 'Fallback text for IRC',
-      'text' => 'Text'
-    ]);
-
-    $c->attach($obj);
-
-    $attachments = $c->getAttachments();
-
-    $this->assertEquals(1, count($attachments));
-
-    $remoteObj = $attachments[0];
-
-    $this->assertEquals($obj, $remoteObj);
-  }
-
-  public function testMultipleAttachments()
-  {
-    $c = $this->getClient();
-
-    $obj1 = new Attachment([
-      'fallback' => 'Fallback text for IRC',
-      'text' => 'Text'
-    ]);
-
-    $obj2 = new Attachment([
-      'fallback' => 'Fallback text for IRC',
-      'text' => 'Text'
-    ]);
-
-    $c->attach($obj1)->attach($obj2);
-
-    $attachments = $c->getAttachments();
-
-    $this->assertEquals(2, count($attachments));
-
-    $remote1 = $attachments[0];
-
-    $remote2 = $attachments[1];
-
-    $this->assertEquals($obj1, $remote1);
-
-    $this->assertEquals($obj2, $remote2);
-  }
-
-  public function testSetAttachmentsWipesExistingAttachments()
-  {
-    $c = $this->getClient();
-
-    $obj1 = new Attachment([
-      'fallback' => 'Fallback text for IRC',
-      'text' => 'Text'
-    ]);
-
-    $obj2 = new Attachment([
-      'fallback' => 'Fallback text for IRC',
-      'text' => 'Text'
-    ]);
-
-    $c->attach($obj1)->attach($obj2);
-
-    $this->assertEquals(2, count($c->getAttachments()));
-
-    $c->setAttachments([['fallback' => 'a', 'text' => 'b']]);
-
-    $this->assertEquals(1, count($c->getAttachments()));
-
-    $this->assertEquals('a', $c->getAttachments()[0]->getFallback());
-  }
-
-  public function testSetIconToEmoji()
-  {
-    $client = $this->getClient();
-
-    $client->setIcon(':ghost:');
-
-    $this->assertEquals(Client::ICON_TYPE_EMOJI, $client->getIconType());
-
-    $this->assertEquals(':ghost:', $client->getIcon());
-  }
-
-  public function testSetIconToUrl()
-  {
-    $client = $this->getClient();
-
-    $client->setIcon('http://www.fake.com/someimage.png');
-
-    $this->assertEquals(Client::ICON_TYPE_URL, $client->getIconType());
-
-    $this->assertEquals('http://www.fake.com/someimage.png', $client->getIcon());
-  }
-
-  public function testInstantiationSetsCorrectValues()
-  {
-    $data = [
-      'channel' => '#test',
-      'username' => 'Test Username',
-      'icon' => ':heart_eyes:'
+    $defaults = [
+      'channel' => '#random',
+      'username' => 'Archer',
+      'icon' => ':ghost:'
     ];
 
-    $client = new Client($this->getEndpoint(), $data);
+    $client = new Client('http://fake.endpoint', $defaults);
 
-    $this->assertEquals('#test', $client->getChannel());
+    $message = $client->createMessage();
 
-    $this->assertEquals('Test Username', $client->getUsername());
+    $this->assertInstanceOf('Maknz\Slack\Message', $message);
 
-    $this->assertEquals(':heart_eyes:', $client->getIcon());
+    $this->assertSame($client->getDefaultChannel(), $message->getChannel());
 
-    $this->assertEquals(Client::ICON_TYPE_EMOJI, $client->getIconType());
+    $this->assertSame($client->getDefaultUsername(), $message->getUsername());
+
+    $this->assertSame($client->getDefaultIcon(), $message->getIcon());
   }
 
-  private function getClient()
+  public function testWildcardCallToMessage()
   {
-    return new Client($this->getEndpoint());
-  }
+    $client = new Client('http://fake.endpoint');
 
-  private function getEndpoint()
-  {
-    return 'http://fake.endpoint';
+    $message = $client->to('@regan');
+
+    $this->assertInstanceOf('Maknz\Slack\Message', $message);
+
+    $this->assertSame('@regan', $message->getChannel());
   }
 
 }

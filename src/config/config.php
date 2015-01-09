@@ -1,15 +1,15 @@
 <?php
 
 return [
-  
+
   /*
   |-------------------------------------------------------------
   | Incoming webhook endpoint
   |-------------------------------------------------------------
   |
-  | The endpoint which Slack generates when creating a 
-  | new incoming webhook. It will look something like 
-  | https://acc.slack.com/services/hooks/incoming-webhook?token=abc
+  | The endpoint which Slack generates when creating a
+  | new incoming webhook. It will look something like
+  | https://hooks.slack.com/services/XXXXXXXX/XXXXXXXX/XXXXXXXXXXXXXX
   |
   */
 
@@ -20,12 +20,12 @@ return [
   | Default channel
   |-------------------------------------------------------------
   |
-  | The default channel we should post to. The channel can either be a 
+  | The default channel we should post to. The channel can either be a
   | channel like #general, a private #group, or a @username.
   |
   */
 
-  'channel' => '#general',
+  'channel' => null,
 
   /*
   |-------------------------------------------------------------
@@ -49,5 +49,30 @@ return [
   */
 
   'icon' => null,
+
+  /*
+  |-------------------------------------------------------------
+  | Link names
+  |-------------------------------------------------------------
+  |
+  | Whether names like @regan should be converted into links
+  | by Slack
+  |
+  */
+
+  'link_names' => false,
+
+  /*
+  |-------------------------------------------------------------
+  | Unfurl links
+  |-------------------------------------------------------------
+  |
+  | By default, Slack will unfurl links from well known media
+  | sources like YouTube and Twitter. If you want Slack to unfurl
+  | other URLs, enable this option
+  |
+  */
+
+  'unfurl_links' => false,
 
 ];

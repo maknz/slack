@@ -1,30 +1,37 @@
 <?php namespace Maknz\Slack;
 
 use InvalidArgumentException;
-use GuzzleHttp\Client as Guzzle;
 
-class Client {
+class Message {
 
   /**
-   * The Slack incoming webhook endpoint
+   * Reference to the Slack client responsible for sending
+   * the message
+   *
+   * @var \Maknz\Slack\Client
+   */
+  protected $client;
+
+  /**
+   * The text to send with the message
    *
    * @var string
    */
-  protected $endpoint;
-  
-  /**
-   * The channel we should send messages to
-   *
-   * @var string
-   */
-  protected $channel = '#general';
+  protected $text;
 
   /**
-   * The username we should send messages as
+   * The channel the message should be sent to
    *
    * @var string
    */
-  protected $username = 'Robot';
+  protected $channel;
+
+  /**
+   * The username the message should be sent as
+   *
+   * @var string
+   */
+  protected $username;
 
   /**
    * The URL to the icon to use
@@ -48,13 +55,6 @@ class Client {
   protected $attachments = [];
 
   /**
-   * The Guzzle HTTP client
-   *
-   * @var \GuzzleHttp\Client
-   */
-  protected $guzzle;
-
-  /**
    *
    * @var string
    */
@@ -67,51 +67,41 @@ class Client {
   const ICON_TYPE_EMOJI = 'icon_emoji';
 
   /**
-   * Instantiate a new client
+   * Instantiate a new Message
    *
-   * @param string $endpoint The Slack webhook
-   * @param array $attributes
-   * @param \GuzzleHttp\Client $guzzle
+   * @param \Maknz\Slack\Client $client
    * @return void
    */
-  public function __construct($endpoint, array $attributes = [], Guzzle $guzzle = null)
+  public function __construct(Client $client)
   {
-    $this->setEndpoint($endpoint);
-
-    if (isset($attributes['channel'])) $this->setChannel($attributes['channel']);
-
-    if (isset($attributes['username'])) $this->setUsername($attributes['username']);
-
-    if (isset($attributes['icon'])) $this->setIcon($attributes['icon']);
-
-    $this->guzzle = $guzzle ?: new Guzzle;
+    $this->client = $client;
   }
 
   /**
-   * Get the Slack incoming webhook endpoint
+   * Get the message text
    *
    * @return string
    */
-  public function getEndpoint()
+  public function getText()
   {
-    return $this->endpoint;
+    return $this->text;
   }
 
   /**
-   * Set the Slack incoming webhook endpoint
+   * Set the message text
    *
-   * @param string $endpoint The full endpoint URL
+   * @param string $text
    * @return $this
    */
-  public function setEndpoint($endpoint)
+  public function setText($text)
   {
-    $this->endpoint = $endpoint;
+    $this->text = $text;
 
     return $this;
   }
 
   /**
-   * Get the channel we will post to 
+   * Get the channel we will post to
    *
    * @return string
    */
@@ -174,6 +164,13 @@ class Client {
    */
   public function setIcon($icon)
   {
+    if ($icon == null)
+    {
+      $this->icon = $this->iconType = null;
+
+      return;
+    }
+
     if (mb_substr($icon, 0, 1) == ":" && mb_substr($icon, mb_strlen($icon) - 1, 1) == ":")
     {
       $this->iconType = self::ICON_TYPE_EMOJI;
@@ -240,7 +237,7 @@ class Client {
 
   /**
    * Add an attachment to the message
-   * 
+   *
    * @param mixed $attachment
    * @return $this
    */
@@ -284,7 +281,7 @@ class Client {
   public function setAttachments(array $attachments)
   {
     $this->clearAttachments();
-    
+
     foreach ($attachments as $attachment)
     {
       $this->attach($attachment);
@@ -306,57 +303,16 @@ class Client {
   }
 
   /**
-   * Sends a message to a Slack channel
+   * Send the message
    *
-   * @param string $message The message to send
+   * @param string $text The text to send
    * @return void
    */
-  public function send($message)
+  public function send($text = null)
   {
-    $payload = json_encode($this->preparePayload($message), JSON_UNESCAPED_UNICODE);
-    
-    $this->guzzle->post($this->endpoint, ['body' => $payload]);
-  }
+    if ($text) $this->setText($text);
 
-  /**
-   * Prepares the payload to be sent to the webhook
-   *
-   * @param string $message The message to send
-   * @return array
-   */
-  public function preparePayload($message)
-  {
-    $payload = [
-      'text' => $message,
-      'channel' => $this->channel,
-      'username' => $this->username
-    ];
-
-    if ($icon = $this->getIcon())
-    {
-      $payload[$this->getIconType()] = $icon;
-    }
-
-    $payload['attachments'] = $this->getAttachmentsAsArrays();
-
-    return $payload;
-  }
-
-  /**
-   * Get the attachments in array form
-   *
-   * @return array
-   */
-  protected function getAttachmentsAsArrays()
-  {
-    $attachments = [];
-
-    foreach ($this->getAttachments() as $attachment)
-    {
-      $attachments[] = $attachment->toArray();
-    }
-
-    return $attachments;
+    $this->client->sendMessage($this);
   }
 
 }

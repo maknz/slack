@@ -19,7 +19,7 @@ class SlackServiceProvider extends ServiceProvider {
    */
   public function boot()
   {
-    $this->package('maknz/slack');
+    $this->package('maknz/slack', null, __DIR__);
   }
 
   /**
@@ -36,7 +36,9 @@ class SlackServiceProvider extends ServiceProvider {
         [
           'channel' => $app['config']->get('slack::channel'),
           'username' => $app['config']->get('slack::username'),
-          'icon' => $app['config']->get('slack::icon')
+          'icon' => $app['config']->get('slack::icon'),
+          'link_names' => $app['config']->get('slack::link_names'),
+          'unfurl_links' => $app['config']->get('slack::unfurl_links')
         ],
         new Guzzle
       );
@@ -50,7 +52,7 @@ class SlackServiceProvider extends ServiceProvider {
   */
   public function provides()
   {
-    return array('maknz.slack');
+    return ['maknz.slack'];
   }
 
 }
