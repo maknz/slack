@@ -56,17 +56,16 @@ If `null` is set for channel, username or icon, the defaults set up on the Slack
 
 If you are using the package in Laravel, **you can skip this section** as the client is instantiated for you.
 
-#### Using the defaults set on the Slack webhook
-
 ```php
+// Instantiate without defaults
 $client = new Maknz\Slack\Client('http://your.slack.endpoint');
-```
 
-#### Using defaults set on the client
-```php
+// Instantiate with defaults, so all messages created
+// will be sent from 'Archer' and to the #accounting channel
+// by default
 $settings = [
 	'username' => 'Archer',
-	'link_names' => true
+	'channel' => '#accounting'
 ];
 
 $client = new Maknz\Slack\Client('http://your.slack.endpoint', $settings);
@@ -220,7 +219,7 @@ $attachment->setFields($bigArrayOfFields);
 
 ## Contributing
 
-If you having problems, spot a bug, or have a feature suggestion, please log and issue on Github. If you'd like to have a crack yourself, fork the package and make a pull request. Please include tests for any added or changed functionality. If it's a bug, include a regression test.
+If you're having problems, spot a bug, or have a feature suggestion, please log and issue on Github. If you'd like to have a crack yourself, fork the package and make a pull request. Please include tests for any added or changed functionality. If it's a bug, include a regression test.
 
 ### Conttributors
 
