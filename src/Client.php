@@ -41,14 +41,35 @@ class Client {
   protected $link_names = false;
 
   /**
-   * Slack will automatically unfurl links to well known
-   * media URLs (like Youtube, Twitter), but not for URLs
-   * with mostly text-based content. But, if you want that,
-   * this option can be used.
+   * Whether Slack should unfurl text-based URLs
    *
    * @var boolean
    */
   protected $unfurl_links = false;
+
+  /**
+   * Whether Slack should unfurl media URLs
+   *
+   * @var boolean
+   */
+  protected $unfurl_media = true;
+
+  /**
+   * Whether message text should be formatted with Slack's
+   * Markdown-like language
+   *
+   * @var boolean
+   */
+  protected $allow_markdown = true;
+
+  /**
+   * The attachment fields which should be formatted with
+   * Slack's Markdown-like language
+   *
+   * @var array
+   */
+  protected $markdown_in_attachments = [];
+
 
   /**
    * The Guzzle HTTP client instance
@@ -77,6 +98,12 @@ class Client {
     if (isset($attributes['link_names'])) $this->setLinkNames($attributes['link_names']);
 
     if (isset($attributes['unfurl_links'])) $this->setUnfurlLinks($attributes['unfurl_links']);
+
+    if (isset($attributes['unfurl_media'])) $this->setUnfurlMedia($attributes['unfurl_media']);
+
+    if (isset($attributes['allow_markdown'])) $this->setAllowMarkdown($attributes['allow_markdown']);
+
+    if (isset($attributes['markdown_in_attachments'])) $this->setMarkdownInAttachments($attributes['markdown_in_attachments']);
 
     $this->guzzle = $guzzle ?: new Guzzle;
   }
@@ -206,7 +233,7 @@ class Client {
   }
 
   /**
-   * Get whether links should be unfurled
+   * Get whether text links should be unfurled
    *
    * @return boolean
    */
@@ -216,7 +243,7 @@ class Client {
   }
 
   /**
-   * Set whether links should be unfurled
+   * Set whether text links should be unfurled
    *
    * @param boolean $value
    * @return void
@@ -224,6 +251,73 @@ class Client {
   public function setUnfurlLinks($value)
   {
     $this->unfurl_links = (boolean) $value;
+  }
+
+  /**
+   * Get whether media links should be unfurled
+   *
+   * @return boolean
+   */
+  public function getUnfurlMedia()
+  {
+    return $this->unfurl_media;
+  }
+
+  /**
+   * Set whether media links should be unfurled
+   *
+   * @param boolean $value
+   * @return void
+   */
+  public function setUnfurlMedia($value)
+  {
+    $this->unfurl_media = (boolean) $value;
+  }
+
+  /**
+   * Get whether message text should be formatted with
+   * Slack's Markdown-like language
+   *
+   * @return boolean
+   */
+  public function getAllowMarkdown()
+  {
+    return $this->allow_markdown;
+  }
+
+  /**
+   * Set whether message text should be formatted with
+   * Slack's Markdown-like language
+   *
+   * @param boolean $value
+   * @return void
+   */
+  public function setAllowMarkdown($value)
+  {
+    $this->allow_markdown = (boolean) $value;
+  }
+
+  /**
+   * Get the attachment fields which should be formatted
+   * in Slack's Markdown-like language
+   *
+   * @return array
+   */
+  public function getMarkdownInAttachments()
+  {
+    return $this->markdown_in_attachments;
+  }
+
+  /**
+   * Set the attachment fields which should be formatted
+   * in Slack's Markdown-like language
+   *
+   * @param array $fields
+   * @return void
+   */
+  public function setMarkdownInAttachments(array $fields)
+  {
+    $this->markdown_in_attachments = $fields;
   }
 
   /**
@@ -240,6 +334,10 @@ class Client {
     $message->setUsername($this->getDefaultUsername());
 
     $message->setIcon($this->getDefaultIcon());
+
+    $message->setAllowMarkdown($this->getAllowMarkdown());
+
+    $message->setMarkdownInAttachments($this->getMarkdownInAttachments());
 
     return $message;
   }
@@ -272,7 +370,9 @@ class Client {
       'channel' => $message->getChannel(),
       'username' => $message->getUsername(),
       'link_names' => $this->getLinkNames() ? 1 : 0,
-      'unfurl_links' => $this->getUnfurlLinks() ? 1 : 0
+      'unfurl_links' => $this->getUnfurlLinks(),
+      'unfurl_media' => $this->getUnfurlMedia(),
+      'mrkdwn' => $message->getAllowMarkdown()
     ];
 
     if ($icon = $message->getIcon())

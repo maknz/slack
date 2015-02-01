@@ -48,6 +48,22 @@ class Message {
   protected $iconType;
 
   /**
+   * Whether the message text should be interpreted in Slack's
+   * Markdown-like language
+   *
+   * @var boolean
+   */
+  protected $allow_markdown = true;
+
+  /**
+   * The attachment fields which should be formatted with
+   * Slack's Markdown-like language
+   *
+   * @var array
+   */
+  protected $markdown_in_attachments = [];
+
+  /**
    * An array of attachments to send
    *
    * @var array
@@ -197,6 +213,80 @@ class Message {
   }
 
   /**
+   * Get whether message text should be formatted with
+   * Slack's Markdown-like language
+   *
+   * @return boolean
+   */
+  public function getAllowMarkdown()
+  {
+    return $this->allow_markdown;
+  }
+
+  /**
+   * Set whether message text should be formatted with
+   * Slack's Markdown-like language
+   *
+   * @param boolean $value
+   * @return void
+   */
+  public function setAllowMarkdown($value)
+  {
+    $this->allow_markdown = (boolean) $value;
+
+    return $this;
+  }
+
+  /**
+   * Enable Markdown formatting for the message
+   *
+   * @return void
+   */
+  public function enableMarkdown()
+  {
+    $this->setAllowMarkdown(true);
+
+    return $this;
+  }
+
+  /**
+   * Disable Markdown formatting for the message
+   *
+   * @return void
+   */
+  public function disableMarkdown()
+  {
+    $this->setAllowMarkdown(false);
+
+    return $this;
+  }
+
+  /**
+   * Get the attachment fields which should be formatted
+   * in Slack's Markdown-like language
+   *
+   * @return array
+   */
+  public function getMarkdownInAttachments()
+  {
+    return $this->markdown_in_attachments;
+  }
+
+  /**
+   * Set the attachment fields which should be formatted
+   * in Slack's Markdown-like language
+   *
+   * @param array $fields
+   * @return void
+   */
+  public function setMarkdownInAttachments(array $fields)
+  {
+    $this->markdown_in_attachments = $fields;
+
+    return $this;
+  }
+
+  /**
    * Change the name of the user the post will be made as
    *
    * @param string $username
@@ -252,9 +342,14 @@ class Message {
 
     elseif (is_array($attachment))
     {
-      $attachment = new Attachment($attachment);
+      $attachmentObject = new Attachment($attachment);
 
-      $this->attachments[] = $attachment;
+      if ( ! isset($attachment['mrkdwn_in']))
+      {
+        $attachmentObject->setMarkdownFields($this->getMarkdownInAttachments());
+      }
+
+      $this->attachments[] = $attachmentObject;
 
       return $this;
     }

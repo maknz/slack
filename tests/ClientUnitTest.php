@@ -20,7 +20,10 @@ class ClientUnitTest extends PHPUnit_Framework_TestCase {
       'username' => 'Archer',
       'icon' => ':ghost:',
       'link_names' => true,
-      'unfurl_links' => true
+      'unfurl_links' => true,
+      'unfurl_media' => false,
+      'allow_markdown' => false,
+      'markdown_in_attachments' => ['text']
     ];
 
     $client = new Client('http://fake.endpoint', $defaults);
@@ -34,6 +37,12 @@ class ClientUnitTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue($client->getLinkNames());
 
     $this->assertTrue($client->getUnfurlLinks());
+
+    $this->assertFalse($client->getUnfurlMedia());
+
+    $this->assertSame($defaults['allow_markdown'], $client->getAllowMarkdown());
+
+    $this->assertSame($defaults['markdown_in_attachments'], $client->getMarkdownInAttachments());
   }
 
   public function testCreateMessage()

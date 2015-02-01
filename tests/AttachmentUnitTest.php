@@ -13,6 +13,7 @@ class AttachmentUnitTest extends PHPUnit_Framework_TestCase {
       'text' => 'Text',
       'pretext' => 'Pretext',
       'color' => 'bad',
+      'mrkdwn_in' => ['pretext', 'text', 'fields']
     ]);
 
     $this->assertEquals('Fallback', $a->getFallback());
@@ -24,6 +25,8 @@ class AttachmentUnitTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals('bad', $a->getColor());
 
     $this->assertEquals([], $a->getFields());
+
+    $this->assertEquals(['pretext', 'text', 'fields'], $a->getMarkdownFields());
   }
 
   public function testAttachmentCreationFromArrayWithFields()
@@ -33,6 +36,7 @@ class AttachmentUnitTest extends PHPUnit_Framework_TestCase {
       'text' => 'Text',
       'pretext' => 'Pretext',
       'color' => 'bad',
+      'mrkdwn_in' => [],
       'fields' => [
         [
           'title' => 'Title 1',
@@ -61,6 +65,7 @@ class AttachmentUnitTest extends PHPUnit_Framework_TestCase {
       'text' => 'Text',
       'pretext' => 'Pretext',
       'color' => 'bad',
+      'mrkdwn_in' => ['pretext', 'text'],
       'fields' => [
         [
           'title' => 'Title 1',

@@ -40,6 +40,14 @@ class Attachment {
   protected $fields = [];
 
   /**
+   * The fields of the attachment that Slack should interpret
+   * with its Markdown-like language
+   *
+   * @var array
+   */
+  protected $markdown_fields = [];
+
+  /**
    * Instantiate a new Attachment
    *
    * @param array $attributes
@@ -56,6 +64,8 @@ class Attachment {
     if (isset($attributes['color'])) $this->setColor($attributes['color']);
 
     if (isset($attributes['fields'])) $this->setFields($attributes['fields']);
+
+    if (isset($attributes['mrkdwn_in'])) $this->setMarkdownFields($attributes['mrkdwn_in']);
   }
 
   /**
@@ -216,6 +226,31 @@ class Attachment {
   }
 
   /**
+   * Get the fields Slack should interpret in its
+   * Markdown-like language
+   *
+   * @return array
+   */
+  public function getMarkdownFields()
+  {
+    return $this->markdown_fields;
+  }
+
+  /**
+   * Set the fields Slack should interpret in its
+   * Markdown-like language
+   *
+   * @param array $fields
+   * @return $this
+   */
+  public function setMarkdownFields(array $fields)
+  {
+    $this->markdown_fields = $fields;
+
+    return $this;
+  }
+
+  /**
    * Convert this attachment to its array representation
    *
    * @return array
@@ -226,7 +261,8 @@ class Attachment {
       'fallback' => $this->getFallback(),
       'text' => $this->getText(),
       'pretext' => $this->getPretext(),
-      'color' => $this->getColor()
+      'color' => $this->getColor(),
+      'mrkdwn_in' => $this->getMarkdownFields()
     ];
 
     $data['fields'] = $this->getFieldsAsArrays();

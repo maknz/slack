@@ -13,6 +13,8 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase {
       'text' => 'Message',
       'link_names' => false,
       'unfurl_links' => false,
+      'unfurl_media' => true,
+      'mrkdwn' => true,
       'attachments' => []
     ];
 
@@ -32,6 +34,7 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase {
       'text' => 'Some text to appear in the attachment',
       'pretext' => null,
       'color' => 'bad',
+      'mrkdwn_in' => ['pretext', 'text'],
       'fields' => []
     ];
 
@@ -41,6 +44,8 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase {
       'text' => 'Message',
       'link_names' => false,
       'unfurl_links' => false,
+      'unfurl_media' => true,
+      'mrkdwn' => true,
       'attachments' => [$attachmentArray]
     ];
 
@@ -67,6 +72,7 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase {
       'text' => 'Some text to appear in the attachment',
       'pretext' => null,
       'color' => 'bad',
+      'mrkdwn_in' => [],
       'fields' => [
         [
           'title' => 'Field 1',
@@ -87,6 +93,8 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase {
       'text' => 'Message',
       'link_names' => false,
       'unfurl_links' => false,
+      'unfurl_media' => true,
+      'mrkdwn' => true,
       'attachments' => [$attachmentArray]
     ];
 
