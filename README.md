@@ -62,14 +62,44 @@ $client = new Maknz\Slack\Client('http://your.slack.endpoint');
 
 // Instantiate with defaults, so all messages created
 // will be sent from 'Archer' and to the #accounting channel
-// by default
+// by default. Any names like @regan or #channel will also be linked.
 $settings = [
 	'username' => 'Archer',
-	'channel' => '#accounting'
+	'channel' => '#accounting',
+	'link_names' => true
 ];
 
 $client = new Maknz\Slack\Client('http://your.slack.endpoint', $settings);
 ```
+
+#### Settings
+
+All settings are optional, but are a convenient way of specifying how the client should behave beyond the defaults. **Laravel users: these can all be configured in the package config file.**
+
+* `channel`: the default channel that messages will be sent to
+   * string
+	* default: the setting on the webhook
+* `username`: the default username that messages will be sent from
+	* string
+	* default: the setting on the webhook
+* `icon`: the default icon messages will be sent with, either :emoji: or a URL to an image
+   * string
+   * default: the setting on the webhook
+* `link_names`: whether names like @regan or #accounting should be linked
+   * bool
+   * default: `false`
+* `unfurl_links`: whether Slack should unfurl text-based URLs
+   * bool
+   * default: `false`
+* `unfurl_media`: whether Slack should unfurl media-based URLs
+   * bool
+   * default: `true`
+* `allow_markdown`: whether Markdown should be parsed in messages
+	* bool
+	* default: `true`
+* `markdown_in_attachments`: which attachment fields should have Markdown parsed
+   * array
+   * default: `[]`
 
 ### Sending messages
 
@@ -143,6 +173,26 @@ $client->to('#operations')->attach([
 			'short' => true // whether the field is short enough to sit side-by-side other fields, defaults to false
 		]
 	]
+])->send('New alert from the monitoring system');
+```
+
+#### Send a message modifying Markdown parsing on the fly
+
+```php
+$client->to('#weird')->disableMarkdown()->send('Disable *markdown* just for this message');
+
+$client->to('#general')->enableMarkdown()->send('Enable _markdown_ just for this message');
+```
+
+#### Send an attachment specifying Markdown parsing on the fly
+
+```php
+$client->to('#operations')->attach([
+	'fallback' => 'It is all broken, man',
+	'text' => 'It is _all_ broken, man',
+	'pretext' => 'From user: *JimBob*'
+	'color' => 'bad',
+	'mrkdwn_in' => ['pretext', 'text']
 ])->send('New alert from the monitoring system');
 ```
 
@@ -220,9 +270,3 @@ $attachment->setFields($bigArrayOfFields);
 ## Contributing
 
 If you're having problems, spot a bug, or have a feature suggestion, please log and issue on Github. If you'd like to have a crack yourself, fork the package and make a pull request. Please include tests for any added or changed functionality. If it's a bug, include a regression test.
-
-### Conttributors
-
-* [@maknz](https://github.com/maknz)
-* [@willwashburn](https://github.com/willwashburn)
-* [@benubird](https://github.com/benubird)
