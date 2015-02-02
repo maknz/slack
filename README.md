@@ -64,7 +64,7 @@ $client = new Maknz\Slack\Client('http://your.slack.endpoint');
 // will be sent from 'Archer' and to the #accounting channel
 // by default. Any names like @regan or #channel will also be linked.
 $settings = [
-	'username' => 'Archer',
+	'username' => 'Cyril',
 	'channel' => '#accounting',
 	'link_names' => true
 ];
