@@ -13,7 +13,7 @@ A simple PHP package for sending messages to [Slack](https://slack.com) with [in
 You can install the package using the [Composer](https://getcomposer.org/) package manager. You can install it by running this command in your project root:
 
 ```sh
-composer require maknz/slack:~1.0
+composer require maknz/slack
 ```
 
 ## Laravel
