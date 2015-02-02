@@ -61,7 +61,7 @@ If you are using the package in Laravel, **you can skip this section** as the cl
 $client = new Maknz\Slack\Client('http://your.slack.endpoint');
 
 // Instantiate with defaults, so all messages created
-// will be sent from 'Archer' and to the #accounting channel
+// will be sent from 'Cyril' and to the #accounting channel
 // by default. Any names like @regan or #channel will also be linked.
 $settings = [
 	'username' => 'Cyril',
