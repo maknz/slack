@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/maknz/slack.svg?branch=master)](https://travis-ci.org/maknz/slack)
 
-A simple PHP package for sending messages to [Slack](https://slack.com) with [incoming webhooks](https://my.slack.com/services/new/incoming-webhook), focussed on ease-of-use and elegant syntax. Includes Laravel support out of the box.
+A simple PHP package for sending messages to [Slack](https://slack.com) with [incoming webhooks](https://my.slack.com/services/new/incoming-webhook), focussed on ease-of-use and elegant syntax. Includes Laravel 4 and 5 support out of the box.
 
 ## Requirements
 
@@ -16,45 +16,49 @@ You can install the package using the [Composer](https://getcomposer.org/) packa
 composer require maknz/slack
 ```
 
+Then [create an incoming webhook](https://my.slack.com/services/new/incoming-webhook) on your Slack account for the package to use. You'll need the webhook URL to instantiate the client (or for the configuration file if using Laravel).
+
 ## Laravel
 
-We include a Laravel 4 service provider which provides a nicer syntax for using the client and allows for setting defaults from a config file.
+We include service providers and a facade for easy integration and a nice syntax for Laravel.
 
-Firstly, add the `Maknz\Slack\SlackServiceProvider` service provider to the `providers` array in your `app/config.php` file.
+Firstly, add the `Maknz\Slack\SlackServiceProvider` provider to the providers array in `config/app.php` (or `app/config.php` for Laravel 4)
 
 ```php
-'providers' => array(
+'providers' => [
   ...
   'Maknz\Slack\SlackServiceProvider',
-),
+],
 ```
 
-and then add the facade to your `aliases` array in your `app/config.php` file.
+and then add the facade to your `aliases` array
 
 ```php
-'aliases' => array(
+'aliases' => [
   ...
   'Slack' => 'Maknz\Slack\Facades\Slack',
-),
+],
 ```
 
 ### Configuration
 
-Publish the configuration with
+Publish the configuration file with:
 
-```php
+```sh
+// Laravel 5, file will be at config/slack.php
+php artisan vendor:publish
+
+// Laravel 4, file will be at app/config/packages/maknz/slack/config.php
 php artisan config:publish maknz/slack
 ```
 
-This will add the boilerplate configuration to `app/config/packages/maknz/slack/config.php`. You need to add the URL to the webhook the package should use. If you haven't already created an incoming webhook for the package to use, [create one in your Slack backend](https://my.slack.com/services/new/incoming-webhook). The URL will be available under the *Setup Instructions* panel. You can also configure the default channel, username and icon in the config file.
+Head into the file and configure the defaults you'd like the package to use. If `null` is set for any, the package will fall back on the default set on the webhook.
 
-If `null` is set for channel, username or icon, the defaults set up on the Slack webhook will be used.
+The configuration file is used to bypass the client instantiation process to make using the package easier. Therefore, you can skip the the *Instantiate the client* section below and dive right into using the package.
 
 ## Basic Usage
 
 ### Instantiate the client
-
-If you are using the package in Laravel, **you can skip this section** as the client is instantiated for you.
 
 ```php
 // Instantiate without defaults
@@ -74,7 +78,7 @@ $client = new Maknz\Slack\Client('http://your.slack.endpoint', $settings);
 
 #### Settings
 
-All settings are optional, but are a convenient way of specifying how the client should behave beyond the defaults. **Laravel users: these can all be configured in the package config file.**
+All settings are optional, but are a convenient way of specifying how the client should behave beyond the defaults.
 
 * `channel`: the default channel that messages will be sent to
    * string
