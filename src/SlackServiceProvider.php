@@ -2,6 +2,7 @@
 
 use Illuminate\Support\ServiceProvider;
 use GuzzleHttp\Client as Guzzle;
+use RuntimeException;
 
 class SlackServiceProvider extends ServiceProvider {
 
@@ -13,13 +14,33 @@ class SlackServiceProvider extends ServiceProvider {
   protected $defer = false;
 
   /**
+   * The actual provider
+   *
+   * @var \Illuminate\Support\ServiceProvider
+   */
+  protected $provider;
+
+  /**
+   * Instantiate the service provider
+   *
+   * @param mixed $app
+   * @return void
+   */
+  public function __construct($app)
+  {
+    parent::__construct($app);
+
+    $this->provider = $this->getProvider();
+  }
+
+  /**
    * Bootstrap the application events.
    *
    * @return void
    */
   public function boot()
   {
-    $this->package('maknz/slack', null, __DIR__);
+    return $this->provider->boot();
   }
 
   /**
@@ -29,29 +50,31 @@ class SlackServiceProvider extends ServiceProvider {
    */
   public function register()
   {
-    $this->app['maknz.slack'] = $this->app->share(function($app)
+    return $this->provider->register();
+  }
+
+  /**
+   * Return the service provider for the particular Laravel version
+   *
+   * @return mixed
+   */
+  private function getProvider()
+  {
+    $app = $this->app;
+
+    $version = intval($app::VERSION);
+
+    switch ($version)
     {
-      $allow_markdown = $app['config']->get('slack::allow_markdown');
+      case 4:
+        return new SlackServiceProviderLaravel4($app);
 
-      $markdown_in_attachments = $app['config']->get('slack::markdown_in_attachments');
+      case 5:
+        return new SlackServiceProviderLaravel5($app);
 
-      $unfurl_media = $app['config']->get('slack::unfurl_media');
-
-      return new Client(
-        $app['config']->get('slack::endpoint'),
-        [
-          'channel' => $app['config']->get('slack::channel'),
-          'username' => $app['config']->get('slack::username'),
-          'icon' => $app['config']->get('slack::icon'),
-          'link_names' => $app['config']->get('slack::link_names'),
-          'unfurl_links' => $app['config']->get('slack::unfurl_links'),
-          'unfurl_media' => is_bool($unfurl_media) ? $unfurl_media : true,
-          'allow_markdown' => is_bool($allow_markdown) ? $allow_markdown : true,
-          'markdown_in_attachments' => is_array($markdown_in_attachments) ? $markdown_in_attachments : []
-        ],
-        new Guzzle
-      );
-    });
+      default:
+        throw new RuntimeException('Your version of Laravel is not supported');
+    }
   }
 
   /**
