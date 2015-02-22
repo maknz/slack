@@ -42,10 +42,7 @@ class SlackServiceProviderLaravel5 extends ServiceProvider {
       );
     });
     
-    $this->app->bind(
-		'Maknz\Slack\Client',
-		'maknz.slack'
-	);
+    $this->app->bind('Maknz\Slack\Client', 'maknz.slack');
   }
 
 }
