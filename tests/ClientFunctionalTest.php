@@ -35,6 +35,7 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase {
       'pretext' => null,
       'color' => 'bad',
       'mrkdwn_in' => ['pretext', 'text'],
+      'image_url' => 'http://fake.host/image.png',
       'fields' => []
     ];
 
@@ -73,6 +74,7 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase {
       'pretext' => null,
       'color' => 'bad',
       'mrkdwn_in' => [],
+      'image_url' => 'http://fake.host/image.png',
       'fields' => [
         [
           'title' => 'Field 1',

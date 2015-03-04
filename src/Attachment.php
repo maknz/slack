@@ -19,6 +19,13 @@ class Attachment {
   protected $text;
 
   /**
+   * Optional image that should appear within the attachment
+   *
+   * @var string
+   */
+  protected $image_url;
+
+  /**
    * Optional text that should appear above the formatted data
    *
    * @var string
@@ -58,6 +65,8 @@ class Attachment {
     if (isset($attributes['fallback'])) $this->setFallback($attributes['fallback']);
 
     if (isset($attributes['text'])) $this->setText($attributes['text']);
+
+    if (isset($attributes['image_url'])) $this->setImageUrl($attributes['image_url']);
 
     if (isset($attributes['pretext'])) $this->setPretext($attributes['pretext']);
 
@@ -110,6 +119,29 @@ class Attachment {
   public function setText($text)
   {
     $this->text = $text;
+
+    return $this;
+  }
+
+  /**
+   * Get the optional image to appear within the attachment
+   *
+   * @return string
+   */
+  public function getImageUrl()
+  {
+    return $this->image_url;
+  }
+
+  /**
+   * Set the optional image to appear within the attachment
+   *
+   * @param string $image_url
+   * @return $this
+   */
+  public function setImageUrl($image_url)
+  {
+    $this->image_url = $image_url;
 
     return $this;
   }
@@ -262,7 +294,8 @@ class Attachment {
       'text' => $this->getText(),
       'pretext' => $this->getPretext(),
       'color' => $this->getColor(),
-      'mrkdwn_in' => $this->getMarkdownFields()
+      'mrkdwn_in' => $this->getMarkdownFields(),
+      'image_url' => $this->getImageUrl()
     ];
 
     $data['fields'] = $this->getFieldsAsArrays();
