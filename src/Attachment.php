@@ -33,6 +33,20 @@ class Attachment {
   protected $pretext;
 
   /**
+   * Optional title for the attachment
+   *
+   * @var string
+   */
+  protected $title;
+
+  /**
+   * Optional title link for the attachment
+   *
+   * @var string
+   */
+  protected $title_link;
+
+  /**
    * The color to use for the attachment
    *
    * @var string
@@ -75,6 +89,10 @@ class Attachment {
     if (isset($attributes['fields'])) $this->setFields($attributes['fields']);
 
     if (isset($attributes['mrkdwn_in'])) $this->setMarkdownFields($attributes['mrkdwn_in']);
+
+    if (isset($attributes['title'])) $this->setTitle($attributes['title']);
+
+    if (isset($attributes['title_link'])) $this->setTitleLink($attributes['title_link']);
   }
 
   /**
@@ -193,6 +211,52 @@ class Attachment {
   }
 
   /**
+   * Get the title to use for the attachment
+   *
+   * @return string
+   */
+  public function getTitle()
+  {
+      return $this->title;
+  }
+
+  /**
+   * Set the title to use for the attachment
+   *
+   * @param string $title
+   * @return void
+   */
+  public function setTitle($title)
+  {
+      $this->title = $title;
+
+      return $this;
+  }
+
+  /**
+   * Get the title link to use for the attachment
+   *
+   * @return string
+   */
+  public function getTitleLink()
+  {
+        return $this->title_link;
+  }
+
+  /**
+   * Set the title link to use for the attachment
+   *
+   * @param string $title_link
+   * @return void
+   */
+  public function setTitleLink($title_link)
+  {
+      $this->title_link = $title_link;
+
+      return $this;
+  }
+
+    /**
    * Get the fields for the attachment
    *
    * @return array
@@ -295,7 +359,9 @@ class Attachment {
       'pretext' => $this->getPretext(),
       'color' => $this->getColor(),
       'mrkdwn_in' => $this->getMarkdownFields(),
-      'image_url' => $this->getImageUrl()
+      'image_url' => $this->getImageUrl(),
+      'title' => $this->getTitle(),
+      'title_link' => $this->getTitleLink()
     ];
 
     $data['fields'] = $this->getFieldsAsArrays();
