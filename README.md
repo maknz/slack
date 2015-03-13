@@ -153,7 +153,7 @@ $client->to('#accounting')->withIcon('http://example.com/accounting.png')->send(
 $client->to('@regan')->attach([
 	'fallback' => 'It is all broken, man', // Fallback text for plaintext clients, like IRC
 	'text' => 'It is all broken, man', // The text for inside the attachment
-	'pretext' => 'From user: JimBob' // Optional text to appear above the attachment and below the actual message
+	'pretext' => 'From user: JimBob', // Optional text to appear above the attachment and below the actual message
 	'color' => 'bad', // Change the color of the attachment, default is 'good'
 ])->send('New alert from the monitoring system');
 ```
@@ -164,7 +164,7 @@ $client->to('@regan')->attach([
 $client->to('#operations')->attach([
 	'fallback' => 'It is all broken, man',
 	'text' => 'It is all broken, man',
-	'pretext' => 'From user: JimBob'
+	'pretext' => 'From user: JimBob',
 	'color' => 'bad',
 	'fields' => [
 		[
@@ -194,7 +194,7 @@ $client->to('#general')->enableMarkdown()->send('Enable _markdown_ just for this
 $client->to('#operations')->attach([
 	'fallback' => 'It is all broken, man',
 	'text' => 'It is _all_ broken, man',
-	'pretext' => 'From user: *JimBob*'
+	'pretext' => 'From user: *JimBob*',
 	'color' => 'bad',
 	'mrkdwn_in' => ['pretext', 'text']
 ])->send('New alert from the monitoring system');
