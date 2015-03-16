@@ -36,7 +36,9 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase {
       'color' => 'bad',
       'mrkdwn_in' => ['pretext', 'text'],
       'image_url' => 'http://fake.host/image.png',
-      'fields' => []
+      'fields' => [],
+      'title' => null,
+      'title_link' => null
     ];
 
     $expectedHttpData = [
@@ -75,6 +77,8 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase {
       'color' => 'bad',
       'mrkdwn_in' => [],
       'image_url' => 'http://fake.host/image.png',
+      'title' => 'A title',
+      'title_link' => 'http://fake.host/',
       'fields' => [
         [
           'title' => 'Field 1',
