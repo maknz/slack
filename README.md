@@ -200,6 +200,18 @@ $client->to('#operations')->attach([
 ])->send('New alert from the monitoring system');
 ```
 
+#### Send an attachment with an author
+
+```php
+$client->to('@regan')->attach([
+	'fallback' => 'Things are looking good',
+	'text' => 'Things are looking good',
+	'author_name' => 'Bobby Tables',
+	'author_link' => 'http://flickr.com/bobby/',
+	'author_url' => 'http://flickr.com/icons/bobby.jpg'
+])->send('New alert from the monitoring system');
+```
+
 ## Advanced usage
 
 ### Explicit message creation
