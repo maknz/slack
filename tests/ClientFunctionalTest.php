@@ -85,8 +85,8 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase {
       'title' => 'A title',
       'title_link' => 'http://fake.host/',
       'author_name' => 'Joe Bloggs',
-		  'author_link' => 'http://fake.host/',
-		  'author_icon' => 'http://fake.host/image.png',
+      'author_link' => 'http://fake.host/',
+      'author_icon' => 'http://fake.host/image.png',
       'fields' => [
         [
           'title' => 'Field 1',
