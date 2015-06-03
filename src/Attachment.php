@@ -54,10 +54,10 @@ class Attachment {
   protected $title_link;
   
   /**
-	 * Optional author name for the attachment
-	 *
-	 * @var string
-	 */
+   * Optional author name for the attachment
+   *
+   * @var string
+   */
 	protected $author_name;
 
 	/**
