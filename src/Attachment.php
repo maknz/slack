@@ -24,6 +24,13 @@ class Attachment {
    * @var string
    */
   protected $image_url;
+  
+  /**
+	 * Optional thumbnail that should appear within the attachment
+	 *
+	 * @var string
+	 */
+	protected $thumb_url;
 
   /**
    * Optional text that should appear above the formatted data
@@ -45,6 +52,27 @@ class Attachment {
    * @var string
    */
   protected $title_link;
+  
+  /**
+	 * Optional author name for the attachment
+	 *
+	 * @var string
+	 */
+	protected $author_name;
+
+	/**
+	 * Optional author link for the attachment
+	 *
+	 * @var string
+	 */
+	protected $author_link;
+
+	/**
+	 * Optional author icon for the attachment
+	 *
+	 * @var string
+	 */
+	protected $author_icon;
 
   /**
    * The color to use for the attachment
@@ -81,6 +109,8 @@ class Attachment {
     if (isset($attributes['text'])) $this->setText($attributes['text']);
 
     if (isset($attributes['image_url'])) $this->setImageUrl($attributes['image_url']);
+    
+    if (isset($attributes['thumb_url'])) $this->setThumbUrl($attributes['thumb_url']);
 
     if (isset($attributes['pretext'])) $this->setPretext($attributes['pretext']);
 
@@ -93,6 +123,12 @@ class Attachment {
     if (isset($attributes['title'])) $this->setTitle($attributes['title']);
 
     if (isset($attributes['title_link'])) $this->setTitleLink($attributes['title_link']);
+    
+    if (isset($attributes['author_name'])) $this->setAuthorName($attributes['author_name']);
+
+	  if (isset($attributes['author_link'])) $this->setAuthorLink($attributes['author_link']);
+
+	  if (isset($attributes['author_icon'])) $this->setAuthorIcon($attributes['author_icon']);
   }
 
   /**
@@ -163,6 +199,29 @@ class Attachment {
 
     return $this;
   }
+  
+  /**
+	 * Get the optional thumbnail to appear within the attachment
+	 *
+	 * @return string
+	 */
+	public function getThumbUrl()
+	{
+		return $this->thumb_url;
+	}
+
+	/**
+	 * Set the optional thumbnail to appear within the attachment
+	 *
+	 * @param string $thumb_url
+	 * @return $this
+	 */
+	public function setThumbUrl($thumb_url)
+	{
+		$this->thumb_url = $thumb_url;
+
+		return $this;
+	}
 
   /**
    * Get the text that should appear above the formatted data
@@ -256,7 +315,75 @@ class Attachment {
       return $this;
   }
 
-    /**
+/**
+	 * Get the author name to use for the attachment
+	 *
+	 * @return string
+	 */
+	public function getAuthorName()
+	{
+		return $this->author_name;
+	}
+
+	/**
+	 * Set the author name to use for the attachment
+	 *
+	 * @param string $author_name
+	 * @return void
+	 */
+	public function setAuthorName($author_name)
+	{
+		$this->author_name = $author_name;
+
+		return $this;
+	}
+
+	/**
+	 * Get the author link to use for the attachment
+	 *
+	 * @return string
+	 */
+	public function getAuthorLink()
+	{
+		return $this->author_link;
+	}
+
+	/**
+	 * Set the auhtor link to use for the attachment
+	 *
+	 * @param string $author_link
+	 * @return void
+	 */
+	public function setAuthorLink($author_link)
+	{
+		$this->author_link = $author_link;
+
+		return $this;
+	}
+
+	/**
+	 * Get the author icon to use for the attachment
+	 *
+	 * @return string
+	 */
+	public function getAuthorIcon()
+	{
+		return $this->author_icon;
+	}
+
+	/**
+	 * Set the author icon to use for the attachment
+	 *
+	 * @param string $author_icon
+	 * @return void
+	 */
+	public function setAuthorIcon($author_icon)
+	{
+		$this->author_icon = $author_icon;
+
+		return $this;
+	}
+  /**
    * Get the fields for the attachment
    *
    * @return array
@@ -360,8 +487,12 @@ class Attachment {
       'color' => $this->getColor(),
       'mrkdwn_in' => $this->getMarkdownFields(),
       'image_url' => $this->getImageUrl(),
+      'thumb_url' => $this->getThumbUrl(),
       'title' => $this->getTitle(),
-      'title_link' => $this->getTitleLink()
+      'title_link' => $this->getTitleLink(),
+      'author_name' => $this->getAuthorName(),
+		  'author_link' => $this->getAuthorLink(),
+		  'author_icon' => $this->getAuthorIcon()
     ];
 
     $data['fields'] = $this->getFieldsAsArrays();
