@@ -67,8 +67,12 @@ class AttachmentUnitTest extends PHPUnit_Framework_TestCase {
       'color' => 'bad',
       'mrkdwn_in' => ['pretext', 'text'],
       'image_url' => 'http://fake.host/image.png',
+      'thumb_url' => 'http://fake.host/image.png',
       'title' => 'A title',
       'title_link' => 'http://fake.host/',
+      'author_name' => 'Joe Bloggs',
+		  'author_link' => 'http://fake.host/',
+		  'author_icon' => 'http://fake.host/image.png',
       'fields' => [
         [
           'title' => 'Title 1',
