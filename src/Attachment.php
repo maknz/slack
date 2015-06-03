@@ -315,7 +315,7 @@ class Attachment {
       return $this;
   }
 
-/**
+  /**
    * Get the author name to use for the attachment
    *
    * @return string
