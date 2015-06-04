@@ -1,6 +1,7 @@
 # Slack
 
 [![Build Status](https://travis-ci.org/maknz/slack.svg?branch=master)](https://travis-ci.org/maknz/slack)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/maknz/slack/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/maknz/slack/?branch=master)
 
 A simple PHP package for sending messages to [Slack](https://slack.com) with [incoming webhooks](https://my.slack.com/services/new/incoming-webhook), focussed on ease-of-use and elegant syntax. Includes Laravel 4 and 5 support out of the box.
 
