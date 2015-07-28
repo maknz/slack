@@ -16,7 +16,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "4.2.*",
-        "mockery/mockery": "0.9.*"
+        "mockery/mockery": "0.9.*",
+        "illuminate/support": "4.*"
     },
     "suggest": {
         "illuminate/support": "Required for Laravel support"
