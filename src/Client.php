@@ -1,6 +1,7 @@
 <?php namespace Maknz\Slack;
 
 use GuzzleHttp\Client as Guzzle;
+use Illuminate\Support\Facades\Queue;
 
 class Client {
 
@@ -79,6 +80,12 @@ class Client {
   protected $guzzle;
 
   /**
+   * The QueueManager instance
+   * @var Illuminate\Queue\QueueManager
+   */
+  protected $queue;
+
+  /**
    * Instantiate a new Client
    *
    * @param string $endpoint
@@ -106,6 +113,8 @@ class Client {
     if (isset($attributes['markdown_in_attachments'])) $this->setMarkdownInAttachments($attributes['markdown_in_attachments']);
 
     $this->guzzle = $guzzle ?: new Guzzle;
+
+    $this->queue = Queue::getFacadeRoot();
   }
 
   /**
@@ -355,6 +364,34 @@ class Client {
     $encoded = json_encode($payload, JSON_UNESCAPED_UNICODE);
 
     $this->guzzle->post($this->endpoint, ['body' => $encoded]);
+  }
+
+  /**
+   * Queue a message
+   *
+   * @param \Maknz\Slack\Message $message
+   * @return void
+   */
+  public function queueMessage(Message $message)
+  {
+    $payload = $this->preparePayload($message);
+
+    $this->queue->push(__CLASS__, $payload);
+  }
+
+  /**
+   * Execute the message sending via a Queue
+   * @param  Illuminate\Queue\Jobs\Job $job Job instance
+   * @param  array $data Slack Payload
+   * @return void
+   */
+  public function fire($job, array $data)
+  {
+    $encoded = json_encode($payload, JSON_UNESCAPED_UNICODE);
+
+    $this->guzzle->post($this->endpoint, ['body' => $encoded]);
+
+    $job->delete();
   }
 
   /**

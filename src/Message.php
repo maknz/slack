@@ -71,6 +71,12 @@ class Message {
   protected $attachments = [];
 
   /**
+   * The name of the queue to be used
+   * @var string
+   */
+  protected $queue = null;
+
+  /**
    *
    * @var string
    */
@@ -410,4 +416,36 @@ class Message {
     $this->client->sendMessage($this);
   }
 
+  /**
+   * Queue the message
+   * @param  string $text The text to send
+   * @return void
+   */
+  public function queue($text = null)
+  {
+    if ($text) $this->setText($text);
+
+    $this->client->queueMessage($this, $this->queue);
+  }
+
+  /**
+   * Sets the queue to be used
+   * @param string $queue Name of the queue
+   * @return $this
+   */
+  public function setQueue($queue)
+  {
+    $this->queue = $queue;
+    return $this;
+  }
+
+  /**
+   * Get the queue to be used
+   *
+   * @return string
+   */
+  public function getQueue()
+  {
+    return $this->queue;
+  }
 }
