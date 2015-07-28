@@ -1,7 +1,7 @@
 <?php namespace Maknz\Slack;
 
 use GuzzleHttp\Client as Guzzle;
-use Illuminate\Support\Facades\Queue;
+use Illuminate\Queue\Capsule\Manager as Queue;
 
 class Client {
 
@@ -92,7 +92,7 @@ class Client {
    * @param array $attributes
    * @return void
    */
-  public function __construct($endpoint, array $attributes = [], Guzzle $guzzle = null)
+  public function __construct($endpoint, array $attributes = [], Queue $queue = null, Guzzle $guzzle = null)
   {
     $this->endpoint = $endpoint;
 
@@ -114,7 +114,10 @@ class Client {
 
     $this->guzzle = $guzzle ?: new Guzzle;
 
-    $this->queue = Queue::getFacadeRoot();
+    $this->queue = $queue;
+
+    if($this->queue !== null)
+      $this->queue->setAsGlobal();
   }
 
   /**
@@ -227,6 +230,15 @@ class Client {
   public function getLinkNames()
   {
     return $this->link_names;
+  }
+
+  /**
+   * Returns the QueueManager instance being used
+   * @return Illuminate\Queue\QueueManager
+   */
+  public function getQueueManager()
+  {
+    return $this->queue;
   }
 
   /**

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\ServiceProvider;
 use GuzzleHttp\Client as Guzzle;
+use Illuminate\Queue\Capsule\Manager as Queue;
 
 class SlackServiceProviderLaravel4 extends ServiceProvider {
 
@@ -13,6 +14,27 @@ class SlackServiceProviderLaravel4 extends ServiceProvider {
   public function boot()
   {
     $this->package('maknz/slack', null, __DIR__);
+  }
+
+  protected function getEncrypter()
+  {
+    $key = $this->app['config']['app.key'];
+    return new Illuminate\Encryption\Encrypter($key);
+  }
+
+  protected function getQueue()
+  {
+    $name = $this->app['config']['queue.default'];
+    $config = $this->app['config']["queue.connections.{$name}"];
+    
+    $queue = new Queue();
+    $queue->addConnection($config);
+
+    $queue->getContainer()->bind('encrypter', $this->getEncrypter());
+
+    $queue->setAsGlobal();
+
+    return $queue;
   }
 
   /**
@@ -42,7 +64,8 @@ class SlackServiceProviderLaravel4 extends ServiceProvider {
           'allow_markdown' => is_bool($allow_markdown) ? $allow_markdown : true,
           'markdown_in_attachments' => is_array($markdown_in_attachments) ? $markdown_in_attachments : []
         ],
-        new Guzzle
+        $this->getQueue(),
+        new Guzzle,
       );
     });
 
