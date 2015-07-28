@@ -181,6 +181,15 @@ class MessageUnitTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals('http://www.fake.com/someimage.png', $message->getIcon());
   }
 
+  public function testSetQueue()
+  {
+    $message = $this->getMessage();
+
+    $message->setQueue('slack');
+
+    $this->assertSame('slack', $message->getQueue());
+  }
+
   protected function getMessage()
   {
     return new Message(Mockery::mock('Maknz\Slack\Client'));

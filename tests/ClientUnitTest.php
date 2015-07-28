@@ -1,6 +1,7 @@
 <?php
 
 use Maknz\Slack\Client;
+use Illuminate\Queue\Capsule\Manager as Queue;
 
 class ClientUnitTest extends PHPUnit_Framework_TestCase {
 
@@ -11,6 +12,8 @@ class ClientUnitTest extends PHPUnit_Framework_TestCase {
     $this->assertInstanceOf('Maknz\Slack\Client', $client);
 
     $this->assertSame('http://fake.endpoint', $client->getEndpoint());
+
+    $this->assertNull($client->getQueueManager());
   }
 
   public function testInstantiationWithDefaults()
@@ -43,6 +46,15 @@ class ClientUnitTest extends PHPUnit_Framework_TestCase {
     $this->assertSame($defaults['allow_markdown'], $client->getAllowMarkdown());
 
     $this->assertSame($defaults['markdown_in_attachments'], $client->getMarkdownInAttachments());
+  }
+
+  public function testInstantiationWithQueue()
+  {
+    $queue = new Queue;
+
+    $client = new Client('http://fake.endpoing', [], $queue);
+
+    $this->assertInstanceOf('Illuminate\Queue\Capsule\Manager', $client->getQueueManager());
   }
 
   public function testCreateMessage()

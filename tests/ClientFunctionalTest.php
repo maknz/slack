@@ -2,6 +2,7 @@
 
 use Maknz\Slack\Client;
 use Maknz\Slack\Attachment;
+use Illuminate\Queue\Capsule\Manager as Queue;
 
 class ClientFunctionalTest extends PHPUnit_Framework_TestCase {
 
@@ -126,6 +127,41 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase {
     $payload = $client->preparePayload($message);
 
     $this->assertEquals($expectedHttpData, $payload);
+  }
+
+  public function testSendQueue()
+  {
+    $queue = Mockery::mock('Illuminate\Queue\Capsule\Manager[push]')->makePartial('push');
+
+    $queue->getContainer()->bind('encrypter', function(){
+      return new Illuminate\Encryption\Encrypter('slack');
+    });
+
+    $queue->addConnection(['driver' => 'sync']);
+
+    $expectedHttpData = [
+      'text' => 'Message',
+      'channel' => '#general',
+      'username' => 'Test',
+      'link_names' => 0,
+      'unfurl_links' => false,
+      'unfurl_media' => true,
+      'mrkdwn' => true,
+      'attachments' => []
+    ];
+
+    $queue->shouldReceive('push')->withArgs($expectedHttpData);
+
+    $client = new Client('http://fake.endpoint', [
+      'username' => 'Test',
+      'channel' => '#general'
+    ], $queue);
+
+    $this->assertSame($queue, $client->getQueueManager());
+
+    $message = $client->createMessage()->setText('Message');
+
+    $client->queueMessage($message);
   }
 
 }
