@@ -353,6 +353,9 @@ class Client {
     $payload = $this->preparePayload($message);
 
     $encoded = json_encode($payload, JSON_UNESCAPED_UNICODE);
+    if ( $encoded === false ) {
+      throw new \RuntimeException('Unable to json_encode payload');
+    }
 
     $this->guzzle->post($this->endpoint, ['body' => $encoded]);
   }
