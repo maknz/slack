@@ -13,7 +13,7 @@ return [
   |
   */
 
-  'endpoint' => '',
+  'endpoint' => env('SLACK_ENDPOINT'),
 
   /*
   |-------------------------------------------------------------
@@ -26,7 +26,7 @@ return [
   |
   */
 
-  'channel' => '#general',
+  'channel' => env('SLACK_CHANNEL', '#general'),
 
   /*
   |-------------------------------------------------------------
@@ -38,7 +38,7 @@ return [
   |
   */
 
-  'username' => 'Robot',
+  'username' => env('SLACK_USERNAME', 'Robot'),
 
   /*
   |-------------------------------------------------------------
@@ -51,7 +51,7 @@ return [
   |
   */
 
-  'icon' => null,
+  'icon' => env('SLACK_ICON', null),
 
   /*
   |-------------------------------------------------------------
@@ -63,7 +63,7 @@ return [
   |
   */
 
-  'link_names' => false,
+  'link_names' => env('SLACK_LINK_NAMES', false),
 
   /*
   |-------------------------------------------------------------
@@ -74,7 +74,7 @@ return [
   |
   */
 
-  'unfurl_links' => false,
+  'unfurl_links' => env('SLACK_UNFURL_LINKS', false),
 
   /*
   |-------------------------------------------------------------
@@ -86,7 +86,7 @@ return [
   |
   */
 
-  'unfurl_media' => true,
+  'unfurl_media' => env('SLACK_UNFURL_MEDIA', true),
 
   /*
   |-------------------------------------------------------------
@@ -98,7 +98,7 @@ return [
   |
   */
 
-  'allow_markdown' => true,
+  'allow_markdown' => env('SLACK_MARKDOWN', true),
 
   /*
   |-------------------------------------------------------------
