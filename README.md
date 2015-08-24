@@ -51,6 +51,19 @@ Publish the configuration file with:
 php artisan vendor:publish --provider="Maknz\Slack\SlackServiceProviderLaravel5"
 ```
 
+Customize the client via the `Slack` facade with `.env` settings:
+
+```
+SLACK_ENDPOINT=https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX
+SLACK_CHANNEL=#general
+SLACK_USERNAME=Slack-News
+SLACK_ICON=:rocket:
+SLACK_LINK_NAMES=true
+SLACK_UNFURL_LINKS=false
+SLACK_UNFURL_MEDIA=true
+SLACK_MARKDOWN=true
+```
+
 #### For Laravel 4
 ```sh
 // Laravel 4, file will be at app/config/packages/maknz/slack/config.php
