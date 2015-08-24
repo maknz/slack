@@ -45,10 +45,14 @@ and then add the facade to your `aliases` array
 
 Publish the configuration file with:
 
+#### For Laravel 5
 ```sh
 // Laravel 5, file will be at config/slack.php
 php artisan vendor:publish --provider="Maknz\Slack\SlackServiceProviderLaravel5"
+```
 
+#### For Laravel 4
+```sh
 // Laravel 4, file will be at app/config/packages/maknz/slack/config.php
 php artisan config:publish maknz/slack
 ```
