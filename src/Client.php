@@ -399,7 +399,7 @@ class Client {
    */
   public function fire($job, array $data)
   {
-    $encoded = json_encode($payload, JSON_UNESCAPED_UNICODE);
+    $encoded = json_encode($data, JSON_UNESCAPED_UNICODE);
 
     $this->guzzle->post($this->endpoint, ['body' => $encoded]);
 
