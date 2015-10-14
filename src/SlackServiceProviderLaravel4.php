@@ -65,7 +65,7 @@ class SlackServiceProviderLaravel4 extends ServiceProvider {
           'markdown_in_attachments' => is_array($markdown_in_attachments) ? $markdown_in_attachments : []
         ],
         $this->getQueue(),
-        new Guzzle,
+        new Guzzle
       );
     });
 
