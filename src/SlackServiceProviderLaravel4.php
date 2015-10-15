@@ -2,8 +2,9 @@
 
 use Illuminate\Support\ServiceProvider;
 use GuzzleHttp\Client as Guzzle;
-use Illuminate\Queue\Capsule\Manager as Queue;
+use Illuminate\Queue\Capsule\Manager as QueueManager;
 use Illuminate\Encryption\Encrypter as Encrypter;
+use Queue;
 
 class SlackServiceProviderLaravel4 extends ServiceProvider {
 
@@ -19,21 +20,16 @@ class SlackServiceProviderLaravel4 extends ServiceProvider {
 
   protected function getEncrypter()
   {
-    $key = $this->app['config']['app.key'];
-    return new Encrypter($key);
+    return $this->app['encrypter'];
   }
 
   protected function getQueue()
   {
-    $name = $this->app['config']['queue.default'];
+    $name = Queue::getFacadeRoot()->getDefaultDriver();
     $config = $this->app['config']["queue.connections.{$name}"];
-    
-    $queue = new Queue();
+
+    $queue = new QueueManager($this->app);
     $queue->addConnection($config);
-
-    $queue->getContainer()->bind('encrypter', $this->getEncrypter());
-
-    $queue->setAsGlobal();
 
     return $queue;
   }
