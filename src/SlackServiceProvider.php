@@ -1,7 +1,6 @@
 <?php namespace Maknz\Slack;
 
 use Illuminate\Support\ServiceProvider;
-use GuzzleHttp\Client as Guzzle;
 use RuntimeException;
 
 class SlackServiceProvider extends ServiceProvider {
