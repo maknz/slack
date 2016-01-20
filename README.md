@@ -155,7 +155,7 @@ $client->to('@regan')->attach([
 	'fallback' => 'It is all broken, man', // Fallback text for plaintext clients, like IRC
 	'text' => 'It is all broken, man', // The text for inside the attachment
 	'pretext' => 'From user: JimBob', // Optional text to appear above the attachment and below the actual message
-	'color' => 'bad', // Change the color of the attachment, default is 'good'
+	'color' => 'danger', // Change the color of the attachment, default is 'good'. May be a hex value or 'good', 'warning', or 'danger'
 ])->send('New alert from the monitoring system');
 ```
 
@@ -166,7 +166,7 @@ $client->to('#operations')->attach([
 	'fallback' => 'It is all broken, man',
 	'text' => 'It is all broken, man',
 	'pretext' => 'From user: JimBob',
-	'color' => 'bad',
+	'color' => 'danger',
 	'fields' => [
 		[
 			'title' => 'Metric 1',
@@ -196,7 +196,7 @@ $client->to('#operations')->attach([
 	'fallback' => 'It is all broken, man',
 	'text' => 'It is _all_ broken, man',
 	'pretext' => 'From user: *JimBob*',
-	'color' => 'bad',
+	'color' => 'danger',
 	'mrkdwn_in' => ['pretext', 'text']
 ])->send('New alert from the monitoring system');
 ```
