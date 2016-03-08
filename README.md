@@ -5,6 +5,8 @@
 
 A simple PHP package for sending messages to [Slack](https://slack.com) with [incoming webhooks](https://my.slack.com/services/new/incoming-webhook), focussed on ease-of-use and elegant syntax. Includes Laravel 4 and 5 support out of the box. For Symfony support, see [NexySlackBundle](https://github.com/nexylan/NexySlackBundle).
 
+For Symfony support, please see [nexylan/slack-bundle](https://github.com/nexylan/NexySlackBundle) package.
+
 ## Requirements
 
 * PHP 5.4 or greater
@@ -40,6 +42,10 @@ and then add the facade to your `aliases` array
   'Slack' => 'Maknz\Slack\Facades\Slack',
 ],
 ```
+
+## Symfony
+
+For Symfony bundle installation, please refer to nexylan/slack-bundle [installation section](https://github.com/nexylan/NexySlackBundle#installation).
 
 ### Configuration
 
