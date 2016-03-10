@@ -12,7 +12,7 @@ class SlackServiceProviderLaravel5 extends ServiceProvider {
    */
   public function boot()
   {
-    $this->publishes([__DIR__ . '/config/config.php' => config_path('slack.php')]);
+    $this->publishes([__DIR__ . '/config/config.v5.php' => config_path('slack.php')]);
   }
 
   /**
@@ -22,7 +22,7 @@ class SlackServiceProviderLaravel5 extends ServiceProvider {
    */
   public function register()
   {
-    $this->mergeConfigFrom(__DIR__ . '/config/config.php', 'slack');
+    $this->mergeConfigFrom(__DIR__ . '/config/config.v5.php', 'slack');
 
     $this->app['maknz.slack'] = $this->app->share(function($app)
     {

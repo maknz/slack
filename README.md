@@ -45,10 +45,27 @@ and then add the facade to your `aliases` array
 
 Publish the configuration file with:
 
+#### For Laravel 5
 ```sh
 // Laravel 5, file will be at config/slack.php
 php artisan vendor:publish --provider="Maknz\Slack\SlackServiceProviderLaravel5"
+```
 
+Customize the client via the `Slack` facade with `.env` settings:
+
+```
+SLACK_ENDPOINT=https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX
+SLACK_CHANNEL=#general
+SLACK_USERNAME=Slack-News
+SLACK_ICON=:rocket:
+SLACK_LINK_NAMES=true
+SLACK_UNFURL_LINKS=false
+SLACK_UNFURL_MEDIA=true
+SLACK_MARKDOWN=true
+```
+
+#### For Laravel 4
+```sh
 // Laravel 4, file will be at app/config/packages/maknz/slack/config.php
 php artisan config:publish maknz/slack
 ```
