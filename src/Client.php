@@ -354,7 +354,11 @@ class Client {
 
     $encoded = json_encode($payload, JSON_UNESCAPED_UNICODE);
 
-    $this->guzzle->post($this->endpoint, ['body' => $encoded]);
+    $messageEndpoint = $message->getEndpoint();
+
+    $endpoint = ($messageEndpoint ?: $this->endpoint);
+
+    $this->guzzle->post($endpoint, ['body' => $encoded]);
   }
 
   /**

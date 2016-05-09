@@ -119,6 +119,14 @@ $client->send('Hello world!');
 // or the Laravel facade
 Slack::send('Hello world!');
 ```
+#### Sending a message to a non-default endpoint
+```php
+// With an instantiated client
+$client->endpoint('http://message.slack.endpoint')->send('Are we rich yet?');
+
+// or the Laravel facade
+Slack::endpoint('http://message.slack.endpoint')->send('Are we rich yet?');
+```
 
 #### Sending a message to a non-default channel
 ```php
@@ -286,4 +294,4 @@ $attachment->setFields($bigArrayOfFields);
 
 ## Contributing
 
-If you're having problems, spot a bug, or have a feature suggestion, please log and issue on Github. If you'd like to have a crack yourself, fork the package and make a pull request. Please include tests for any added or changed functionality. If it's a bug, include a regression test.
+If you're having problems, spot a bug, or have a feature suggestion, please log an issue on Github. If you'd like to have a crack yourself, fork the package and make a pull request. Please include tests for any added or changed functionality. If it's a bug, include a regression test.

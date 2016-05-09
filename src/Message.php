@@ -20,6 +20,13 @@ class Message {
   protected $text;
 
   /**
+   * The target endpoint the message should be sent to
+   *
+   * @var string
+   */
+  protected $endpoint;
+  
+  /**
    * The channel the message should be sent to
    *
    * @var string
@@ -116,6 +123,34 @@ class Message {
     return $this;
   }
 
+   /**
+   * Get the message endpoint
+   *
+   * @return string
+   */
+  public function getEndpoint()
+  {
+    return $this->endpoint;
+  }
+
+  /**
+   * Set the message endpoint
+   *
+   * @param string $endpoint
+   * @return $this
+   * @throws \InvalidArgumentException
+   */
+  public function setEndpoint($endpoint)
+  {
+    if(empty($endpoint) || !is_string($endpoint)) {
+          throw new InvalidArgumentException('The message endpoint must be a non-empty string');
+    }
+    
+    $this->endpoint = $endpoint;
+
+    return $this;
+  }
+  
   /**
    * Get the channel we will post to
    *
@@ -300,6 +335,17 @@ class Message {
   }
 
   /**
+   * Change the endpoint the post will be made to
+   *
+   * @param string $endpoint
+   * @return $this
+   */
+  public function endpoint($endpoint)
+  {
+      return $this->setEndpoint($endpoint);
+  }
+  
+  /**
    * Change the channel the post will be made to
    *
    * @param string $channel
@@ -330,6 +376,7 @@ class Message {
    *
    * @param mixed $attachment
    * @return $this
+   * @throws \InvalidArgumentException
    */
   public function attach($attachment)
   {
@@ -406,7 +453,7 @@ class Message {
   public function send($text = null)
   {
     if ($text) $this->setText($text);
-
+    
     $this->client->sendMessage($this);
   }
 

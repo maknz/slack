@@ -1,6 +1,5 @@
 <?php
 
-use Maknz\Slack\Client;
 use Maknz\Slack\Message;
 use Maknz\Slack\Attachment;
 
@@ -158,7 +157,27 @@ class MessageUnitTest extends PHPUnit_Framework_TestCase {
 
     $this->assertEquals('a', $message->getAttachments()[0]->getFallback());
   }
+  
+  public function testAttachInvalidArgumentException()
+  {
+    $message = $this->getMessage();
 
+    $this->setExpectedException('InvalidArgumentException');
+
+    $message->attach('this is wrong');
+  }
+
+  public function testWithIconToEmoji()
+  {
+    $message = $this->getMessage();
+
+    $message->withIcon(':ghost:');
+
+    $this->assertEquals(Message::ICON_TYPE_EMOJI, $message->getIconType());
+
+    $this->assertEquals(':ghost:', $message->getIcon());
+  }
+  
   public function testSetIconToEmoji()
   {
     $message = $this->getMessage();
@@ -180,7 +199,96 @@ class MessageUnitTest extends PHPUnit_Framework_TestCase {
 
     $this->assertEquals('http://www.fake.com/someimage.png', $message->getIcon());
   }
+  
+  public function testEndpoint()
+  {
+    $message = $this->getMessage();
+    
+    $endpoint = 'http://fake.endpoint';
 
+    $fluent = $message->endpoint($endpoint);
+
+    $this->assertSame($endpoint, $message->getEndpoint());
+    $this->assertTrue($fluent instanceof \Maknz\Slack\Message);
+  }
+  
+  public function testSetEndpoint()
+  {
+    $message = $this->getMessage();
+    
+    $endpoint = 'http://fake.endpoint';
+
+    $fluent = $message->setEndpoint($endpoint);
+
+    $this->assertSame($endpoint, $message->getEndpoint());
+    $this->assertTrue($fluent instanceof \Maknz\Slack\Message);
+  }
+  
+  public function testSetEndpointEmptyEndpointException()
+  {
+    $message = $this->getMessage();
+    
+    $endpoint = '';
+
+    $this->setExpectedException('InvalidArgumentException');
+    
+    $message->setEndpoint($endpoint);
+    
+  }
+  
+  public function testSetEndpointNonStringEndpointException()
+  {
+    $message = $this->getMessage();
+    
+    $endpoint = 12345;
+
+    $this->setExpectedException('InvalidArgumentException');
+    
+    $message->setEndpoint($endpoint);
+    
+  }
+
+  public function testEnableMarkdown()
+  {
+    $message = $this->getMessage();
+      
+    $message->enableMarkdown();
+    
+    $this->assertTrue($message->getAllowMarkdown());
+  }
+
+  public function testDisableMarkdown()
+  {
+    $message = $this->getMessage();
+    
+    $message->disableMarkdown();
+    
+    $this->assertFalse($message->getAllowMarkdown());
+  }
+  
+  public function testSend()
+  {
+    $clientMock = \Mockery::mock('Maknz\Slack\Client');
+    $clientMock->shouldReceive('sendMessage')->once();
+    
+    $message = new Message($clientMock);
+    
+    $message->send();
+  }
+  
+  public function testSendWithText()
+  {
+    $text = 'some text';
+    
+    $clientMock = \Mockery::mock('Maknz\Slack\Client');
+    $clientMock->shouldReceive('sendMessage')->once();
+    
+    $message = \Mockery::mock('Maknz\Slack\Message[setText]', [$clientMock]);
+    $message->shouldReceive('setText')->once()->with($text);
+    
+    $message->send($text);
+  }
+  
   protected function getMessage()
   {
     return new Message(Mockery::mock('Maknz\Slack\Client'));
