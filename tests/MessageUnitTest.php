@@ -203,7 +203,7 @@ class MessageUnitTest extends PHPUnit_Framework_TestCase {
   public function testEndpoint()
   {
     $message = $this->getMessage();
-    
+
     $endpoint = 'http://fake.endpoint';
 
     $fluent = $message->endpoint($endpoint);
@@ -211,11 +211,11 @@ class MessageUnitTest extends PHPUnit_Framework_TestCase {
     $this->assertSame($endpoint, $message->getEndpoint());
     $this->assertTrue($fluent instanceof \Maknz\Slack\Message);
   }
-  
+
   public function testSetEndpoint()
   {
     $message = $this->getMessage();
-    
+
     $endpoint = 'http://fake.endpoint';
 
     $fluent = $message->setEndpoint($endpoint);
@@ -223,29 +223,27 @@ class MessageUnitTest extends PHPUnit_Framework_TestCase {
     $this->assertSame($endpoint, $message->getEndpoint());
     $this->assertTrue($fluent instanceof \Maknz\Slack\Message);
   }
-  
+
   public function testSetEndpointEmptyEndpointException()
   {
     $message = $this->getMessage();
-    
+
     $endpoint = '';
 
     $this->setExpectedException('InvalidArgumentException');
-    
+
     $message->setEndpoint($endpoint);
-    
   }
-  
+
   public function testSetEndpointNonStringEndpointException()
   {
     $message = $this->getMessage();
-    
+
     $endpoint = 12345;
 
     $this->setExpectedException('InvalidArgumentException');
-    
+
     $message->setEndpoint($endpoint);
-    
   }
 
   public function testEnableMarkdown()
@@ -265,30 +263,30 @@ class MessageUnitTest extends PHPUnit_Framework_TestCase {
     
     $this->assertFalse($message->getAllowMarkdown());
   }
-  
+
   public function testSend()
   {
     $clientMock = \Mockery::mock('Maknz\Slack\Client');
     $clientMock->shouldReceive('sendMessage')->once();
-    
+
     $message = new Message($clientMock);
-    
+
     $message->send();
   }
-  
+
   public function testSendWithText()
   {
     $text = 'some text';
-    
+
     $clientMock = \Mockery::mock('Maknz\Slack\Client');
     $clientMock->shouldReceive('sendMessage')->once();
-    
+
     $message = \Mockery::mock('Maknz\Slack\Message[setText]', [$clientMock]);
     $message->shouldReceive('setText')->once()->with($text);
-    
+
     $message->send($text);
   }
-  
+
   protected function getMessage()
   {
     return new Message(Mockery::mock('Maknz\Slack\Client'));

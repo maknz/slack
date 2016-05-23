@@ -25,7 +25,7 @@ class Message {
    * @var string
    */
   protected $endpoint;
-  
+
   /**
    * The channel the message should be sent to
    *
@@ -123,7 +123,7 @@ class Message {
     return $this;
   }
 
-   /**
+  /**
    * Get the message endpoint
    *
    * @return string
@@ -138,19 +138,19 @@ class Message {
    *
    * @param string $endpoint
    * @return $this
-   * @throws \InvalidArgumentException
    */
   public function setEndpoint($endpoint)
   {
-    if(empty($endpoint) || !is_string($endpoint)) {
-          throw new InvalidArgumentException('The message endpoint must be a non-empty string');
+    if (empty($endpoint) || !is_string($endpoint))
+    {
+      throw new InvalidArgumentException('The message endpoint must be a non-empty string');
     }
-    
+
     $this->endpoint = $endpoint;
 
     return $this;
   }
-  
+
   /**
    * Get the channel we will post to
    *
@@ -342,9 +342,9 @@ class Message {
    */
   public function endpoint($endpoint)
   {
-      return $this->setEndpoint($endpoint);
+    return $this->setEndpoint($endpoint);
   }
-  
+
   /**
    * Change the channel the post will be made to
    *
@@ -376,7 +376,6 @@ class Message {
    *
    * @param mixed $attachment
    * @return $this
-   * @throws \InvalidArgumentException
    */
   public function attach($attachment)
   {
@@ -392,7 +391,7 @@ class Message {
       $attachmentObject = new Attachment($attachment);
 
       if ( ! isset($attachment['mrkdwn_in']))
-      {
+      { 
         $attachmentObject->setMarkdownFields($this->getMarkdownInAttachments());
       }
 
@@ -453,7 +452,7 @@ class Message {
   public function send($text = null)
   {
     if ($text) $this->setText($text);
-    
+
     $this->client->sendMessage($this);
   }
 

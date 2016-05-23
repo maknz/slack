@@ -141,7 +141,7 @@ class AttachmentUnitTest extends PHPUnit_Framework_TestCase {
     ]);
 
     $this->setExpectedException('InvalidArgumentException');
-    
+
     $a->addField('this is wrong');
   }
   
