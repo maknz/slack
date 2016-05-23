@@ -1,6 +1,5 @@
 <?php
 
-use Maknz\Slack\Client;
 use Maknz\Slack\Attachment;
 use Maknz\Slack\AttachmentField;
 
@@ -134,6 +133,18 @@ class AttachmentUnitTest extends PHPUnit_Framework_TestCase {
     $this->assertSame($f, $fields[0]);
   }
 
+  public function testAddFieldInvalidArgumentException()
+  {
+    $a = new Attachment([
+      'fallback' => 'Fallback',
+      'text' => 'Text'
+    ]);
+
+    $this->setExpectedException('InvalidArgumentException');
+
+    $a->addField('this is wrong');
+  }
+  
   public function testSetFields()
   {
     $a = new Attachment([

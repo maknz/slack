@@ -329,6 +329,8 @@ class Client {
   {
     $message = new Message($this);
 
+    $message->setEndpoint($this->getEndpoint());
+
     $message->setChannel($this->getDefaultChannel());
 
     $message->setUsername($this->getDefaultUsername());
@@ -354,7 +356,9 @@ class Client {
 
     $encoded = json_encode($payload, JSON_UNESCAPED_UNICODE);
 
-    $this->guzzle->post($this->endpoint, ['body' => $encoded]);
+    $endpoint = $message->getEndpoint();
+
+    $this->guzzle->post($endpoint, ['body' => $encoded]);
   }
 
   /**

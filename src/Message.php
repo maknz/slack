@@ -20,6 +20,13 @@ class Message {
   protected $text;
 
   /**
+   * The target endpoint the message should be sent to
+   *
+   * @var string
+   */
+  protected $endpoint;
+
+  /**
    * The channel the message should be sent to
    *
    * @var string
@@ -112,6 +119,34 @@ class Message {
   public function setText($text)
   {
     $this->text = $text;
+
+    return $this;
+  }
+
+  /**
+   * Get the message endpoint
+   *
+   * @return string
+   */
+  public function getEndpoint()
+  {
+    return $this->endpoint;
+  }
+
+  /**
+   * Set the message endpoint
+   *
+   * @param string $endpoint
+   * @return $this
+   */
+  public function setEndpoint($endpoint)
+  {
+    if (empty($endpoint) || !is_string($endpoint))
+    {
+      throw new InvalidArgumentException('The message endpoint must be a non-empty string');
+    }
+
+    $this->endpoint = $endpoint;
 
     return $this;
   }
@@ -300,6 +335,17 @@ class Message {
   }
 
   /**
+   * Change the endpoint the post will be made to
+   *
+   * @param string $endpoint
+   * @return $this
+   */
+  public function endpoint($endpoint)
+  {
+    return $this->setEndpoint($endpoint);
+  }
+
+  /**
    * Change the channel the post will be made to
    *
    * @param string $channel
@@ -345,7 +391,7 @@ class Message {
       $attachmentObject = new Attachment($attachment);
 
       if ( ! isset($attachment['mrkdwn_in']))
-      {
+      { 
         $attachmentObject->setMarkdownFields($this->getMarkdownInAttachments());
       }
 

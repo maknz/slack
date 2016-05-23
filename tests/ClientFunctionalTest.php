@@ -26,6 +26,29 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase {
 
     $this->assertEquals($expectedHttpData, $payload);
   }
+  
+  public function testMessageWithEmoji()
+  {
+    $expectedHttpData = [
+      'username' => 'Archer',
+      'channel' => '@regan',
+      'text' => 'Message',
+      'link_names' => false,
+      'unfurl_links' => false,
+      'unfurl_media' => true,
+      'mrkdwn' => true,
+      'attachments' => [],
+      'icon_emoji' => ':ghost:'
+    ];
+
+    $client = new Client('http://fake.endpoint');
+
+    $message = $client->to('@regan')->from('Archer')->setText('Message')->setIcon(':ghost:');
+
+    $payload = $client->preparePayload($message);
+
+    $this->assertEquals($expectedHttpData, $payload);
+  }
 
   public function testMessageWithAttachments()
   {

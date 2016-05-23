@@ -45,6 +45,17 @@ class ClientUnitTest extends PHPUnit_Framework_TestCase {
     $this->assertSame($defaults['markdown_in_attachments'], $client->getMarkdownInAttachments());
   }
 
+  public function testSetEndpoint()
+  {
+    $client = new Client('http://fake.endpoint');
+
+    $endpoint = 'http://bogus.endpoint';
+
+    $client->setEndpoint($endpoint);
+
+    $this->assertSame($endpoint, $client->getEndpoint());
+  }
+  
   public function testCreateMessage()
   {
     $defaults = [
@@ -58,6 +69,8 @@ class ClientUnitTest extends PHPUnit_Framework_TestCase {
     $message = $client->createMessage();
 
     $this->assertInstanceOf('Maknz\Slack\Message', $message);
+
+    $this->assertSame($client->getEndpoint(), $message->getEndpoint());
 
     $this->assertSame($client->getDefaultChannel(), $message->getChannel());
 
@@ -75,6 +88,53 @@ class ClientUnitTest extends PHPUnit_Framework_TestCase {
     $this->assertInstanceOf('Maknz\Slack\Message', $message);
 
     $this->assertSame('@regan', $message->getChannel());
+  }
+  
+  public function testSendMessage()
+  {
+    $endpoint = 'http://fake.endpoint';
+
+    $body = '{"text":"Message","channel":"@regan","username":"Archer","link_names":0,"unfurl_links":false,"unfurl_media":true,"mrkdwn":true,"attachments":[]}';
+
+    $messageMock = $this->getMessage();
+    $messageMock->shouldReceive('getEndpoint')->once()->andReturn($endpoint);
+
+    $guzzleMock = \Mockery::mock('GuzzleHttp\Client');
+    $guzzleMock->shouldReceive('post')->once()->with($endpoint, ['body' => $body]);
+
+    $client = new Client($endpoint, [], $guzzleMock);
+    $client->sendMessage($messageMock);
+  }
+
+  public function testSendMessageWithEndpoint()
+  {
+    $endpoint = 'http://fake.endpoint';
+    $messageEndpoint = 'http://bogus.endpoint';
+
+    $body = '{"text":"Message","channel":"@regan","username":"Archer","link_names":0,"unfurl_links":false,"unfurl_media":true,"mrkdwn":true,"attachments":[]}';
+
+    $messageMock = $this->getMessage();
+    $messageMock->shouldReceive('getEndpoint')->once()->andReturn($messageEndpoint);
+
+    $guzzleMock = \Mockery::mock('GuzzleHttp\Client');
+    $guzzleMock->shouldReceive('post')->once()->with($messageEndpoint, ['body' => $body]);
+
+    $client = new Client($endpoint, [], $guzzleMock);
+    $client->sendMessage($messageMock);
+  }
+
+  protected function getMessage()
+  {
+    $messageMock = \Mockery::mock('Maknz\Slack\Message');
+
+    $messageMock->shouldReceive('getText')->once()->andReturn('Message');
+    $messageMock->shouldReceive('getChannel')->once()->andReturn('@regan');
+    $messageMock->shouldReceive('getUsername')->once()->andReturn('Archer');
+    $messageMock->shouldReceive('getAllowMarkdown')->once()->andReturn(true);
+    $messageMock->shouldReceive('getIcon')->once()->andReturn(null);
+    $messageMock->shouldReceive('getAttachments')->once()->andReturn([]);
+
+    return $messageMock;
   }
 
 }
