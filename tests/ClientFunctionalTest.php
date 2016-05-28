@@ -127,4 +127,24 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($expectedHttpData, $payload);
     }
+
+    public function testBadEncodingThrowsException()
+    {
+        $client = $this->getNetworkStubbedClient();
+
+        $this->setExpectedException(RuntimeException::class, 'JSON encoding error');
+
+        // Force encoding to ISO-8859-1 so we know we're providing malformed
+        // encoding to json_encode
+        $client->send(mb_convert_encoding('æøå', 'ISO-8859-1', 'UTF-8'));
+    }
+
+    protected function getNetworkStubbedClient()
+    {
+        $guzzle = Mockery::mock('GuzzleHttp\Client');
+
+        $guzzle->shouldReceive('post');
+
+        return new Client('http://fake.endpoint', [], $guzzle);
+    }
 }
