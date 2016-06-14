@@ -97,25 +97,25 @@ class Attachment
      * @var array
      */
     protected $markdown_fields = [];
-    
+
     /**
      * The text to use for the footer attachment.
      *
      * @var string
      */
     protected $footer;
-    
+
     /**
      * The icon to use for the footer attachment.
      *
      * @var string
      */
     protected $footer_icon;
-    
+
     /**
      * The timestamp to use for the footer attachment.
      *
-     * @var integer
+     * @var int
      */
     protected $ts;
 
@@ -329,7 +329,7 @@ class Attachment
 
         return $this;
     }
-    
+
     /**
      * Get the footer to use for the attachment.
      *
@@ -352,7 +352,7 @@ class Attachment
 
         return $this;
     }
-    
+
     /**
      * Get the footer icon to use for the attachment.
      *
@@ -375,7 +375,7 @@ class Attachment
 
         return $this;
     }
-    
+
     /**
      * Get the timestamp to use for the attachment.
      *
@@ -389,7 +389,7 @@ class Attachment
     /**
      * Set the timestamp to use for the attachment.
      *
-     * @param integer $ts
+     * @param int $ts
      * @return void
      */
     public function setTs($ts)
