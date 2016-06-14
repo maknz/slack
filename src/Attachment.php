@@ -99,6 +99,27 @@ class Attachment
     protected $markdown_fields = [];
 
     /**
+     * The text to use for the footer attachment.
+     *
+     * @var string
+     */
+    protected $footer;
+
+    /**
+     * The icon to use for the footer attachment.
+     *
+     * @var string
+     */
+    protected $footer_icon;
+
+    /**
+     * The timestamp to use for the footer attachment.
+     *
+     * @var int
+     */
+    protected $ts;
+
+    /**
      * Instantiate a new Attachment.
      *
      * @param array $attributes
@@ -128,6 +149,18 @@ class Attachment
 
         if (isset($attributes['color'])) {
             $this->setColor($attributes['color']);
+        }
+
+        if (isset($attributes['footer'])) {
+            $this->setFooter($attributes['footer']);
+        }
+
+        if (isset($attributes['footer_icon'])) {
+            $this->setFooterIcon($attributes['footer_icon']);
+        }
+
+        if (isset($attributes['ts'])) {
+            $this->setTs($attributes['ts']);
         }
 
         if (isset($attributes['fields'])) {
@@ -293,6 +326,75 @@ class Attachment
     public function setColor($color)
     {
         $this->color = $color;
+
+        return $this;
+    }
+
+    /**
+     * Get the footer to use for the attachment.
+     *
+     * @return string
+     */
+    public function getFooter()
+    {
+        return $this->footer;
+    }
+
+    /**
+     * Set the footer text to use for the attachment.
+     *
+     * @param string $footer
+     * @return void
+     */
+    public function setFooter($footer)
+    {
+        $this->footer = $footer;
+
+        return $this;
+    }
+
+    /**
+     * Get the footer icon to use for the attachment.
+     *
+     * @return string
+     */
+    public function getFooterIcon()
+    {
+        return $this->footer_icon;
+    }
+
+    /**
+     * Set the footer icon to use for the attachment.
+     *
+     * @param string $footerIcon
+     * @return void
+     */
+    public function setFooterIcon($footerIcon)
+    {
+        $this->footer_icon = $footerIcon;
+
+        return $this;
+    }
+
+    /**
+     * Get the timestamp to use for the attachment.
+     *
+     * @return int
+     */
+    public function getTs()
+    {
+        return $this->ts;
+    }
+
+    /**
+     * Set the timestamp to use for the attachment.
+     *
+     * @param int $ts
+     * @return void
+     */
+    public function setTs($ts)
+    {
+        $this->ts = $ts;
 
         return $this;
     }
@@ -509,6 +611,9 @@ class Attachment
             'text' => $this->getText(),
             'pretext' => $this->getPretext(),
             'color' => $this->getColor(),
+            'footer' => $this->getFooter(),
+            'footer_icon' => $this->getFooterIcon(),
+            'ts' => $this->getTs(),
             'mrkdwn_in' => $this->getMarkdownFields(),
             'image_url' => $this->getImageUrl(),
             'thumb_url' => $this->getThumbUrl(),

@@ -12,6 +12,9 @@ class AttachmentUnitTest extends PHPUnit_Framework_TestCase
             'text' => 'Text',
             'pretext' => 'Pretext',
             'color' => 'bad',
+            'footer' => 'Footer',
+            'footer_icon' => 'https://platform.slack-edge.com/img/default_application_icon.png',
+            'ts' => 123456789,
             'mrkdwn_in' => ['pretext', 'text', 'fields'],
         ]);
 
@@ -26,6 +29,12 @@ class AttachmentUnitTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([], $a->getFields());
 
         $this->assertEquals(['pretext', 'text', 'fields'], $a->getMarkdownFields());
+
+        $this->assertEquals('Footer', $a->getFooter());
+
+        $this->assertEquals('https://platform.slack-edge.com/img/default_application_icon.png', $a->getFooterIcon());
+
+        $this->assertEquals(123456789, $a->getTs());
     }
 
     public function testAttachmentCreationFromArrayWithFields()
@@ -35,6 +44,9 @@ class AttachmentUnitTest extends PHPUnit_Framework_TestCase
             'text' => 'Text',
             'pretext' => 'Pretext',
             'color' => 'bad',
+            'footer' => 'Footer',
+            'footer_icon' => 'https://platform.slack-edge.com/img/default_application_icon.png',
+            'ts' => 123456789,
             'mrkdwn_in' => [],
             'fields' => [
               [
@@ -64,6 +76,9 @@ class AttachmentUnitTest extends PHPUnit_Framework_TestCase
             'text' => 'Text',
             'pretext' => 'Pretext',
             'color' => 'bad',
+            'footer' => 'Footer',
+            'footer_icon' => 'https://platform.slack-edge.com/img/default_application_icon.png',
+            'ts' => 123456789,
             'mrkdwn_in' => ['pretext', 'text'],
             'image_url' => 'http://fake.host/image.png',
             'thumb_url' => 'http://fake.host/image.png',
