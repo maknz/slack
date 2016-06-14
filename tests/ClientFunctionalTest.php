@@ -43,6 +43,9 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
             'author_name' => 'Joe Bloggs',
             'author_link' => 'http://fake.host/',
             'author_icon' => 'http://fake.host/image.png',
+            'footer' => 'Footer',
+            'footer_icon' => 'https://platform.slack-edge.com/img/default_application_icon.png',
+            'ts' => 123456789
         ];
 
         $expectedHttpData = [
@@ -99,6 +102,9 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
                 'short' => false,
               ],
             ],
+            'footer' => 'Footer',
+            'footer_icon' => 'https://platform.slack-edge.com/img/default_application_icon.png',
+            'ts' => 123456789
         ];
 
         $expectedHttpData = [
