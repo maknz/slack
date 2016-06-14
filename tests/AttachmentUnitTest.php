@@ -29,11 +29,11 @@ class AttachmentUnitTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([], $a->getFields());
 
         $this->assertEquals(['pretext', 'text', 'fields'], $a->getMarkdownFields());
-        
+
         $this->assertEquals('Footer', $a->getFooter());
-        
+
         $this->assertEquals('https://platform.slack-edge.com/img/default_application_icon.png', $a->getFooterIcon());
-        
+
         $this->assertEquals(123456789, $a->getTs());
     }
 
