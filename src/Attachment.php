@@ -150,15 +150,15 @@ class Attachment
         if (isset($attributes['color'])) {
             $this->setColor($attributes['color']);
         }
-        
+
         if (isset($attributes['footer'])) {
             $this->setFooter($attributes['footer']);
         }
-        
+
         if (isset($attributes['footer_icon'])) {
             $this->setFooterIcon($attributes['footer_icon']);
         }
-        
+
         if (isset($attributes['ts'])) {
             $this->setTs($attributes['ts']);
         }
@@ -379,7 +379,7 @@ class Attachment
     /**
      * Get the timestamp to use for the attachment.
      *
-     * @return integer
+     * @return int
      */
     public function getTs()
     {
