@@ -136,6 +136,8 @@ class Client {
 
     if($this->queue !== null)
       $this->queue->setAsGlobal();
+
+    $this->maxRetryAttempts = self::MAX_RETRY_ATTEMPTS;
   }
 
   /**
@@ -416,9 +418,14 @@ class Client {
    * @param \Maknz\Slack\Message $message
    * @return void
    */
-  public function queueMessage(Message $message)
+  public function queueMessage(Message $message, $numRetries)
   {
-    $payload = $this->preparePayload($message);
+    // check for malicious calls and if so, try max times
+    if ($numRetries <= 0) $numRetries = self::MAX_RETRY_ATTEMPTS;
+
+    $payload = $this->preparePayload($message, $numRetries);
+
+    $this->maxRetryAttempts = $numRetries;
 
     $this->queue->push(__CLASS__, $payload);
   }
@@ -431,7 +438,7 @@ class Client {
    */
   public function fire($job, array $data)
   {
-    if($job->attempts() >= self::MAX_RETRY_ATTEMPTS)
+    if($job->attempts() >= $data['num_retries'])
     {
       $job->delete();
     }
@@ -457,7 +464,7 @@ class Client {
    * @param \Maknz\Slack\Message $message The message to send
    * @return array
    */
-  public function preparePayload(Message $message)
+  public function preparePayload(Message $message, $numRetries = null)
   {
     $payload = [
       'text' => $message->getText(),
@@ -468,6 +475,8 @@ class Client {
       'unfurl_media' => $this->getUnfurlMedia(),
       'mrkdwn' => $message->getAllowMarkdown()
     ];
+
+    if($numRetries) $payload['num_retries'] = $numRetries;
 
     if ($icon = $message->getIcon())
     {

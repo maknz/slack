@@ -420,7 +420,6 @@ class Message {
    * be specified through the method call. We are not going ahead with that at this
    * point since it might end up blocking. We are also not waiting before retry for
    * the same reason.
-   * TODO: We need logging for some of these things.
    */
   public function send($text = null, $numRetries = self::MAX_RETRY_ATTEMPTS)
   {
@@ -430,10 +429,10 @@ class Message {
 
     $numAttempts = 0;
 
-    // check for malicious calls and if so, try once
+    // check for malicious calls and if so, try once atleast
     if ($numRetries <= 0) $numRetries = 1;
 
-    while(($numAttempts < $numRetries) or
+    while(($numAttempts < $numRetries) and
           ($isMessageSent === false))
     {
       try
@@ -442,11 +441,8 @@ class Message {
 
         $isMessageSent = true;
       }
-
-      catch(Exception $e)
-      {
-        $num_attempts += 1;
-      }
+      catch(Exception $e){}
+      $numAttempts += 1;
     }
 
     // push it into the queue
@@ -460,13 +456,79 @@ class Message {
   /**
    * Queue the message
    * @param  string $text The text to send
+   * @param  integer $numRetries The number of times to retry on failure
    * @return void
    */
-  public function queue($text = null)
+  public function queue($text = null, $numRetries)
   {
     if ($text) $this->setText($text);
 
-    $this->client->queueMessage($this, $this->queue);
+    $this->client->queueMessage($this, $this->queue, $numRetries);
+  }
+
+  /**
+   * @param string $headline
+   * @param array $data message metadata
+   * @param array $postdata actual post data
+   * @param array $settings post meta data - username, icon etc
+   * @param string $pretext
+   * @param bool $asQueue
+   * @param integer $numRetries
+   */
+  public function messageHandler($headline, array $data, array $postdata, array $settings = [],
+                                 $pretext = '', $asQueue = true, $numRetries = self::MAX_RETRY_ATTEMPTS)
+  {
+
+      //  Fallback text for plaintext clients, like IRC
+      $data['fallback']   = $headline.'\n';
+
+      $data['fields']     = [];
+
+      $data['pretext']    = $pretext;
+
+      // If our data is nested, we need to flatten it
+      $postdata = flatten_array($postdata);
+
+      $settings['username'] = isset($settings['username']) ? $settings['username'] : null;
+
+      $settings['icon']     = isset($settings['icon']) ? $settings['icon'] : null;
+
+      // attach for all extra fields
+      foreach($postdata as $key => $value)
+      {
+          //  Fallback text for plaintext clients, like IRC
+          $data['fallback'] .= $key . ': ' . $value . '\n';
+
+          $data['color'] = isset($settings['color']) ? $settings['color'] : 'good';
+
+          $data['fields'][] = array(
+              'title' => $key,
+              'value' => $value,
+              'short' => true,
+          );
+      }
+
+      if (isset($settings['channel']))
+      {
+          $this->to($settings['channel'])
+                  ->from($settings['username'])
+                  ->withIcon($settings['icon'])
+                  ->attach($data);
+      }
+      else
+      {
+          $this->attach($data);
+      }
+
+      if($asQueue)
+      {
+        $this->queue($headline, $numRetries);
+      }
+      else
+      {
+        $this->send($headline, $numRetries);
+      }
+
   }
 
   /**
