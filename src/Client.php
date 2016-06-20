@@ -2,6 +2,7 @@
 
 use GuzzleHttp\Client as Guzzle;
 use Illuminate\Queue\Capsule\Manager as Queue;
+use GuzzleHttp\Exception\ClientException;
 
 class Client {
 
@@ -84,6 +85,23 @@ class Client {
    * @var Illuminate\Queue\QueueManager
    */
   protected $queue;
+
+  /**
+   * Queue wait timeout on releasing the job. Ideally, for a more complicated scenario
+   * the wait timeout could increase based on the number of failures. But we
+   * are not handling such cases here.
+   *
+   * @var integer
+   */
+  const RELEASE_WAIT_TIMEOUT = 10;
+
+  /**
+   * Number of retries before giving up on the job.
+   *
+   * @var integer
+   */
+  const MAX_RETRY_ATTEMPTS = 10;
+
 
   /**
    * Instantiate a new Client
@@ -364,6 +382,22 @@ class Client {
   }
 
   /**
+   * Actually send the message
+   * @param  array            $data                 Slack Payload
+   * @return void
+   * @throws GuzzleHttp\Exception\ClientException   throws exception due to network errors. The client/caller
+   *                                                needs to handle this as the resulting behavior might be
+   *                                                different for different client calls between syncronous and
+   *                                                asynchronous calls
+   */
+
+  protected function guzzlePoster($data)
+  {
+    $encoded = json_encode($data, JSON_UNESCAPED_UNICODE);
+    $this->guzzle->post($this->endpoint, ['body' => $encoded]);
+  }
+
+  /**
    * Send a message
    *
    * @param \Maknz\Slack\Message $message
@@ -373,9 +407,7 @@ class Client {
   {
     $payload = $this->preparePayload($message);
 
-    $encoded = json_encode($payload, JSON_UNESCAPED_UNICODE);
-
-    $this->guzzle->post($this->endpoint, ['body' => $encoded]);
+    $this->guzzlePoster($payload);
   }
 
   /**
@@ -399,11 +431,24 @@ class Client {
    */
   public function fire($job, array $data)
   {
-    $encoded = json_encode($data, JSON_UNESCAPED_UNICODE);
+    if($job->attempts() >= self::MAX_RETRY_ATTEMPTS)
+    {
+      $job->delete();
+    }
 
-    $this->guzzle->post($this->endpoint, ['body' => $encoded]);
+    try
+    {
+        $this->guzzlePoster($data);
 
-    $job->delete();
+        $job->delete();
+
+        $isMessageSent = true;
+    }
+
+    catch(ClientException $e)
+    {
+        $job->release(self::RELEASE_WAIT_TIMEOUT);
+    }
   }
 
   /**

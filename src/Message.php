@@ -89,6 +89,12 @@ class Message {
   const ICON_TYPE_EMOJI = 'icon_emoji';
 
   /**
+   *
+   * @var integer
+   */
+  const MAX_RETRY_ATTEMPTS = 10;
+
+  /**
    * Instantiate a new Message
    *
    * @param \Maknz\Slack\Client $client
@@ -408,12 +414,47 @@ class Message {
    *
    * @param string $text The text to send
    * @return void
+   * Notes: We try to attempt to send the message MAX_RETRY_ATTEMPTS times. If it fails,
+   * we will push the message into the queue. Another implementation could be
+   * a blocking implementation where the number of retries and the wait timeout could
+   * be specified through the method call. We are not going ahead with that at this
+   * point since it might end up blocking. We are also not waiting before retry for
+   * the same reason.
+   * TODO: We need logging for some of these things.
    */
-  public function send($text = null)
+  public function send($text = null, $numRetries = self::MAX_RETRY_ATTEMPTS)
   {
     if ($text) $this->setText($text);
 
-    $this->client->sendMessage($this);
+    $isMessageSent = false;
+
+    $numAttempts = 0;
+
+    // check for malicious calls and if so, try once
+    if ($numRetries <= 0) $numRetries = 1;
+
+    while(($numAttempts < $numRetries) or
+          ($isMessageSent === false))
+    {
+      try
+      {
+        $this->client->sendMessage($this);
+
+        $isMessageSent = true;
+      }
+
+      catch(Exception $e)
+      {
+        $num_attempts += 1;
+      }
+    }
+
+    // push it into the queue
+    if(!$isMessageSent)
+    {
+      $this->queue($text);
+    }
+
   }
 
   /**
