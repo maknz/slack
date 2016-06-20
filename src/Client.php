@@ -396,6 +396,7 @@ class Client {
   protected function guzzlePoster($data)
   {
     $encoded = json_encode($data, JSON_UNESCAPED_UNICODE);
+
     $this->guzzle->post($this->endpoint, ['body' => $encoded]);
   }
 
