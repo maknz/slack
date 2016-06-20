@@ -468,18 +468,14 @@ class Message {
 
   /**
    * @param string $headline
-   * @param array $data message metadata
-   * @param array $postdata actual post data
-   * @param array $settings post meta data - username, icon etc
-   * @param string $pretext
-   * @param bool $asQueue
-   * @param integer $numRetries
+   * @param array  $postdata
+   * @param string pretext
    */
-  public function messageHandler($headline, array $data, array $postdata, array $settings = [],
-                                 $pretext = '', $asQueue = true, $numRetries = self::MAX_RETRY_ATTEMPTS)
-  {
-
+   protected function buildMessage($headline, array $postdata, $pretext)
+   {
       //  Fallback text for plaintext clients, like IRC
+      $data = [];
+
       $data['fallback']   = $headline.'\n';
 
       $data['fields']     = [];
@@ -488,10 +484,6 @@ class Message {
 
       // If our data is nested, we need to flatten it
       $postdata = flatten_array($postdata);
-
-      $settings['username'] = isset($settings['username']) ? $settings['username'] : null;
-
-      $settings['icon']     = isset($settings['icon']) ? $settings['icon'] : null;
 
       // attach for all extra fields
       foreach($postdata as $key => $value)
@@ -507,6 +499,27 @@ class Message {
               'short' => true,
           );
       }
+
+      return $data;
+   }
+
+  /**
+   * @param string $headline
+   * @param array $postdata actual post data
+   * @param array $settings post meta data - username, icon etc
+   * @param string $pretext
+   * @param bool $asQueue
+   * @param integer $numRetries
+   */
+  public function messageHandler($headline, array $postdata, array $settings = [],
+                                 $pretext = '', $asQueue = true, $numRetries = self::MAX_RETRY_ATTEMPTS)
+  {
+      $data = $this->buildMessage($headline, $postdata, $pretext);
+
+      $settings['username'] = isset($settings['username']) ? $settings['username'] : null;
+
+      $settings['icon']     = isset($settings['icon']) ? $settings['icon'] : null;
+
 
       if (isset($settings['channel']))
       {
