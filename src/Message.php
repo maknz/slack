@@ -410,8 +410,7 @@ class Message {
   }
 
   /**
-   * Send the message
-   * We try to attempt to send the message MAX_RETRY_ATTEMPTS times. If it fails,
+   * Notes: We try to attempt to send the message MAX_RETRY_ATTEMPTS times. If it fails,
    * we will push the message into the queue. Another implementation could be
    * a blocking implementation where the number of retries and the wait timeout could
    * be specified through the method call. We are not going ahead with that at this
@@ -428,8 +427,11 @@ class Message {
 
     $numAttempts = 0;
 
-    // check for malicious calls and if so, try once atleast
-    if ($numRetries <= 0) $numRetries = 1;
+    // check for malicious calls and if so, try once at least
+    if ($numRetries <= 0)
+    {
+      $numRetries = 1;
+    }
 
     while(($numAttempts < $numRetries) and
           ($isMessageSent === false))
@@ -449,7 +451,6 @@ class Message {
     {
       $this->queue($text, $numRetries);
     }
-
   }
 
   /**
@@ -470,10 +471,10 @@ class Message {
 
   /**
    * @param string $headline
-   * @param array  $postdata
-   * @param string pretext
+   * @param array  $postData
+   * @param string $pretext
    */
-   protected function buildMessage($headline, array $postdata, $pretext)
+   protected function buildMessage($headline, array $postData, $pretext)
    {
       //  Fallback text for plaintext clients, like IRC
       $data = [];
@@ -485,10 +486,10 @@ class Message {
       $data['pretext']    = $pretext;
 
       // If our data is nested, we need to flatten it
-      $postdata = flatten_array($postdata);
+      $postData = flatten_array($postData);
 
       // attach for all extra fields
-      foreach($postdata as $key => $value)
+      foreach($postData as $key => $value)
       {
           //  Fallback text for plaintext clients, like IRC
           $data['fallback'] .= $key . ': ' . $value . '\n';
@@ -507,21 +508,20 @@ class Message {
 
   /**
    * @param string $headline
-   * @param array $postdata actual post data
+   * @param array $postData actual post data
    * @param array $settings post meta data - username, icon etc
    * @param string $pretext
    * @param bool $asQueue
    * @param integer $numRetries
    */
-  public function messageHandler($headline, array $postdata, array $settings = [],
+  public function messageHandler($headline, array $postData, array $settings = [],
                                  $pretext = '', $asQueue = true, $numRetries = self::MAX_RETRY_ATTEMPTS)
   {
-      $data = $this->buildMessage($headline, $postdata, $pretext);
+      $data = $this->buildMessage($headline, $postData, $pretext);
 
       $settings['username'] = isset($settings['username']) ? $settings['username'] : null;
 
       $settings['icon']     = isset($settings['icon']) ? $settings['icon'] : null;
-
 
       if (isset($settings['channel']))
       {

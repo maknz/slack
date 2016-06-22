@@ -448,11 +448,9 @@ class Client {
 
     try
     {
-        $this->messagePoster($data);
+      $this->guzzlePoster($data);
 
-        $job->delete();
-
-        $isMessageSent = true;
+      $job->delete();
     }
     catch(ClientException $e)
     {
