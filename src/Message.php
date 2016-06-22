@@ -356,7 +356,7 @@ class Message {
     {
       $attachmentObject = new Attachment($attachment);
 
-      if ( ! isset($attachment['mrkdwn_in']))
+      if (! isset($attachment['mrkdwn_in']))
       {
         $attachmentObject->setMarkdownFields($this->getMarkdownInAttachments());
       }
@@ -411,15 +411,14 @@ class Message {
 
   /**
    * Send the message
-   *
-   * @param string $text The text to send
-   * @return void
-   * Notes: We try to attempt to send the message MAX_RETRY_ATTEMPTS times. If it fails,
+   * We try to attempt to send the message MAX_RETRY_ATTEMPTS times. If it fails,
    * we will push the message into the queue. Another implementation could be
    * a blocking implementation where the number of retries and the wait timeout could
    * be specified through the method call. We are not going ahead with that at this
    * point since it might end up blocking. We are also not waiting before retry for
    * the same reason.
+   * @param string $text The text to send
+   * @return void
    */
   public function send($text = null, $numRetries = self::MAX_RETRY_ATTEMPTS)
   {
@@ -448,7 +447,7 @@ class Message {
     // push it into the queue
     if(!$isMessageSent)
     {
-      $this->queue($text);
+      $this->queue($text, $numRetries);
     }
 
   }
@@ -461,7 +460,10 @@ class Message {
    */
   public function queue($text = null, $numRetries)
   {
-    if ($text) $this->setText($text);
+    if ($text)
+    {
+        $this->setText($text);
+    }
 
     $this->client->queueMessage($this, $this->queue, $numRetries);
   }
@@ -535,11 +537,11 @@ class Message {
 
       if($asQueue)
       {
-        $this->queue($headline, $numRetries);
+          $this->queue($headline, $numRetries);
       }
       else
       {
-        $this->send($headline, $numRetries);
+          $this->send($headline, $numRetries);
       }
 
   }

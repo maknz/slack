@@ -392,8 +392,7 @@ class Client {
    *                                                different for different client calls between syncronous and
    *                                                asynchronous calls
    */
-
-  protected function guzzlePoster($data)
+  protected function messagePoster($data)
   {
     $encoded = json_encode($data, JSON_UNESCAPED_UNICODE);
 
@@ -410,7 +409,7 @@ class Client {
   {
     $payload = $this->preparePayload($message);
 
-    $this->guzzlePoster($payload);
+    $this->messagePoster($payload);
   }
 
   /**
@@ -422,7 +421,10 @@ class Client {
   public function queueMessage(Message $message, $numRetries)
   {
     // check for malicious calls and if so, try max times
-    if ($numRetries <= 0) $numRetries = self::MAX_RETRY_ATTEMPTS;
+    if ($numRetries <= 0)
+    {
+        $numRetries = self::MAX_RETRY_ATTEMPTS;
+    }
 
     $payload = $this->preparePayload($message, $numRetries);
 
@@ -441,18 +443,17 @@ class Client {
   {
     if($job->attempts() >= $data['num_retries'])
     {
-      $job->delete();
+        $job->delete();
     }
 
     try
     {
-        $this->guzzlePoster($data);
+        $this->messagePoster($data);
 
         $job->delete();
 
         $isMessageSent = true;
     }
-
     catch(ClientException $e)
     {
         $job->release(self::RELEASE_WAIT_TIMEOUT);
@@ -477,11 +478,14 @@ class Client {
       'mrkdwn' => $message->getAllowMarkdown()
     ];
 
-    if($numRetries) $payload['num_retries'] = $numRetries;
+    if($numRetries)
+    {
+        $payload['num_retries'] = $numRetries;
+    }
 
     if ($icon = $message->getIcon())
     {
-      $payload[$message->getIconType()] = $icon;
+        $payload[$message->getIconType()] = $icon;
     }
 
     $payload['attachments'] = $this->getAttachmentsAsArrays($message);

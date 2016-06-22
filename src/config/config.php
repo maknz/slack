@@ -119,7 +119,4 @@ return [
   // Allow Markdown in all fields
   // 'markdown_in_attachments' => ['pretext', 'text', 'title', 'fields', 'fallback']
 
-  // Team details
-  'team' => 'razorpay',
-
 ];
