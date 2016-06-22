@@ -99,6 +99,14 @@ class Attachment
     protected $markdown_fields = [];
 
     /**
+     * A collection of actions (buttons) to include in the attachment.
+     * A maximum of 5 actions may be provided.
+     *
+     * @var array
+     */
+    protected $actions = [];
+
+    /**
      * Instantiate a new Attachment.
      *
      * @param array $attributes
@@ -156,6 +164,10 @@ class Attachment
 
         if (isset($attributes['author_icon'])) {
             $this->setAuthorIcon($attributes['author_icon']);
+        }
+
+        if (isset($attributes['actions'])) {
+            $this->setActions($attributes['actions']);
         }
     }
 
@@ -473,6 +485,18 @@ class Attachment
     }
 
     /**
+     * Clear the actions for the attachment.
+     *
+     * @return $this
+     */
+    public function clearActions()
+    {
+        $this->actions = [];
+
+        return $this;
+    }
+
+    /**
      * Get the fields Slack should interpret in its
      * Markdown-like language.
      *
@@ -498,6 +522,54 @@ class Attachment
     }
 
     /**
+     * Get the collection of actions (buttons) to include in the attachment.
+     *
+     * @return AttachmentAction[]
+     */
+    public function getActions()
+    {
+        return $this->actions;
+    }
+
+    /**
+     * Set the collection of actions (buttons) to include in the attachment.
+     *
+     * @param array $actions
+     * @return Attachment
+     */
+    public function setActions($actions)
+    {
+        $this->clearActions();
+
+        foreach ($actions as $action) {
+            $this->addAction($action);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add an action to the attachment.
+     *
+     * @param mixed $action
+     * @return $this
+     */
+    public function addAction($action)
+    {
+        if ($action instanceof AttachmentAction) {
+            $this->actions[] = $action;
+
+            return $this;
+        } elseif (is_array($action)) {
+            $this->actions[] = new AttachmentAction($action);
+
+            return $this;
+        }
+
+        throw new InvalidArgumentException('The attachment action must be an instance of Maknz\Slack\AttachmentAction or a keyed array');
+    }
+
+    /**
      * Convert this attachment to its array representation.
      *
      * @return array
@@ -520,6 +592,7 @@ class Attachment
         ];
 
         $data['fields'] = $this->getFieldsAsArrays();
+        $data['actions'] = $this->getActionsAsArrays();
 
         return $data;
     }
@@ -539,5 +612,22 @@ class Attachment
         }
 
         return $fields;
+    }
+
+    /**
+     * Iterates over all actions in this attachment and returns
+     * them in their array form.
+     *
+     * @return array
+     */
+    protected function getActionsAsArrays()
+    {
+        $actions = [];
+
+        foreach ($this->getActions() as $action) {
+            $actions[] = $action->toArray();
+        }
+
+        return $actions;
     }
 }
