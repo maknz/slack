@@ -54,7 +54,6 @@ class AttachmentAction
      */
     protected $confirm;
 
-
     /**
      * Instantiate a new AttachmentAction.
      *

@@ -158,7 +158,7 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
                         'text' => 'Text 1',
                         'ok_text' => 'OK Text 1',
                         'dismiss_text' => 'Dismiss Text 1',
-                    ]
+                    ],
                 ],
                 [
                     'name' => 'Name 2',
