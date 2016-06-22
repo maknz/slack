@@ -421,7 +421,10 @@ class Message {
    */
   public function send($text = null, $numRetries = self::MAX_RETRY_ATTEMPTS)
   {
-    if ($text) $this->setText($text);
+    if($text)
+    {
+      $this->setText($text);
+    }
 
     $isMessageSent = false;
 
@@ -443,6 +446,7 @@ class Message {
         $isMessageSent = true;
       }
       catch(Exception $e){}
+
       $numAttempts += 1;
     }
 
@@ -473,6 +477,7 @@ class Message {
    * @param string $headline
    * @param array  $postData
    * @param string $pretext
+   * @return $data
    */
    protected function buildMessage($headline, array $postData, $pretext)
    {
