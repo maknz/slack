@@ -29,7 +29,10 @@ Firstly, add the `Maknz\Slack\SlackServiceProvider` provider to the providers ar
 ```php
 'providers' => [
   ...
+  // Laravel 4:
   'Maknz\Slack\SlackServiceProvider',
+  // Laravel 5:
+  Maknz\Slack\SlackServiceProvider::class,
 ],
 ```
 
@@ -38,7 +41,10 @@ and then add the facade to your `aliases` array
 ```php
 'aliases' => [
   ...
+  // Laravel 4:
   'Slack' => 'Maknz\Slack\Facades\Slack',
+  // Laravel 5:
+  'Slack' => Maknz\Slack\Facades\Slack::class,
 ],
 ```
 
@@ -48,7 +54,7 @@ Publish the configuration file with:
 
 ```sh
 // Laravel 5, file will be at config/slack.php
-php artisan vendor:publish --provider="Maknz\Slack\SlackServiceProviderLaravel5"
+php artisan vendor:publish
 
 // Laravel 4, file will be at app/config/packages/maknz/slack/config.php
 php artisan config:publish maknz/slack
