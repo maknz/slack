@@ -441,16 +441,15 @@ class Client {
    */
   public function fire($job, array $data)
   {
-    if($job->attempts() >= $data['num_retries'])
+    if($job->attempts() >= $data['metadata']['num_retries'])
     {
         $job->delete();
     }
-
     try
     {
-      $this->guzzlePoster($data);
+        $this->messagePoster($data);
 
-      $job->delete();
+        $job->delete();
     }
     catch(ClientException $e)
     {
@@ -478,7 +477,7 @@ class Client {
 
     if($numRetries)
     {
-        $payload['num_retries'] = $numRetries;
+        $payload['metadata'] = ['num_retries' => $numRetries];
     }
 
     if ($icon = $message->getIcon())
