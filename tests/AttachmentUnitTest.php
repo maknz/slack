@@ -1,6 +1,7 @@
 <?php
 
 use Maknz\Slack\Attachment;
+use Maknz\Slack\AttachmentAction;
 use Maknz\Slack\AttachmentField;
 
 class AttachmentUnitTest extends PHPUnit_Framework_TestCase
@@ -84,11 +85,97 @@ class AttachmentUnitTest extends PHPUnit_Framework_TestCase
                 'short' => false,
               ],
             ],
+            'actions' => [
+                [
+                    'name' => 'Name 1',
+                    'text' => 'Text 1',
+                    'style' => 'default',
+                    'type' => 'button',
+                    'value' => 'Value 1',
+                    'confirm' => [
+                        'title' => 'Title 1',
+                        'text' => 'Text 1',
+                        'ok_text' => 'OK Text 1',
+                        'dismiss_text' => 'Dismiss Text 1',
+                    ],
+                ],
+                [
+                    'name' => 'Name 2',
+                    'text' => 'Text 2',
+                    'style' => 'default',
+                    'type' => 'button',
+                    'value' => 'Value 2',
+                    'confirm' => [
+                        'title' => 'Title 2',
+                        'text' => 'Text 2',
+                        'ok_text' => 'OK Text 2',
+                        'dismiss_text' => 'Dismiss Text 2',
+                    ],
+                ],
+            ],
         ];
 
         $a = new Attachment($array);
 
         $this->assertSame($array, $a->toArray());
+    }
+
+    public function testAddActionAsArray()
+    {
+        $a = new Attachment([
+            'fallback' => 'Fallback',
+            'text' => 'Text',
+        ]);
+
+        $a->addAction([
+            'name' => 'Name 1',
+            'text' => 'Text 1',
+            'style' => 'default',
+            'type' => 'button',
+            'value' => 'Value 1',
+            'confirm' => [
+                'title' => 'Title 1',
+                'text' => 'Text 1',
+                'ok_text' => 'OK Text 1',
+                'dismiss_text' => 'Dismiss Text 1',
+            ],
+        ]);
+
+        $actions = $a->getActions();
+
+        $this->assertSame(1, count($actions));
+
+        $this->assertSame('Text 1', $actions[0]->getText());
+    }
+
+    public function testAddActionAsObject()
+    {
+        $a = new Attachment([
+            'fallback' => 'Fallback',
+            'text' => 'Text',
+        ]);
+
+        $ac = new AttachmentAction([
+            'name' => 'Name 1',
+            'text' => 'Text 1',
+            'style' => 'default',
+            'type' => 'button',
+            'value' => 'Value 1',
+            'confirm' => [
+                'title' => 'Title 1',
+                'text' => 'Text 1',
+                'ok_text' => 'OK Text 1',
+                'dismiss_text' => 'Dismiss Text 1',
+            ],
+        ]);
+
+        $a->addAction($ac);
+
+        $actions = $a->getActions();
+
+        $this->assertSame(1, count($actions));
+
+        $this->assertSame($ac, $actions[0]);
     }
 
     public function testAddFieldAsArray()
