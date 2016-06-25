@@ -1,10 +1,13 @@
-# maknz/slack
+# Slack for PHP
 
 [![Build Status](https://travis-ci.org/maknz/slack.svg?branch=master)](https://travis-ci.org/maknz/slack)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/maknz/slack/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/maknz/slack/?branch=master)
 [![StyleCI](https://styleci.io/repos/19448330/shield)](https://styleci.io/repos/19448330)
 
-A simple PHP package for sending messages to [Slack](https://slack.com) with [incoming webhooks](https://my.slack.com/services/new/incoming-webhook), focussed on ease-of-use and elegant syntax. Includes Laravel 4 and 5 support out of the box. For Symfony support, see [NexySlackBundle](https://github.com/nexylan/NexySlackBundle).
+A simple PHP package for sending messages to [Slack](https://slack.com) with [incoming webhooks](https://my.slack.com/services/new/incoming-webhook), focussed on ease-of-use and elegant syntax.
+
+* Laravel integration: [Slack for Laravel](https://github.com/maknz/slack-laravel)
+* Symfony integration: [NexySlackBundle](https://github.com/nexylan/NexySlackBundle)
 
 ## Requirements
 
@@ -20,51 +23,13 @@ composer require maknz/slack
 
 Then [create an incoming webhook](https://my.slack.com/services/new/incoming-webhook) on your Slack account for the package to use. You'll need the webhook URL to instantiate the client (or for the configuration file if using Laravel).
 
-## Laravel
-
-We include service providers and a facade for easy integration and a nice syntax for Laravel.
-
-Firstly, add the `Maknz\Slack\SlackServiceProvider` provider to the providers array in `config/app.php` (or `app/config.php` for Laravel 4)
-
-```php
-'providers' => [
-  ...
-  'Maknz\Slack\SlackServiceProvider',
-],
-```
-
-and then add the facade to your `aliases` array
-
-```php
-'aliases' => [
-  ...
-  'Slack' => 'Maknz\Slack\Facades\Slack',
-],
-```
-
-### Configuration
-
-Publish the configuration file with:
-
-```sh
-// Laravel 5, file will be at config/slack.php
-php artisan vendor:publish --provider="Maknz\Slack\SlackServiceProviderLaravel5"
-
-// Laravel 4, file will be at app/config/packages/maknz/slack/config.php
-php artisan config:publish maknz/slack
-```
-
-Head into the file and configure the defaults you'd like the package to use. If `null` is set for any, the package will fall back on the default set on the webhook.
-
-The configuration file is used to bypass the client instantiation process to make using the package easier. Therefore, you can skip the the *Instantiate the client* section below and dive right into using the package.
-
 ## Basic Usage
 
 ### Instantiate the client
 
 ```php
 // Instantiate without defaults
-$client = new Maknz\Slack\Client('http://your.slack.endpoint');
+$client = new Maknz\Slack\Client('https://hooks.slack.com/...');
 
 // Instantiate with defaults, so all messages created
 // will be sent from 'Cyril' and to the #accounting channel
@@ -75,59 +40,35 @@ $settings = [
 	'link_names' => true
 ];
 
-$client = new Maknz\Slack\Client('http://your.slack.endpoint', $settings);
+$client = new Maknz\Slack\Client('https://hooks.slack.com/...', $settings);
 ```
 
 #### Settings
 
-All settings are optional, but are a convenient way of specifying how the client should behave beyond the defaults.
+The default settings are pretty good, but you may wish to set up default behaviour for your client to be used for all messages sent. **All settings are optional and you don't need to provide any**. Where not provided, we'll fallback to what is configured on the webhook integration, which are [managed at Slack](https://my.slack.com/apps/manage/custom-integrations), or our sensible defaults.
 
-* `channel`: the default channel that messages will be sent to
-   * string
-	* default: the setting on the webhook
-* `username`: the default username that messages will be sent from
-	* string
-	* default: the setting on the webhook
-* `icon`: the default icon messages will be sent with, either :emoji: or a URL to an image
-   * string
-   * default: the setting on the webhook
-* `link_names`: whether names like @regan or #accounting should be linked
-   * bool
-   * default: `false`
-* `unfurl_links`: whether Slack should unfurl text-based URLs
-   * bool
-   * default: `false`
-* `unfurl_media`: whether Slack should unfurl media-based URLs
-   * bool
-   * default: `true`
-* `allow_markdown`: whether Markdown should be parsed in messages
-	* bool
-	* default: `true`
-* `markdown_in_attachments`: which attachment fields should have Markdown parsed
-   * array
-   * default: `[]`
+Field | Type | Description
+----- | ---- | -----------
+`channel` | string | The default channel that messages will be sent to
+`username` | string | The default username for your bot
+`icon` | string | The default icon that messages will be sent with, either `:emoji:` or a URL to an image
+`link_names` | bool | Whether names like `@regan` or `#accounting` should be linked in the message (defaults to false)
+`unfurl_links` | bool | Whether Slack should unfurl text-based URLs (defaults to false)
+`unfurl_media` | bool | Whether Slack should unfurl media-based URLs, like tweets or Youtube videos (defaults to true)
+`allow_markdown` | bool | Whether markdown should be parsed in messages, or left as plain text (defaults to true)
+`markdown_in_attachments` | array | Which attachment fields should have markdown parsed (defaults to none)
 
 ### Sending messages
 
-To send messages, you will call methods on your client instance, or use the `Slack` facade if you are using the package in Laravel.
-
-#### Sending a basic message
+#### Sending a basic message ([preview](https://goo.gl/fY43nw))
 
 ```php
-// With an instantiated client
 $client->send('Hello world!');
-
-// or the Laravel facade
-Slack::send('Hello world!');
 ```
 
 #### Sending a message to a non-default channel
 ```php
-// With an instantiated client
 $client->to('#accounting')->send('Are we rich yet?');
-
-// or the Laravel facade
-Slack::to('#accounting')->send('Are we rich yet?');
 ```
 
 #### Sending a message to a user
@@ -135,12 +76,12 @@ Slack::to('#accounting')->send('Are we rich yet?');
 $client->to('@regan')->send('Yo!');
 ```
 
-#### Sending a message to a channel as a different username
+#### Sending a message to a channel as a different bot name ([preview](https://goo.gl/xCeEfY))
 ```php
 $client->from('Jake the Dog')->to('@FinnTheHuman')->send('Adventure time!');
 ```
 
-#### Sending a message with a different icon
+#### Sending a message with a different icon ([preview](https://goo.gl/lff21l))
 ```php
 // Either with a Slack emoji
 $client->to('@regan')->withIcon(':ghost:')->send('Boo!');
@@ -149,40 +90,57 @@ $client->to('@regan')->withIcon(':ghost:')->send('Boo!');
 $client->to('#accounting')->withIcon('http://example.com/accounting.png')->send('Some accounting notification');
 ```
 
-#### Send an attachment
-
-```php
-$client->to('@regan')->attach([
-	'fallback' => 'It is all broken, man', // Fallback text for plaintext clients, like IRC
-	'text' => 'It is all broken, man', // The text for inside the attachment
-	'pretext' => 'From user: JimBob', // Optional text to appear above the attachment and below the actual message
-	'color' => 'danger', // Change the color of the attachment, default is 'good'. May be a hex value or 'good', 'warning', or 'danger'
-])->send('New alert from the monitoring system');
-```
-
-#### Send an attachment with fields
+#### Send an attachment ([preview](https://goo.gl/fp3iaY]))
 
 ```php
 $client->to('#operations')->attach([
-	'fallback' => 'It is all broken, man',
-	'text' => 'It is all broken, man',
-	'pretext' => 'From user: JimBob',
+	'fallback' => 'Server health: good',
+	'text' => 'Server health: good',
+	'color' => 'danger',
+])->send('New alert from the monitoring system'); // no message, but can be provided if you'd like
+```
+
+#### Send an attachment with fields ([preview](https://goo.gl/264mhU))
+
+```php
+$client->to('#operations')->attach([
+	'fallback' => 'Current server stats',
+	'text' => 'Current server stats',
 	'color' => 'danger',
 	'fields' => [
 		[
-			'title' => 'Metric 1',
-			'value' => 'Some value'
+			'title' => 'CPU usage',
+			'value' => '90%',
+			'short' => true // whether the field is short enough to sit side-by-side other fields, defaults to false
 		],
 		[
-			'title' => 'Metric 2',
-			'value' => 'Some value',
-			'short' => true // whether the field is short enough to sit side-by-side other fields, defaults to false
+			'title' => 'RAM usage',
+			'value' => '2.5GB of 4GB',
+			'short' => true
 		]
 	]
-])->send('New alert from the monitoring system');
+])->send('New alert from the monitoring system'); // no message, but can be provided if you'd like
 ```
 
-#### Send a message modifying Markdown parsing on the fly
+#### Send an attachment with an author ([preview](https://goo.gl/CKd1zJ))
+
+```php
+$client->to('@regan')->attach([
+	'fallback' => 'Keep up the great work! I really love how the app works.',
+	'text' => 'Keep up the great work! I really love how the app works.',
+	'author_name' => 'Jane Appleseed',
+	'author_link' => 'https://yourapp.com/feedback/5874601',
+	'author_icon' => 'https://static.pexels.com/photos/61120/pexels-photo-61120-large.jpeg'
+])->send('New user feedback');
+```
+
+## Advanced usage
+
+### Markdown
+
+By default, Markdown is enabled for message text, but disabled for attachment fields. This behaviour can be configured in settings, or on the fly:
+
+#### Send a message enabling or disabling Markdown
 
 ```php
 $client->to('#weird')->disableMarkdown()->send('Disable *markdown* just for this message');
@@ -190,7 +148,7 @@ $client->to('#weird')->disableMarkdown()->send('Disable *markdown* just for this
 $client->to('#general')->enableMarkdown()->send('Enable _markdown_ just for this message');
 ```
 
-#### Send an attachment specifying Markdown parsing on the fly
+#### Send an attachment specifying which fields should have Markdown enabled
 
 ```php
 $client->to('#operations')->attach([
@@ -201,20 +159,6 @@ $client->to('#operations')->attach([
 	'mrkdwn_in' => ['pretext', 'text']
 ])->send('New alert from the monitoring system');
 ```
-
-#### Send an attachment with an author
-
-```php
-$client->to('@regan')->attach([
-	'fallback' => 'Things are looking good',
-	'text' => 'Things are looking good',
-	'author_name' => 'Bobby Tables',
-	'author_link' => 'http://flickr.com/bobby/',
-	'author_url' => 'http://flickr.com/icons/bobby.jpg'
-])->send('New alert from the monitoring system');
-```
-
-## Advanced usage
 
 ### Explicit message creation
 
