@@ -8,7 +8,7 @@ A simple PHP package for sending messages to [Slack](https://slack.com) with [in
 
 ## Requirements
 
-* PHP 5.4 or greater. Compatible with PHP7 and hhvm.
+* PHP 5.5, 5.6, 7.0 or HHVM
 
 ## Installation
 
