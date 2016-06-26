@@ -1,6 +1,6 @@
 {
     "name": "maknz/slack",
-    "description": "A simple PHP package for sending messages to Slack, with a focus on ease of use and elegant syntax. Includes Laravel support out of the box.",
+    "description": "A simple PHP package for sending messages to Slack, with a focus on ease of use and elegant syntax.",
     "keywords": ["laravel", "slack"],
     "license": "BSD-2-Clause",
     "authors": [
@@ -19,7 +19,7 @@
         "mockery/mockery": "0.9.*"
     },
     "suggest": {
-        "illuminate/support": "Required for Laravel support",
+        "maknz/slack-laravel": "Required for Laravel support",
         "nexylan/slack-bundle": "Required for Symfony bundle support"
     },
     "autoload": {
