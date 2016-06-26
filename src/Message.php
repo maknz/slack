@@ -399,5 +399,7 @@ class Message
         }
 
         $this->client->sendMessage($this);
+
+        return $this;
     }
 }

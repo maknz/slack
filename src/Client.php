@@ -136,11 +136,7 @@ class Client
      */
     public function __call($name, $arguments)
     {
-        $message = $this->createMessage();
-
-        call_user_func_array([$message, $name], $arguments);
-
-        return $message;
+        return call_user_func_array([$this->createMessage(), $name], $arguments);
     }
 
     /**
