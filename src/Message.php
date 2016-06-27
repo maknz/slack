@@ -419,7 +419,7 @@ class Message {
    * @param string $text The text to send
    * @return void
    */
-  public function send($text = null, $numRetries = self::MAX_RETRY_ATTEMPTS)
+  protected function _send($text = null, $numRetries = self::MAX_RETRY_ATTEMPTS)
   {
     if($text)
     {
@@ -463,7 +463,7 @@ class Message {
    * @param  integer $numRetries The number of times to retry on failure
    * @return void
    */
-  public function queue($text = null, $numRetries)
+  protected function _queue($text = null, $numRetries)
   {
     if ($text)
     {
@@ -519,7 +519,7 @@ class Message {
    * @param bool $asQueue
    * @param integer $numRetries
    */
-  public function messageHandler($headline, array $postData, array $settings = [],
+  protected function messageHandler($headline, array $postData, array $settings = [],
                                  $pretext = '', $asQueue = true, $numRetries = self::MAX_RETRY_ATTEMPTS)
   {
       $data = $this->buildMessage($headline, $postData, $pretext);
@@ -542,14 +542,55 @@ class Message {
 
       if($asQueue)
       {
-          $this->queue($headline, $numRetries);
+          $this->_queue($headline, $numRetries);
       }
       else
       {
-          $this->send($headline, $numRetries);
+          $this->_send($headline, $numRetries);
       }
 
   }
+
+  /**
+   * Queue the message for delivery later
+   * @param string $headline
+   * @param array $postData actual post data
+   * @param array $settings post meta data - username, icon etc
+   * @param string $pretext
+   * @param integer $numRetries
+   * @return void
+   */
+  public function queue($headline, array $postData, array $settings = [],
+                        $pretext = '',$numRetries = self::MAX_RETRY_ATTEMPTS)
+  {
+    if($this->client->getSlackStatus())
+    {
+      return $this->messageHandler($headline, $postData, $settings, $pretext, true, $numRetries);
+    }
+
+  }
+
+  /**
+   * Send the message immediately
+   * @param string $headline
+   * @param array $postData actual post data
+   * @param array $settings post meta data - username, icon etc
+   * @param string $pretext
+   * @param integer $numRetries
+   * @return void
+   */
+
+  public function send($headline, array $postData, array $settings = [],
+                       $pretext = '',$numRetries = self::MAX_RETRY_ATTEMPTS)
+  {
+    if($this->client->getSlackStatus())
+    {
+      return $this->messageHandler($headline, $postData, $settings, $pretext, false, $numRetries);
+
+    }
+
+  }
+
 
   /**
    * Sets the queue to be used

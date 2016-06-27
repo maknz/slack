@@ -119,4 +119,7 @@ return [
   // Allow Markdown in all fields
   // 'markdown_in_attachments' => ['pretext', 'text', 'title', 'fields', 'fallback']
 
+  //Slack enable/disable
+  'is_slack_enabled' => true,
+
 ];

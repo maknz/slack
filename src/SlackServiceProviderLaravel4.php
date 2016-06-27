@@ -41,13 +41,15 @@ class SlackServiceProviderLaravel4 extends ServiceProvider {
    */
   public function register()
   {
-    $this->app['maknz.slack'] = $this->app->share(function($app)
+    $this->app['slack'] = $this->app->share(function($app)
     {
       $allow_markdown = $app['config']->get('slack::allow_markdown');
 
       $markdown_in_attachments = $app['config']->get('slack::markdown_in_attachments');
 
       $unfurl_media = $app['config']->get('slack::unfurl_media');
+
+      $is_slack_enabled = $app['config']->get('slack::is_slack_enabled');
 
       return new Client(
         $app['config']->get('slack::endpoint'),
@@ -59,14 +61,15 @@ class SlackServiceProviderLaravel4 extends ServiceProvider {
           'unfurl_links' => $app['config']->get('slack::unfurl_links'),
           'unfurl_media' => is_bool($unfurl_media) ? $unfurl_media : true,
           'allow_markdown' => is_bool($allow_markdown) ? $allow_markdown : true,
-          'markdown_in_attachments' => is_array($markdown_in_attachments) ? $markdown_in_attachments : []
+          'markdown_in_attachments' => is_array($markdown_in_attachments) ? $markdown_in_attachments : [],
+          'is_slack_enabled' => is_bool($is_slack_enabled) ? $is_slack_enabled : true,
         ],
         $this->getQueue(),
         new Guzzle
       );
     });
 
-    $this->app->bind('Maknz\Slack\Client', 'maknz.slack');
+    $this->app->bind('Maknz\Slack\Client', 'slack');
   }
 
 }

@@ -26,7 +26,8 @@ class ClientUnitTest extends PHPUnit_Framework_TestCase {
       'unfurl_links' => true,
       'unfurl_media' => false,
       'allow_markdown' => false,
-      'markdown_in_attachments' => ['text']
+      'markdown_in_attachments' => ['text'],
+      'is_slack_enabled' => false
     ];
 
     $client = new Client('http://fake.endpoint', $defaults);
@@ -46,6 +47,9 @@ class ClientUnitTest extends PHPUnit_Framework_TestCase {
     $this->assertSame($defaults['allow_markdown'], $client->getAllowMarkdown());
 
     $this->assertSame($defaults['markdown_in_attachments'], $client->getMarkdownInAttachments());
+
+    $this->assertFalse($client->getSlackStatus());
+
   }
 
   public function testInstantiationWithQueue()

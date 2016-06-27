@@ -87,6 +87,13 @@ class Client {
   protected $queue;
 
   /**
+   * Slack Enable mode
+   * @var boolean
+   */
+  protected $slackStatus = true;
+
+
+  /**
    * Queue wait timeout on releasing the job. Ideally, for a more complicated scenario
    * the wait timeout could increase based on the number of failures. But we
    * are not handling such cases here.
@@ -129,6 +136,8 @@ class Client {
     if (isset($attributes['allow_markdown'])) $this->setAllowMarkdown($attributes['allow_markdown']);
 
     if (isset($attributes['markdown_in_attachments'])) $this->setMarkdownInAttachments($attributes['markdown_in_attachments']);
+
+    if(isset($attributes['is_slack_enabled'])) $this->setSlackStatus($attributes['is_slack_enabled']);
 
     $this->guzzle = $guzzle ?: new Guzzle;
 
@@ -362,6 +371,27 @@ class Client {
   }
 
   /**
+   * Set whether slack mode is enabled/disabled
+   *
+   * @param boolean $status
+   * @return void
+   */
+  public function setSlackStatus($status)
+  {
+    $this->slackStatus = $status;
+  }
+
+  /**
+   * Gets the current slack mode - enabled/disabled
+   *
+   * @return boolean
+   */
+  public function getSlackStatus()
+  {
+    return $this->slackStatus;
+  }
+
+  /**
    * Create a new message with defaults
    *
    * @return \Maknz\Slack\Message
@@ -418,7 +448,7 @@ class Client {
    * @param \Maknz\Slack\Message $message
    * @return void
    */
-  public function queueMessage(Message $message, $numRetries)
+  public function queueMessage(Message $message, $numRetries = self::MAX_RETRY_ATTEMPTS)
   {
     // check for malicious calls and if so, try max times
     if ($numRetries <= 0)

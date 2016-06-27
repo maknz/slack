@@ -24,7 +24,7 @@ class SlackServiceProviderLaravel5 extends ServiceProvider {
   {
     $this->mergeConfigFrom(__DIR__ . '/config/config.php', 'slack');
 
-    $this->app['maknz.slack'] = $this->app->share(function($app)
+    $this->app['slack'] = $this->app->share(function($app)
     {
       return new Client(
         $app['config']->get('slack.endpoint'),
@@ -36,13 +36,14 @@ class SlackServiceProviderLaravel5 extends ServiceProvider {
           'unfurl_links' => $app['config']->get('slack.unfurl_links'),
           'unfurl_media' => $app['config']->get('slack.unfurl_media'),
           'allow_markdown' => $app['config']->get('slack.allow_markdown'),
-          'markdown_in_attachments' => $app['config']->get('slack.markdown_in_attachments')
+          'markdown_in_attachments' => $app['config']->get('slack.markdown_in_attachments'),
+          'is_slack_enabled' => $app['config']->get('slack.is_slack_enabled'),
         ],
         new Guzzle
       );
     });
     
-    $this->app->bind('Maknz\Slack\Client', 'maknz.slack');
+    $this->app->bind('Maknz\Slack\Client', 'slack');
   }
 
 }
