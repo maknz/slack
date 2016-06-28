@@ -410,7 +410,8 @@ class Message {
   }
 
   /**
-   * Notes: We try to attempt to send the message MAX_RETRY_ATTEMPTS times. If it fails,
+   * Send the message
+   * We try to attempt to send the message MAX_RETRY_ATTEMPTS times. If it fails,
    * we will push the message into the queue. Another implementation could be
    * a blocking implementation where the number of retries and the wait timeout could
    * be specified through the method call. We are not going ahead with that at this

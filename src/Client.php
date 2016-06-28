@@ -475,15 +475,18 @@ class Client {
     {
         $job->delete();
     }
-    try
+    else
     {
-        $this->messagePoster($data);
+      try
+      {
+          $this->messagePoster($data);
 
-        $job->delete();
-    }
-    catch(ClientException $e)
-    {
-        $job->release(self::RELEASE_WAIT_TIMEOUT);
+          $job->delete();
+      }
+      catch(ClientException $e)
+      {
+          $job->release(self::RELEASE_WAIT_TIMEOUT);
+      }
     }
   }
 
