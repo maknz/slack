@@ -482,7 +482,7 @@ class Message {
    */
    protected function buildMessage($headline, array $postData, $pretext)
    {
-      //  Fallback text for plaintext clients, like IRC
+      // Fallback text for plaintext clients, like IRC
       $data = [];
 
       $data['fallback']   = $headline.'\n';
@@ -568,7 +568,6 @@ class Message {
     {
       return $this->messageHandler($headline, $postData, $settings, $pretext, true, $numRetries);
     }
-
   }
 
   /**
