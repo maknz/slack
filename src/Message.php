@@ -20,6 +20,13 @@ class Message {
   protected $text;
 
   /**
+   * The actualy payload being created from the text for sending
+   *
+   * @var array
+   */
+  protected $payload;
+
+  /**
    * The channel the message should be sent to
    *
    * @var string
@@ -127,6 +134,17 @@ class Message {
 
     return $this;
   }
+
+  /**
+   *  Get the payload
+   *
+   * @return array
+   */
+  public function getPayload()
+  {
+    return $this->payload;
+  }
+
 
   /**
    * Get the channel we will post to
@@ -418,24 +436,15 @@ class Message {
    * point since it might end up blocking. We are also not waiting before retry for
    * the same reason.
    * @param string $text The text to send
+   * @param integer $numRetries The number of times to attempt retrying sending the message
    * @return void
    */
   protected function _send($text = null, $numRetries = self::MAX_RETRY_ATTEMPTS)
   {
-    if($text)
-    {
-      $this->setText($text);
-    }
 
     $isMessageSent = false;
 
     $numAttempts = 0;
-
-    // check for malicious calls and if so, try once at least
-    if ($numRetries <= 0)
-    {
-      $numRetries = 1;
-    }
 
     while(($numAttempts < $numRetries) and
           ($isMessageSent === false))
@@ -446,7 +455,7 @@ class Message {
 
         $isMessageSent = true;
       }
-      catch(Exception $e){}
+      catch(\Exception $e){}
 
       $numAttempts += 1;
     }
@@ -454,7 +463,7 @@ class Message {
     // push it into the queue
     if(!$isMessageSent)
     {
-      $this->queue($text, $numRetries);
+      $this->_queue($text, $numRetries);
     }
   }
 
@@ -466,11 +475,6 @@ class Message {
    */
   protected function _queue($text = null, $numRetries)
   {
-    if ($text)
-    {
-        $this->setText($text);
-    }
-
     $this->client->queueMessage($this, $this->queue, $numRetries);
   }
 
@@ -492,7 +496,7 @@ class Message {
       $data['pretext']    = $pretext;
 
       // If our data is nested, we need to flatten it
-      $postData = flatten_array($postData);
+      $postData = $this->flatten_array($postData);
 
       // attach for all extra fields
       foreach($postData as $key => $value)
@@ -513,12 +517,12 @@ class Message {
    }
 
   /**
-   * @param string $headline
+   * @param string $headline headline/title of the message as appearing on the channel.
    * @param array $postData actual post data
    * @param array $settings post meta data - username, icon etc
    * @param string $pretext
-   * @param bool $asQueue
-   * @param integer $numRetries
+   * @param bool $asQueue boolean to determine whether the message is to be queued or sent immediately
+   * @param integer $numRetries the maximum number of times to retry sending the message.
    */
   protected function messageHandler($headline, array $postData, array $settings = [],
                                  $pretext = '', $asQueue = true, $numRetries = self::MAX_RETRY_ATTEMPTS)
@@ -541,6 +545,19 @@ class Message {
           $this->attach($data);
       }
 
+      // check for malicious calls.
+      if($numRetries <=0)
+      {
+        $numRetries = self::MAX_RETRY_ATTEMPTS;
+      }
+
+      if($headline)
+      {
+        $this->setText($headline);
+      }
+
+      $this->client->preparePayload($this);
+
       if($asQueue)
       {
           $this->_queue($headline, $numRetries);
@@ -554,11 +571,11 @@ class Message {
 
   /**
    * Queue the message for delivery later
-   * @param string $headline
+   * @param string $headline headline/title of the message as appearing on the channel.
    * @param array $postData actual post data
    * @param array $settings post meta data - username, icon etc
    * @param string $pretext
-   * @param integer $numRetries
+   * @param integer $numRetries the maximum number of times to retry sending the message.
    * @return void
    */
   public function queue($headline, array $postData, array $settings = [],
@@ -572,11 +589,11 @@ class Message {
 
   /**
    * Send the message immediately
-   * @param string $headline
+   * @param string $headline headline/title of the message as appearing on the channel.
    * @param array $postData actual post data
    * @param array $settings post meta data - username, icon etc
    * @param string $pretext
-   * @param integer $numRetries
+   * @param integer $numRetries the maximum number of times to retry sending the message.
    * @return void
    */
 
@@ -611,5 +628,29 @@ class Message {
   public function getQueue()
   {
     return $this->queue;
+  }
+
+  /** Flatten multi dimensional array into a single dimensional array
+   * @param array $array
+   * @param string $separator
+   * @param string $prefix
+   * @return array
+   */
+  protected function flatten_array($array, $separator = '.', $prefix = '')
+  {
+    $result = array();
+    foreach ($array as $key => $value)
+    {
+      $newKey = $prefix . (empty($prefix) ? '' : $separator) . $key;
+      if (is_array($value))
+      {
+        $result = array_merge($result, flatten_array($value, $separator, $newKey));
+      }
+      else
+      {
+        $result[$newKey] = $value;
+      }
+    }
+    return $result;
   }
 }

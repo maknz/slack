@@ -437,7 +437,7 @@ class Client {
    */
   public function sendMessage(Message $message)
   {
-    $payload = $this->preparePayload($message);
+    $payload = $message->getPayload();
 
     $this->messagePoster($payload);
   }
@@ -450,13 +450,8 @@ class Client {
    */
   public function queueMessage(Message $message, $numRetries = self::MAX_RETRY_ATTEMPTS)
   {
-    // check for malicious calls and if so, try max times
-    if ($numRetries <= 0)
-    {
-        $numRetries = self::MAX_RETRY_ATTEMPTS;
-    }
 
-    $payload = $this->preparePayload($message, $numRetries);
+    $payload = $message->getPayload();
 
     $this->maxRetryAttempts = $numRetries;
 
