@@ -206,6 +206,7 @@ class AttachmentAction
             return $this;
         } elseif (! isset($confirm)) {
             $this->confirm = null;
+
             return $this;
         }
 
