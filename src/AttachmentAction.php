@@ -204,7 +204,7 @@ class AttachmentAction
             $this->confirm = new ActionConfirmation($confirm);
 
             return $this;
-        } elseif (!isset($confirm)) {
+        } elseif (! isset($confirm)) {
             $this->confirm = null;
             return $this;
         }
@@ -219,8 +219,7 @@ class AttachmentAction
      */
     public function toArray()
     {
-        if ($this->getConfirm() != null)
-        {
+        if ($this->getConfirm() != null) {
             return [
                 'name' => $this->getName(),
                 'text' => $this->getText(),
@@ -229,9 +228,7 @@ class AttachmentAction
                 'value' => $this->getValue(),
                 'confirm' => $this->getConfirm()->toArray(),
             ];
-        }
-        else
-        {
+        } else {
             return [
                 'name' => $this->getName(),
                 'text' => $this->getText(),
