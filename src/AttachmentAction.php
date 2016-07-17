@@ -204,6 +204,9 @@ class AttachmentAction
             $this->confirm = new ActionConfirmation($confirm);
 
             return $this;
+        } elseif (!isset($confirm)) {
+            $this->confirm = null;
+            return $this;
         }
 
         throw new InvalidArgumentException('The action confirmation must be an instance of Maknz\Slack\ActionConfirmation or a keyed array');
@@ -216,13 +219,26 @@ class AttachmentAction
      */
     public function toArray()
     {
-        return [
-            'name' => $this->getName(),
-            'text' => $this->getText(),
-            'style' => $this->getStyle(),
-            'type' => $this->getType(),
-            'value' => $this->getValue(),
-            'confirm' => $this->getConfirm()->toArray(),
-        ];
+        if ($this->getConfirm() != null)
+        {
+            return [
+                'name' => $this->getName(),
+                'text' => $this->getText(),
+                'style' => $this->getStyle(),
+                'type' => $this->getType(),
+                'value' => $this->getValue(),
+                'confirm' => $this->getConfirm()->toArray(),
+            ];
+        }
+        else
+        {
+            return [
+                'name' => $this->getName(),
+                'text' => $this->getText(),
+                'style' => $this->getStyle(),
+                'type' => $this->getType(),
+                'value' => $this->getValue(),
+            ];
+        }
     }
 }
