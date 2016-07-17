@@ -14,6 +14,13 @@ class Attachment
     protected $fallback;
 
     /**
+     * The callback_id for the button group.
+     *
+     * @var string
+     */
+    protected $callback_id;
+
+    /**
      * Optional text that should appear within the attachment.
      *
      * @var string
@@ -139,6 +146,10 @@ class Attachment
             $this->setFallback($attributes['fallback']);
         }
 
+        if (isset($attributes['callback_id'])) {
+            $this->setCallback($attributes['callback_id']);
+        }
+
         if (isset($attributes['text'])) {
             $this->setText($attributes['text']);
         }
@@ -223,6 +234,29 @@ class Attachment
     public function setFallback($fallback)
     {
         $this->fallback = $fallback;
+
+        return $this;
+    }
+
+    /**
+     * Get the callback_id text.
+     *
+     * @return string
+     */
+    public function getCallback()
+    {
+        return $this->callback_id;
+    }
+
+    /**
+     * Set the callback_id.
+     *
+     * @param string $callback_id
+     * @return $this
+     */
+    public function setCallback($callback_id)
+    {
+        $this->callback_id = $callback_id;
 
         return $this;
     }
@@ -680,6 +714,7 @@ class Attachment
     {
         $data = [
             'fallback' => $this->getFallback(),
+            'callback_id' => $this->getCallback(),
             'text' => $this->getText(),
             'pretext' => $this->getPretext(),
             'color' => $this->getColor(),
