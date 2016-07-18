@@ -145,6 +145,16 @@ class Message {
     return $this->payload;
   }
 
+  /**
+   * Set the payload
+   * @return array
+   */
+  public function setPayload(array $payload)
+  {
+    $this->payload = $payload;
+
+  }
+
 
   /**
    * Get the channel we will post to
@@ -463,6 +473,7 @@ class Message {
     // push it into the queue
     if(!$isMessageSent)
     {
+      $this->setPayload($this->client->preparePayload($this, $numRetries));
       $this->_queue($text, $numRetries);
     }
   }
@@ -556,14 +567,15 @@ class Message {
         $this->setText($headline);
       }
 
-      $this->client->preparePayload($this);
 
       if($asQueue)
       {
+          $this->setPayload($this->client->preparePayload($this, $numRetries));
           $this->_queue($headline, $numRetries);
       }
       else
       {
+          $this->setPayload($this->client->preparePayload($this));
           $this->_send($headline, $numRetries);
       }
 

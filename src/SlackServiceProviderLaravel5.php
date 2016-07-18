@@ -2,6 +2,9 @@
 
 use Illuminate\Support\ServiceProvider;
 use GuzzleHttp\Client as Guzzle;
+use Illuminate\Encryption\Encrypter as Encrypter;
+use Illuminate\Queue\Capsule\Manager as QueueManager;
+use Queue;
 
 class SlackServiceProviderLaravel5 extends ServiceProvider {
 
@@ -13,6 +16,35 @@ class SlackServiceProviderLaravel5 extends ServiceProvider {
   public function boot()
   {
     $this->publishes([__DIR__ . '/config/config.php' => config_path('slack.php')]);
+  }
+
+  protected function getEncrypter()
+  {
+    return $this->app['encrypter'];
+  }
+
+  protected function getQueue()
+  {
+    $name = Queue::getFacadeRoot()->getDefaultDriver();
+
+    $config = $this->app['config']["queue.connections.{$name}"];
+
+    $queue = new QueueManager($this->app);
+
+    $queue->addConnection($config);
+
+    /*$queue->getContainer()->bind('encrypter', function(){
+      $key = '4dkTd5lWhN40CkSrnyrRBuRMsSX9exXD';
+      $encrypter = $this->getEncrypter();
+      return $encrypter($key);
+    });*/
+    //$queue->getContainer()->bind('encrypter', function(){
+    //        return $this->getEncrypter();
+    //});
+
+    $queue->getContainer()->bind('Illuminate\Contracts\Encryption\Encrypter', 'encrypter');
+
+    return $queue;
   }
 
   /**
@@ -39,10 +71,11 @@ class SlackServiceProviderLaravel5 extends ServiceProvider {
           'markdown_in_attachments' => $app['config']->get('slack.markdown_in_attachments'),
           'is_slack_enabled' => $app['config']->get('slack.is_slack_enabled'),
         ],
+        $this->getQueue(),
         new Guzzle
       );
     });
-    
+
     $this->app->bind('Maknz\Slack\Client', 'slack');
   }
 
