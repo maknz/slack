@@ -332,7 +332,7 @@ class Attachment
     /**
      * Set the color to use for the attachment.
      *
-     * @param string $colour
+     * @param string $color
      * @return $this
      */
     public function setColor($color)
