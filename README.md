@@ -90,7 +90,7 @@ $client->to('@regan')->withIcon(':ghost:')->send('Boo!');
 $client->to('#accounting')->withIcon('http://example.com/accounting.png')->send('Some accounting notification');
 ```
 
-#### Send an attachment ([preview](https://goo.gl/fp3iaY]))
+#### Send an attachment ([preview](https://goo.gl/fp3iaY))
 
 ```php
 $client->to('#operations')->attach([
