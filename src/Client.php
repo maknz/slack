@@ -505,12 +505,12 @@ class Client {
 
     if($numRetries)
     {
-        $payload['metadata'] = ['num_retries' => $numRetries];
+      $payload['metadata'] = ['num_retries' => $numRetries];
     }
 
     if ($icon = $message->getIcon())
     {
-        $payload[$message->getIconType()] = $icon;
+      $payload[$message->getIconType()] = $icon;
     }
 
     $payload['attachments'] = $this->getAttachmentsAsArrays($message);
