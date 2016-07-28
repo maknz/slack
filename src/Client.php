@@ -448,7 +448,7 @@ class Client {
    * @param \Maknz\Slack\Message $message
    * @return void
    */
-  public function queueMessage(Message $message, $numRetries = self::MAX_RETRY_ATTEMPTS)
+  public function queueMessage(Message $message, $numRetries)
   {
 
     $payload = $message->getPayload();

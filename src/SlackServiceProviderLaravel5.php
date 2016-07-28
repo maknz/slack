@@ -33,15 +33,6 @@ class SlackServiceProviderLaravel5 extends ServiceProvider {
 
     $queue->addConnection($config);
 
-    /*$queue->getContainer()->bind('encrypter', function(){
-      $key = '4dkTd5lWhN40CkSrnyrRBuRMsSX9exXD';
-      $encrypter = $this->getEncrypter();
-      return $encrypter($key);
-    });*/
-    //$queue->getContainer()->bind('encrypter', function(){
-    //        return $this->getEncrypter();
-    //});
-
     $queue->getContainer()->bind('Illuminate\Contracts\Encryption\Encrypter', 'encrypter');
 
     return $queue;

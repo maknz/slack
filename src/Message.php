@@ -449,7 +449,7 @@ class Message {
    * @param integer $numRetries The number of times to attempt retrying sending the message
    * @return void
    */
-  protected function _send($text = null, $numRetries = self::MAX_RETRY_ATTEMPTS)
+  protected function _send($text = null, $numRetries)
   {
 
     $isMessageSent = false;
@@ -474,6 +474,7 @@ class Message {
     if(!$isMessageSent)
     {
       $this->setPayload($this->client->preparePayload($this, $numRetries));
+
       $this->_queue($text, $numRetries);
     }
   }
@@ -497,34 +498,34 @@ class Message {
    */
    protected function buildMessage($headline, array $postData, $pretext)
    {
-      // Fallback text for plaintext clients, like IRC
-      $data = [];
+    // Fallback text for plaintext clients, like IRC
+    $data = [];
 
-      $data['fallback']   = $headline.'\n';
+    $data['fallback']   = $headline.'\n';
 
-      $data['fields']     = [];
+    $data['fields']     = [];
 
-      $data['pretext']    = $pretext;
+    $data['pretext']    = $pretext;
 
-      // If our data is nested, we need to flatten it
-      $postData = $this->flatten_array($postData);
+    // If our data is nested, we need to flatten it
+    $postData = $this->flatten_array($postData);
 
-      // attach for all extra fields
-      foreach($postData as $key => $value)
-      {
-          //  Fallback text for plaintext clients, like IRC
-          $data['fallback'] .= $key . ': ' . $value . '\n';
+    // attach for all extra fields
+    foreach($postData as $key => $value)
+    {
+      //  Fallback text for plaintext clients, like IRC
+      $data['fallback'] .= $key . ': ' . $value . '\n';
 
-          $data['color'] = isset($settings['color']) ? $settings['color'] : 'good';
+      $data['color'] = isset($settings['color']) ? $settings['color'] : 'good';
 
-          $data['fields'][] = array(
+      $data['fields'][] = array(
               'title' => $key,
               'value' => $value,
               'short' => true,
-          );
-      }
+      );
+    }
 
-      return $data;
+    return $data;
    }
 
   /**
@@ -536,49 +537,49 @@ class Message {
    * @param integer $numRetries the maximum number of times to retry sending the message.
    */
   protected function messageHandler($headline, array $postData, array $settings = [],
-                                 $pretext = '', $asQueue = true, $numRetries = self::MAX_RETRY_ATTEMPTS)
+                                 $pretext = '', $asQueue = true, $numRetries)
   {
-      $data = $this->buildMessage($headline, $postData, $pretext);
+    $data = $this->buildMessage($headline, $postData, $pretext);
 
-      $settings['username'] = isset($settings['username']) ? $settings['username'] : null;
+    $settings['username'] = isset($settings['username']) ? $settings['username'] : null;
 
-      $settings['icon']     = isset($settings['icon']) ? $settings['icon'] : null;
+    $settings['icon']     = isset($settings['icon']) ? $settings['icon'] : null;
 
-      if (isset($settings['channel']))
-      {
-          $this->to($settings['channel'])
+    if (isset($settings['channel']))
+    {
+      $this->to($settings['channel'])
                   ->from($settings['username'])
                   ->withIcon($settings['icon'])
                   ->attach($data);
-      }
-      else
-      {
-          $this->attach($data);
-      }
+    }
+    else
+    {
+      $this->attach($data);
+    }
 
-      // check for malicious calls.
-      if($numRetries <=0)
-      {
-        $numRetries = self::MAX_RETRY_ATTEMPTS;
-      }
+    // check for malicious calls.
+    if($numRetries <=0)
+    {
+      $numRetries = self::MAX_RETRY_ATTEMPTS;
+    }
 
-      if($headline)
-      {
-        $this->setText($headline);
-      }
+    if($headline)
+    {
+      $this->setText($headline);
+    }
 
+    if($asQueue)
+    {
+      $this->setPayload($this->client->preparePayload($this, $numRetries));
 
-      if($asQueue)
-      {
-          $this->setPayload($this->client->preparePayload($this, $numRetries));
-          $this->_queue($headline, $numRetries);
-      }
-      else
-      {
-          $this->setPayload($this->client->preparePayload($this));
-          $this->_send($headline, $numRetries);
-      }
+      $this->_queue($headline, $numRetries);
+    }
+    else
+    {
+      $this->setPayload($this->client->preparePayload($this));
 
+      $this->_send($headline, $numRetries);
+    }
   }
 
   /**
@@ -629,6 +630,7 @@ class Message {
   public function setQueue($queue)
   {
     $this->queue = $queue;
+
     return $this;
   }
 
@@ -651,6 +653,7 @@ class Message {
   protected function flatten_array($array, $separator = '.', $prefix = '')
   {
     $result = array();
+
     foreach ($array as $key => $value)
     {
       $newKey = $prefix . (empty($prefix) ? '' : $separator) . $key;
