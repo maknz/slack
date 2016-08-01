@@ -100,7 +100,7 @@ class Client {
    *
    * @var integer
    */
-  const RELEASE_WAIT_TIMEOUT = 10;
+  const RELEASE_WAIT_TIMEOUT = 120;
 
   /**
    * Number of retries before giving up on the job.
