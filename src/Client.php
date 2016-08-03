@@ -100,7 +100,7 @@ class Client {
    *
    * @var integer
    */
-  const RELEASE_WAIT_TIMEOUT = 120;
+  const RELEASE_WAIT_TIMEOUT = 5;
 
   /**
    * Number of retries before giving up on the job.
@@ -108,6 +108,8 @@ class Client {
    * @var integer
    */
   const MAX_RETRY_ATTEMPTS = 10;
+
+  protected $orig_endpoint = null;
 
 
   /**
@@ -450,8 +452,9 @@ class Client {
    */
   public function queueMessage(Message $message, $numRetries)
   {
-
     $payload = $message->getPayload();
+
+    $this->orig_endpoint = $this->getEndpoint();
 
     $this->maxRetryAttempts = $numRetries;
 
@@ -466,6 +469,10 @@ class Client {
    */
   public function fire($job, array $data)
   {
+    if($this->orig_endpoint === null)
+    {
+        $this->orig_endpoint = $this->getEndpoint();
+    }
     if($job->attempts() >= $data['metadata']['num_retries'])
     {
         $job->delete();
@@ -474,12 +481,22 @@ class Client {
     {
       try
       {
+          if($job->attempts() <= 5)
+          {
+            $this->setEndpoint('http://www.google.com');
+            S("Job Attempt:".$job->attempts().", Endpoint:". $this->endpoint);
+          }
+          else
+          {
+              $this->setEndpoint($this->orig_endpoint);
+              S("Job Attempt:".$job->attempts().", Endpoint:". $this->endpoint);
+          }
           $this->messagePoster($data);
-
           $job->delete();
       }
       catch(ClientException $e)
       {
+          S("Reached exception...releasing Job:".$job->attempts().", for:".self::RELEASE_WAIT_TIMEOUT);
           $job->release(self::RELEASE_WAIT_TIMEOUT);
       }
     }
