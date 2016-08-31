@@ -50,6 +50,7 @@ The default settings are pretty good, but you may wish to set up default behavio
 Field | Type | Description
 ----- | ---- | -----------
 `channel` | string | The default channel that messages will be sent to
+`sticky_channel` | bool | If set to true, all messages will be sent to the default channel only (defaults to false)
 `username` | string | The default username for your bot
 `icon` | string | The default icon that messages will be sent with, either `:emoji:` or a URL to an image
 `link_names` | bool | Whether names like `@regan` or `#accounting` should be linked in the message (defaults to false)

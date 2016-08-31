@@ -22,6 +22,16 @@ class Client
     protected $channel;
 
     /**
+     * If set to true, all messages will be sent to the default channel,
+     * even if you specify another one during the runtime.
+     *
+     * This is useful for dev environment.
+     *
+     * @var bool
+     */
+    protected $sticky_channel = false;
+
+    /**
      * The default username to send messages as.
      *
      * @var string
@@ -93,6 +103,10 @@ class Client
 
         if (isset($attributes['channel'])) {
             $this->setDefaultChannel($attributes['channel']);
+        }
+
+        if (isset($attributes['sticky_channel'])) {
+            $this->setStickyChannel($attributes['sticky_channel']);
         }
 
         if (isset($attributes['username'])) {
@@ -179,6 +193,22 @@ class Client
     public function setDefaultChannel($channel)
     {
         $this->channel = $channel;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStickyChannel()
+    {
+        return $this->sticky_channel;
+    }
+
+    /**
+     * @param bool $sticky_channel
+     */
+    public function setStickyChannel($sticky_channel)
+    {
+        $this->sticky_channel = $sticky_channel;
     }
 
     /**
@@ -385,7 +415,7 @@ class Client
     {
         $payload = [
             'text' => $message->getText(),
-            'channel' => $message->getChannel(),
+            'channel' => $this->isStickyChannel() ? $this->getDefaultChannel() : $message->getChannel(),
             'username' => $message->getUsername(),
             'link_names' => $this->getLinkNames() ? 1 : 0,
             'unfurl_links' => $this->getUnfurlLinks(),

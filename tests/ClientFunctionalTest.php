@@ -317,6 +317,31 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedHttpData, $payload);
     }
 
+    public function testMessageWithStickyChannel()
+    {
+        $expectedHttpData = [
+            'username' => 'Archer',
+            'channel' => 'test',
+            'text' => 'Message',
+            'link_names' => 0,
+            'unfurl_links' => false,
+            'unfurl_media' => true,
+            'mrkdwn' => true,
+            'attachments' => [],
+        ];
+
+        $client = new Client('http://fake.endpoint', [
+            'channel' => 'test',
+            'sticky_channel' => true,
+        ]);
+
+        $message = $client->to('@regan')->from('Archer')->setText('Message');
+
+        $payload = $client->preparePayload($message);
+
+        $this->assertEquals($expectedHttpData, $payload);
+    }
+
     public function testBadEncodingThrowsException()
     {
         $client = $this->getNetworkStubbedClient();
