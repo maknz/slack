@@ -2,6 +2,7 @@
 
 use Maknz\Slack\Client;
 use Maknz\Slack\Attachment;
+use Maknz\Slack\Team;
 
 class ClientFunctionalTest extends PHPUnit_Framework_TestCase
 {
@@ -16,9 +17,12 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
             'unfurl_media' => true,
             'mrkdwn' => true,
             'attachments' => [],
+            'icon_emoji' => ':+1:',
         ];
 
-        $client = new Client('http://fake.endpoint');
+        $client = new Client([
+            new Team('teamname', 'http://teamname.slack.com', '@regan', 'Archer', ':+1:'),
+        ], 'teamname');
 
         $message = $client->to('@regan')->from('Archer')->setText('Message');
 
@@ -51,10 +55,9 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
             'actions' => [],
         ];
 
-        $client = new Client('http://fake.endpoint', [
-            'username' => 'Test',
-            'channel' => '#general',
-        ]);
+        $client = new Client([
+            new Team('teamname', 'http://teamname.slack.com', '#general', 'general_woo', ':+1:'),
+        ], 'teamname');
 
         $message = $client->createMessage()->setText('Message');
 
@@ -86,7 +89,7 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
         ];
 
         $expectedHttpData = [
-            'username' => 'Test',
+            'username' => 'general_woo',
             'channel' => '#general',
             'text' => 'Message',
             'link_names' => 0,
@@ -94,6 +97,7 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
             'unfurl_media' => true,
             'mrkdwn' => true,
             'attachments' => [$attachmentOutput],
+            'icon_emoji' => ':+1:',
         ];
 
         $this->assertEquals($expectedHttpData, $payload);
@@ -165,10 +169,9 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
             'actions' => [],
         ];
 
-        $client = new Client('http://fake.endpoint', [
-            'username' => 'Test',
-            'channel' => '#general',
-        ]);
+        $client = new Client([
+            new Team('teamname', 'http://teamname.slack.com', '#general', 'Test', ':+1:'),
+        ], 'teamname');
 
         $message = $client->createMessage()->setText('Message');
 
@@ -187,6 +190,7 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
             'unfurl_media' => true,
             'mrkdwn' => true,
             'attachments' => [$attachmentOutput],
+            'icon_emoji' => ':+1:',
         ];
 
         $this->assertEquals($expectedHttpData, $payload);
@@ -290,10 +294,9 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
             ],
         ];
 
-        $client = new Client('http://fake.endpoint', [
-            'username' => 'Test',
-            'channel' => '#general',
-        ]);
+        $client = new Client([
+            new Team('teamname', 'http://teamname.slack.com', '#general', 'Test', ':+1:'),
+        ], 'teamname');
 
         $message = $client->createMessage()->setText('Message');
 
@@ -312,6 +315,7 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
             'unfurl_media' => true,
             'mrkdwn' => true,
             'attachments' => [$attachmentOutput],
+            'icon_emoji' => ':+1:',
         ];
 
         $this->assertEquals($expectedHttpData, $payload);
@@ -334,6 +338,24 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
 
         $guzzle->shouldReceive('post');
 
-        return new Client('http://fake.endpoint', [], $guzzle);
+        return new Client([
+            new Team('teamname', 'http://teamname.slack.com', '#general', 'Test', ':+1:'),
+        ], 'teamname', [], $guzzle);
+    }
+
+    /**
+     * @test
+     */
+    public function messageSent()
+    {
+        $guzzle = Mockery::mock('GuzzleHttp\Client');
+
+        $guzzle->shouldReceive('post');
+
+        $client = new Client([
+            new Team('teamname', 'http://teamname.slack.com', '#general', 'Test', ':+1:'),
+        ], 'teamname', [], $guzzle);
+
+        $client->send('test');
     }
 }

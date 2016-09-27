@@ -176,14 +176,14 @@ class Message
      * Set the icon (either URL or emoji) we will post as.
      *
      * @param string $icon
-     * @return this
+     * @return $this
      */
     public function setIcon($icon)
     {
         if ($icon == null) {
             $this->icon = $this->iconType = null;
 
-            return;
+            return $this;
         }
 
         if (mb_substr($icon, 0, 1) == ':' && mb_substr($icon, mb_strlen($icon) - 1, 1) == ':') {
@@ -360,7 +360,7 @@ class Message
     /**
      * Set the attachments for the message.
      *
-     * @param string $attachments
+     * @param array $attachments
      * @return $this
      */
     public function setAttachments(array $attachments)

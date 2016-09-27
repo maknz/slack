@@ -2,6 +2,7 @@
 
 namespace Maknz\Slack;
 
+use Exception;
 use GuzzleHttp\Client as Guzzle;
 use RuntimeException;
 
@@ -81,27 +82,30 @@ class Client
     protected $guzzle;
 
     /**
+     * @var Team
+     */
+    protected $defaultTeam;
+
+    /**
      * Instantiate a new Client.
      *
-     * @param string $endpoint
+     * @param Team[] $teams
+     * @param string $defaultTeamName
      * @param array $attributes
-     * @return void
+     * @param Guzzle $guzzle
+     * @throws Exception
      */
-    public function __construct($endpoint, array $attributes = [], Guzzle $guzzle = null)
+    public function __construct(array $teams, $defaultTeamName, array $attributes = [], Guzzle $guzzle = null)
     {
-        $this->endpoint = $endpoint;
+        $this->teams = $teams;
 
-        if (isset($attributes['channel'])) {
-            $this->setDefaultChannel($attributes['channel']);
-        }
+        $this->setDefaultTeam($defaultTeamName);
+        $defaultTeam = $this->getdefaultTeam();
 
-        if (isset($attributes['username'])) {
-            $this->setDefaultUsername($attributes['username']);
-        }
-
-        if (isset($attributes['icon'])) {
-            $this->setDefaultIcon($attributes['icon']);
-        }
+        $this->setDefaultChannel($defaultTeam->getDefaultChannel());
+        $this->setDefaultUsername($defaultTeam->getUsername());
+        $this->setDefaultIcon($defaultTeam->getIcon());
+        $this->setEndpoint($defaultTeam->getWebhook());
 
         if (isset($attributes['link_names'])) {
             $this->setLinkNames($attributes['link_names']);
@@ -124,6 +128,14 @@ class Client
         }
 
         $this->guzzle = $guzzle ?: new Guzzle;
+    }
+
+    /**
+     * @return Team[]
+     */
+    protected function getTeams()
+    {
+        return $this->teams;
     }
 
     /**
@@ -417,5 +429,60 @@ class Client
         }
 
         return $attachments;
+    }
+
+    /**
+     * @return Team
+     */
+    protected function getDefaultTeam()
+    {
+        return $this->defaultTeam;
+    }
+
+    /**
+     * @param $teamName
+     * @return $this
+     * @throws Exception
+     */
+    protected function setDefaultTeam($teamName)
+    {
+        $team = $this->getTeam($teamName);
+        $this->defaultTeam = $team;
+
+        return $this;
+    }
+
+    /**
+     * @param string $teamName
+     * @return $this
+     * @throws Exception
+     */
+    public function team($teamName)
+    {
+        $team = $this->getTeam($teamName);
+
+        $clone = clone $this;
+        $clone->setDefaultChannel($team->getDefaultChannel());
+        $clone->setDefaultUsername($team->getUsername());
+        $clone->setDefaultIcon($team->getIcon());
+        $clone->setEndpoint($team->getWebhook());
+
+        return $clone;
+    }
+
+    /**
+     * @param $teamName
+     * @return Team
+     * @throws Exception
+     */
+    private function getTeam($teamName)
+    {
+        foreach ($this->getTeams() as $team) {
+            if ($team->getName() === $teamName) {
+                return $team;
+            }
+        }
+
+        throw new Exception('Unknown team: '.$teamName);
     }
 }
