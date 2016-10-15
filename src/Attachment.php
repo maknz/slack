@@ -685,7 +685,7 @@ class Attachment
             'color' => $this->getColor(),
             'footer' => $this->getFooter(),
             'footer_icon' => $this->getFooterIcon(),
-            'ts' => $this->getTimestamp() ? $this->getTimestamp()->getTimestamp() : null,
+            'ts' => $this->getTimestamp() ? $this->getTimestamp() : null,
             'mrkdwn_in' => $this->getMarkdownFields(),
             'image_url' => $this->getImageUrl(),
             'thumb_url' => $this->getThumbUrl(),
