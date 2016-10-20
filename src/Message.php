@@ -360,7 +360,7 @@ class Message
     /**
      * Set the attachments for the message.
      *
-     * @param string $attachments
+     * @param array $attachments
      * @return $this
      */
     public function setAttachments(array $attachments)
