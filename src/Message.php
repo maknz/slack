@@ -176,7 +176,7 @@ class Message
      * Set the icon (either URL or emoji) we will post as.
      *
      * @param string $icon
-     * @return this
+     * @return $this
      */
     public function setIcon($icon)
     {
