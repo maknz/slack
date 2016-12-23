@@ -84,8 +84,10 @@ class Client
     /**
      * Instantiate a new Client.
      *
-     * @param string $endpoint
-     * @param array $attributes
+     * @param string          $endpoint
+     * @param array           $attributes
+     * @param GuzzleInterface $guzzle
+     *
      * @return void
      */
     public function __construct($endpoint, array $attributes = [], GuzzleInterface $guzzle = null)
