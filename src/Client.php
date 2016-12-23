@@ -2,6 +2,7 @@
 
 namespace Maknz\Slack;
 
+use GuzzleHttp\ClientInterface as GuzzleInterface;
 use GuzzleHttp\Client as Guzzle;
 use RuntimeException;
 
@@ -87,7 +88,7 @@ class Client
      * @param array $attributes
      * @return void
      */
-    public function __construct($endpoint, array $attributes = [], Guzzle $guzzle = null)
+    public function __construct($endpoint, array $attributes = [], GuzzleInterface $guzzle = null)
     {
         $this->endpoint = $endpoint;
 
