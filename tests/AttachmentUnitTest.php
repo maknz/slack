@@ -86,6 +86,7 @@ class AttachmentUnitTest extends PHPUnit_Framework_TestCase
             'author_name' => 'Joe Bloggs',
             'author_link' => 'http://fake.host/',
             'author_icon' => 'http://fake.host/image.png',
+            'callback_id' => 'comic_1234_xyz',
             'fields' => [
               [
                 'title' => 'Title 1',
