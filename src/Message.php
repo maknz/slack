@@ -621,29 +621,6 @@ class Message {
 
   }
 
-
-  /**
-   * Sets the queue to be used
-   * @param string $queue Name of the queue
-   * @return $this
-   */
-  public function setQueue($queue)
-  {
-    $this->queue = $queue;
-
-    return $this;
-  }
-
-  /**
-   * Get the queue to be used
-   *
-   * @return string
-   */
-  public function getQueue()
-  {
-    return $this->queue;
-  }
-
   /** Flatten multi dimensional array into a single dimensional array
    * @param array $array
    * @param string $separator

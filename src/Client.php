@@ -117,7 +117,7 @@ class Client {
    * @param array $attributes
    * @return void
    */
-  public function __construct($endpoint, array $attributes = [], Queue $queue = null, Guzzle $guzzle = null)
+  public function __construct($endpoint, array $attributes = [], $queue = null, Guzzle $guzzle = null)
   {
     $this->endpoint = $endpoint;
 
@@ -146,6 +146,27 @@ class Client {
     $this->maxRetryAttempts = self::MAX_RETRY_ATTEMPTS;
   }
 
+  /**
+   * Sets the queue to be used
+   * @param string $queue Name of the queue
+   * @return $this
+   */
+  public function setQueue($queue)
+  {
+    $this->queue = $queue;
+
+    return $this;
+  }
+
+  /**
+   * Get the queue to be used
+   *
+   * @return string
+   */
+  public function getQueue()
+  {
+    return $this->queue;
+  }
   /**
    * Pass any unhandled methods through to a new Message
    * instance
