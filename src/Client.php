@@ -143,9 +143,6 @@ class Client {
 
     $this->queue = $queue;
 
-    if($this->queue !== null)
-      $this->queue->setAsGlobal();
-
     $this->maxRetryAttempts = self::MAX_RETRY_ATTEMPTS;
   }
 
