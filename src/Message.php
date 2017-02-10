@@ -45,7 +45,7 @@ class Message
     /**
      * The type of icon we are using.
      *
-     * @var enum
+     * @var string
      */
     protected $iconType;
 
@@ -85,8 +85,7 @@ class Message
     /**
      * Instantiate a new Message.
      *
-     * @param \Maknz\Slack\Client $client
-     * @return void
+     * @param Client $client
      */
     public function __construct(Client $client)
     {
@@ -183,7 +182,7 @@ class Message
         if ($icon == null) {
             $this->icon = $this->iconType = null;
 
-            return;
+            return $this;
         }
 
         if (mb_substr($icon, 0, 1) == ':' && mb_substr($icon, mb_strlen($icon) - 1, 1) == ':') {
@@ -223,7 +222,7 @@ class Message
      * Slack's Markdown-like language.
      *
      * @param bool $value
-     * @return void
+     * @return $this
      */
     public function setAllowMarkdown($value)
     {
@@ -235,7 +234,7 @@ class Message
     /**
      * Enable Markdown formatting for the message.
      *
-     * @return void
+     * @return $this
      */
     public function enableMarkdown()
     {
@@ -247,7 +246,7 @@ class Message
     /**
      * Disable Markdown formatting for the message.
      *
-     * @return void
+     * @return $this
      */
     public function disableMarkdown()
     {
@@ -272,7 +271,7 @@ class Message
      * in Slack's Markdown-like language.
      *
      * @param array $fields
-     * @return void
+     * @return $this
      */
     public function setMarkdownInAttachments(array $fields)
     {
@@ -390,7 +389,7 @@ class Message
      * Send the message.
      *
      * @param string $text The text to send
-     * @return void
+     * @return $this
      */
     public function send($text = null)
     {

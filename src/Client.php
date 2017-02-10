@@ -5,6 +5,18 @@ namespace Maknz\Slack;
 use GuzzleHttp\Client as Guzzle;
 use RuntimeException;
 
+/**
+ * Class Client
+ *
+ * @method Message attach($attachment)
+ * @method Message clearAttachments()
+ * @method Message disableMarkdown()
+ * @method Message enableMarkdown()
+ * @method Message from(string $username)
+ * @method Message to(string $username)
+ * @method Message withIcon(string $icon)
+ * @method Message send(string $text = null)
+ */
 class Client
 {
     /**
