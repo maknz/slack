@@ -2,6 +2,7 @@
 
 use GuzzleHttp\Client as Guzzle;
 use Illuminate\Queue\Capsule\Manager as Queue;
+use Illuminate\Contracts\Queue\Queue as QueueContract;
 use GuzzleHttp\Exception\ClientException;
 
 class Client {
@@ -117,7 +118,7 @@ class Client {
    * @param array $attributes
    * @return void
    */
-  public function __construct($endpoint, array $attributes = [], Queue $queue = null, Guzzle $guzzle = null)
+  public function __construct($endpoint, array $attributes = [],QueueContract $queue = null, Guzzle $guzzle = null)
   {
     $this->endpoint = $endpoint;
 
@@ -143,12 +144,30 @@ class Client {
 
     $this->queue = $queue;
 
-    if($this->queue !== null)
-      $this->queue->setAsGlobal();
-
     $this->maxRetryAttempts = self::MAX_RETRY_ATTEMPTS;
   }
 
+  /**
+   * Sets the queue to be used
+   * @param string $queue Name of the queue
+   * @return $this
+   */
+  public function setQueue(QueueManager $queue)
+  {
+    $this->queue = $queue;
+
+    return $this;
+  }
+
+  /**
+   * Get the queue to be used
+   *
+   * @return string
+   */
+  public function getQueue()
+  {
+    return $this->queue;
+  }
   /**
    * Pass any unhandled methods through to a new Message
    * instance
