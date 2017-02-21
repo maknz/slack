@@ -63,31 +63,31 @@ Field | Type | Description
 #### Sending a basic message ([preview](https://goo.gl/fY43nw))
 
 ```php
-$client->send('Hello world!');
+$client->sendMessage('Hello world!');
 ```
 
 #### Sending a message to a non-default channel
 ```php
-$client->to('#accounting')->send('Are we rich yet?');
+$client->to('#accounting')->sendMessage('Are we rich yet?');
 ```
 
 #### Sending a message to a user
 ```php
-$client->to('@regan')->send('Yo!');
+$client->to('@regan')->sendMessage('Yo!');
 ```
 
 #### Sending a message to a channel as a different bot name ([preview](https://goo.gl/xCeEfY))
 ```php
-$client->from('Jake the Dog')->to('@FinnTheHuman')->send('Adventure time!');
+$client->from('Jake the Dog')->to('@FinnTheHuman')->sendMessage('Adventure time!');
 ```
 
 #### Sending a message with a different icon ([preview](https://goo.gl/lff21l))
 ```php
 // Either with a Slack emoji
-$client->to('@regan')->withIcon(':ghost:')->send('Boo!');
+$client->to('@regan')->withIcon(':ghost:')->sendMessage('Boo!');
 
 // or a URL
-$client->to('#accounting')->withIcon('http://example.com/accounting.png')->send('Some accounting notification');
+$client->to('#accounting')->withIcon('http://example.com/accounting.png')->sendMessage('Some accounting notification');
 ```
 
 #### Send an attachment ([preview](https://goo.gl/fp3iaY))
@@ -97,7 +97,7 @@ $client->to('#operations')->attach([
 	'fallback' => 'Server health: good',
 	'text' => 'Server health: good',
 	'color' => 'danger',
-])->send('New alert from the monitoring system'); // no message, but can be provided if you'd like
+])->sendMessage('New alert from the monitoring system'); // no message, but can be provided if you'd like
 ```
 
 #### Send an attachment with fields ([preview](https://goo.gl/264mhU))
@@ -119,7 +119,7 @@ $client->to('#operations')->attach([
 			'short' => true
 		]
 	]
-])->send('New alert from the monitoring system'); // no message, but can be provided if you'd like
+])->sendMessage('New alert from the monitoring system'); // no message, but can be provided if you'd like
 ```
 
 #### Send an attachment with an author ([preview](https://goo.gl/CKd1zJ))
@@ -131,7 +131,7 @@ $client->to('@regan')->attach([
 	'author_name' => 'Jane Appleseed',
 	'author_link' => 'https://yourapp.com/feedback/5874601',
 	'author_icon' => 'https://static.pexels.com/photos/61120/pexels-photo-61120-large.jpeg'
-])->send('New user feedback');
+])->sendMessage('New user feedback');
 ```
 
 ## Advanced usage
@@ -143,9 +143,9 @@ By default, Markdown is enabled for message text, but disabled for attachment fi
 #### Send a message enabling or disabling Markdown
 
 ```php
-$client->to('#weird')->disableMarkdown()->send('Disable *markdown* just for this message');
+$client->to('#weird')->disableMarkdown()->sendMessage('Disable *markdown* just for this message');
 
-$client->to('#general')->enableMarkdown()->send('Enable _markdown_ just for this message');
+$client->to('#general')->enableMarkdown()->sendMessage('Enable _markdown_ just for this message');
 ```
 
 #### Send an attachment specifying which fields should have Markdown enabled
@@ -157,7 +157,7 @@ $client->to('#operations')->attach([
 	'pretext' => 'From user: *JimBob*',
 	'color' => 'danger',
 	'mrkdwn_in' => ['pretext', 'text']
-])->send('New alert from the monitoring system');
+])->sendMessage('New alert from the monitoring system');
 ```
 
 ### Explicit message creation
@@ -166,14 +166,14 @@ For convenience, message objects are created implicitly by calling message metho
 
 ```php
 // Implicitly
-$client->to('@regan')->send('I am sending this implicitly');
+$client->to('@regan')->sendMessage('I am sending this implicitly');
 
 // Explicitly
 $message = $client->createMessage();
 
 $message->to('@regan')->setText('I am sending this explicitly');
 
-$message->send();
+$message->sendMessage();
 ```
 
 ### Attachments
@@ -194,7 +194,7 @@ $message->attach($attachment);
 
 // Explicitly set the message text rather than
 // implicitly through the send method
-$message->setText('Hello world')->send();
+$message->setText('Hello world')->sendMessage();
 ```
 
 Each attachment field is also an object, an AttachmentField. They can be used as well instead of their data in array form:
