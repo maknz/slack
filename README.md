@@ -4,7 +4,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/maknz/slack/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/maknz/slack/?branch=master)
 [![StyleCI](https://styleci.io/repos/19448330/shield)](https://styleci.io/repos/19448330)
 
-A simple PHP package for sending messages to [Slack](https://slack.com) with [incoming webhooks](https://my.slack.com/services/new/incoming-webhook), focussed on ease-of-use and elegant syntax.
+A simple PHP package for sending messages to [Slack](https://slack.com) with [incoming webhooks](https://my.slack.com/services/new/incoming-webhook), focussed on ease-of-use and elegant syntax. **Note: this package is no longer being actively maintained.**
 
 * Laravel integration: [Slack for Laravel](https://github.com/maknz/slack-laravel)
 * Symfony integration: [NexySlackBundle](https://github.com/nexylan/NexySlackBundle)
