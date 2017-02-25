@@ -521,7 +521,6 @@ class Client
      */
     public function queueMessage(Message $message, $numRetries)
     {
-
         $payload = $message->getPayload();
 
         $this->maxRetryAttempts = $numRetries;

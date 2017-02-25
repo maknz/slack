@@ -85,11 +85,38 @@ class AttachmentUnitTest extends PHPUnit_Framework_TestCase {
           'short' => false
         ]
       ]
+  ];
+
+    $result = [
+      'fallback' => 'Fallback',
+      'text' => 'Text',
+      'pretext' => 'Pretext',
+      'color' => 'bad',
+      'mrkdwnIn' => ['pretext', 'text'],
+      'imageUrl' => 'http://fake.host/image.png',
+      'thumbUrl' => 'http://fake.host/image.png',
+      'title' => 'A title',
+      'titleLink' => 'http://fake.host/',
+      'authorName' => 'Joe Bloggs',
+      'authorLink' => 'http://fake.host/',
+      'authorIcon' => 'http://fake.host/image.png',
+      'fields' => [
+        [
+          'title' => 'Title 1',
+          'value' => 'Value 1',
+          'short' => false
+        ],
+        [
+          'title' => 'Title 2',
+          'value' => 'Value 1',
+          'short' => false
+        ]
+      ]
     ];
 
     $a = new Attachment($array);
 
-    $this->assertSame($array, $a->toArray());
+    $this->assertSame($result, $a->toArray());
   }
 
   public function testAddFieldAsArray()

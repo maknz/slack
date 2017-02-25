@@ -1,7 +1,7 @@
 <?php
 
 use Maknz\Slack\Client;
-use Illuminate\Queue\Capsule\Manager as Queue;
+use Illuminate\Queue\SyncQueue as Queue;
 
 class ClientUnitTest extends PHPUnit_Framework_TestCase {
 
@@ -58,7 +58,7 @@ class ClientUnitTest extends PHPUnit_Framework_TestCase {
 
     $client = new Client('http://fake.endpoing', [], $queue);
 
-    $this->assertInstanceOf('Illuminate\Queue\Capsule\Manager', $client->getQueueManager());
+    $this->assertInstanceOf('Illuminate\Contracts\Queue\Queue', $client->getQueueManager());
   }
 
   public function testCreateMessage()
@@ -92,5 +92,4 @@ class ClientUnitTest extends PHPUnit_Framework_TestCase {
 
     $this->assertSame('@regan', $message->getChannel());
   }
-
 }

@@ -44,17 +44,33 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase {
       'author_name' => 'Joe Bloggs',
       'author_link' => 'http://fake.host/',
       'author_icon' => 'http://fake.host/image.png'
+  ];
+
+    $attachmentResult = [
+      'fallback' => 'Some fallback text',
+      'text' => 'Some text to appear in the attachment',
+      'pretext' => null,
+      'color' => 'bad',
+      'mrkdwnIn' => ['pretext', 'text'],
+      'imageUrl' => 'http://fake.host/image.png',
+      'thumbUrl' => 'http://fake.host/image.png',
+      'fields' => [],
+      'title' => null,
+      'titleLink' => null,
+      'authorName' => 'Joe Bloggs',
+      'authorLink' => 'http://fake.host/',
+      'authorIcon' => 'http://fake.host/image.png'
     ];
 
     $expectedHttpData = [
       'username' => 'Test',
       'channel' => '#general',
       'text' => 'Message',
-      'link_names' => false,
+      'link_names' => 0,
       'unfurl_links' => false,
       'unfurl_media' => true,
       'mrkdwn' => true,
-      'attachments' => [$attachmentArray]
+      'attachments' => [$attachmentResult]
     ];
 
     $client = new Client('http://fake.endpoint', [
@@ -100,17 +116,44 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase {
           'short' => false
         ]
       ]
+  ];
+
+    $attachmentResult = [
+      'fallback' => 'Some fallback text',
+      'text' => 'Some text to appear in the attachment',
+      'pretext' => null,
+      'color' => 'bad',
+      'mrkdwnIn' => [],
+      'imageUrl' => 'http://fake.host/image.png',
+      'thumbUrl' => 'http://fake.host/image.png',
+      'title' => 'A title',
+      'titleLink' => 'http://fake.host/',
+      'authorName' => 'Joe Bloggs',
+      'authorLink' => 'http://fake.host/',
+      'authorIcon' => 'http://fake.host/image.png',
+      'fields' => [
+        [
+          'title' => 'Field 1',
+          'value' => 'Value 1',
+          'short' => false
+        ],
+        [
+          'title' => 'Field 2',
+          'value' => 'Value 2',
+          'short' => false
+        ]
+      ]
     ];
 
     $expectedHttpData = [
       'username' => 'Test',
       'channel' => '#general',
       'text' => 'Message',
-      'link_names' => false,
+      'link_names' => 0,
       'unfurl_links' => false,
       'unfurl_media' => true,
       'mrkdwn' => true,
-      'attachments' => [$attachmentArray]
+      'attachments' => [$attachmentResult]
     ];
 
     $client = new Client('http://fake.endpoint', [
@@ -128,41 +171,4 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase {
 
     $this->assertEquals($expectedHttpData, $payload);
   }
-
-  public function testSendQueue()
-  {
-    $queue = Mockery::mock('Illuminate\Queue\Capsule\Manager[push]')->makePartial('push');
-    $guzzle = Mockery::mock('GuzzleHttp\Client[post]')->makePartial('post');
-
-    $queue->getContainer()->bind('encrypter', function(){
-      return new Illuminate\Encryption\Encrypter('slack');
-    });
-
-    $queue->addConnection(['driver' => 'sync']);
-
-    $expectedHttpData = [
-      'text' => 'Message',
-      'channel' => '#general',
-      'username' => 'Test',
-      'link_names' => 0,
-      'unfurl_links' => false,
-      'unfurl_media' => true,
-      'mrkdwn' => true,
-      'attachments' => []
-    ];
-
-    $client = new Client('http://fake.endpoint', [
-      'username' => 'Test',
-      'channel' => '#general'
-    ], $queue, $guzzle);
-
-    $guzzle->shouldReceive('post')->withArgs(['http://fake.endpoint', $expectedHttpData]);
-    $queue->shouldReceive('push')->withArgs(['Maknz\Slack\Client', $expectedHttpData]);
-    $this->assertSame($queue, $client->getQueueManager());
-
-    $message = $client->createMessage()->setText('Message');
-    $client->queueMessage($message);
-
-  }
-
 }
