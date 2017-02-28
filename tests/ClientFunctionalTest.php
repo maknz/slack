@@ -4,165 +4,171 @@ use Maknz\Slack\Client;
 use Maknz\Slack\Attachment;
 use Illuminate\Queue\Capsule\Manager as Queue;
 
-class ClientFunctionalTest extends PHPUnit_Framework_TestCase {
+class ClientFunctionalTest extends PHPUnit_Framework_TestCase
+{
+    public function testPlainMessage()
+    {
+        $expectedHttpData = [
+            'username' => 'Archer',
+            'channel' => '@regan',
+            'text' => 'Message',
+            'link_names' => false,
+            'unfurl_links' => false,
+            'unfurl_media' => true,
+            'mrkdwn' => true,
+            'attachments' => []
+        ];
 
-  public function testPlainMessage()
-  {
-    $expectedHttpData = [
-      'username' => 'Archer',
-      'channel' => '@regan',
-      'text' => 'Message',
-      'link_names' => false,
-      'unfurl_links' => false,
-      'unfurl_media' => true,
-      'mrkdwn' => true,
-      'attachments' => []
-    ];
+        $client = new Client('http://fake.endpoint');
 
-    $client = new Client('http://fake.endpoint');
+        $message = $client->to('@regan')->from('Archer')->setText('Message');
 
-    $message = $client->to('@regan')->from('Archer')->setText('Message');
+        $payload = $client->preparePayload($message);
 
-    $payload = $client->preparePayload($message);
+        $this->assertEquals($expectedHttpData, $payload);
+    }
 
-    $this->assertEquals($expectedHttpData, $payload);
-  }
+    public function testMessageWithAttachments()
+    {
+        $attachmentArray = [
+            'fallback' => 'Some fallback text',
+            'text' => 'Some text to appear in the attachment',
+            'pretext' => null,
+            'color' => 'bad',
+            'mrkdwn_in' => ['pretext', 'text'],
+            'image_url' => 'http://fake.host/image.png',
+            'thumb_url' => 'http://fake.host/image.png',
+            'fields' => [],
+            'title' => null,
+            'title_link' => null,
+            'author_name' => 'Joe Bloggs',
+            'author_link' => 'http://fake.host/',
+            'author_icon' => 'http://fake.host/image.png'
+        ];
 
-  public function testMessageWithAttachments()
-  {
-    $attachmentArray = [
-      'fallback' => 'Some fallback text',
-      'text' => 'Some text to appear in the attachment',
-      'pretext' => null,
-      'color' => 'bad',
-      'mrkdwn_in' => ['pretext', 'text'],
-      'image_url' => 'http://fake.host/image.png',
-      'thumb_url' => 'http://fake.host/image.png',
-      'fields' => [],
-      'title' => null,
-      'title_link' => null,
-      'author_name' => 'Joe Bloggs',
-      'author_link' => 'http://fake.host/',
-      'author_icon' => 'http://fake.host/image.png'
-    ];
+        $attachmentResult = [
+            'fallback' => 'Some fallback text',
+            'text' => 'Some text to appear in the attachment',
+            'pretext' => null,
+            'color' => 'bad',
+            'mrkdwnIn' => ['pretext', 'text'],
+            'imageUrl' => 'http://fake.host/image.png',
+            'thumbUrl' => 'http://fake.host/image.png',
+            'fields' => [],
+            'title' => null,
+            'titleLink' => null,
+            'authorName' => 'Joe Bloggs',
+            'authorLink' => 'http://fake.host/',
+            'authorIcon' => 'http://fake.host/image.png'
+        ];
 
-    $expectedHttpData = [
-      'username' => 'Test',
-      'channel' => '#general',
-      'text' => 'Message',
-      'link_names' => false,
-      'unfurl_links' => false,
-      'unfurl_media' => true,
-      'mrkdwn' => true,
-      'attachments' => [$attachmentArray]
-    ];
+        $expectedHttpData = [
+            'username' => 'Test',
+            'channel' => '#general',
+            'text' => 'Message',
+            'link_names' => 0,
+            'unfurl_links' => false,
+            'unfurl_media' => true,
+            'mrkdwn' => true,
+            'attachments' => [$attachmentResult]
+        ];
 
-    $client = new Client('http://fake.endpoint', [
-      'username' => 'Test',
-      'channel' => '#general'
-    ]);
+        $client = new Client('http://fake.endpoint', [
+            'username' => 'Test',
+            'channel' => '#general'
+        ]);
 
-    $message = $client->createMessage()->setText('Message');
+        $message = $client->createMessage()->setText('Message');
 
-    $attachment = new Attachment($attachmentArray);
+        $attachment = new Attachment($attachmentArray);
 
-    $message->attach($attachment);
+        $message->attach($attachment);
 
-    $payload = $client->preparePayload($message);
+        $payload = $client->preparePayload($message);
 
-    $this->assertEquals($expectedHttpData, $payload);
-  }
+        $this->assertEquals($expectedHttpData, $payload);
+    }
 
-  public function testMessageWithAttachmentsAndFields()
-  {
-    $attachmentArray = [
-      'fallback' => 'Some fallback text',
-      'text' => 'Some text to appear in the attachment',
-      'pretext' => null,
-      'color' => 'bad',
-      'mrkdwn_in' => [],
-      'image_url' => 'http://fake.host/image.png',
-      'thumb_url' => 'http://fake.host/image.png',
-      'title' => 'A title',
-      'title_link' => 'http://fake.host/',
-      'author_name' => 'Joe Bloggs',
-      'author_link' => 'http://fake.host/',
-      'author_icon' => 'http://fake.host/image.png',
-      'fields' => [
-        [
-          'title' => 'Field 1',
-          'value' => 'Value 1',
-          'short' => false
-        ],
-        [
-          'title' => 'Field 2',
-          'value' => 'Value 2',
-          'short' => false
-        ]
-      ]
-    ];
+    public function testMessageWithAttachmentsAndFields()
+    {
+        $attachmentArray = [
+            'fallback' => 'Some fallback text',
+            'text' => 'Some text to appear in the attachment',
+            'pretext' => null,
+            'color' => 'bad',
+            'mrkdwn_in' => [],
+            'image_url' => 'http://fake.host/image.png',
+            'thumb_url' => 'http://fake.host/image.png',
+            'title' => 'A title',
+            'title_link' => 'http://fake.host/',
+            'author_name' => 'Joe Bloggs',
+            'author_link' => 'http://fake.host/',
+            'author_icon' => 'http://fake.host/image.png',
+            'fields' => [
+                [
+                    'title' => 'Field 1',
+                    'value' => 'Value 1',
+                    'short' => false
+                ],
+                [
+                    'title' => 'Field 2',
+                    'value' => 'Value 2',
+                    'short' => false
+                ]
+            ]
+        ];
 
-    $expectedHttpData = [
-      'username' => 'Test',
-      'channel' => '#general',
-      'text' => 'Message',
-      'link_names' => false,
-      'unfurl_links' => false,
-      'unfurl_media' => true,
-      'mrkdwn' => true,
-      'attachments' => [$attachmentArray]
-    ];
+        $attachmentResult = [
+            'fallback' => 'Some fallback text',
+            'text' => 'Some text to appear in the attachment',
+            'pretext' => null,
+            'color' => 'bad',
+            'mrkdwnIn' => [],
+            'imageUrl' => 'http://fake.host/image.png',
+            'thumbUrl' => 'http://fake.host/image.png',
+            'title' => 'A title',
+            'titleLink' => 'http://fake.host/',
+            'authorName' => 'Joe Bloggs',
+            'authorLink' => 'http://fake.host/',
+            'authorIcon' => 'http://fake.host/image.png',
+            'fields' => [
+                [
+                    'title' => 'Field 1',
+                    'value' => 'Value 1',
+                    'short' => false
+                ],
+                [
+                    'title' => 'Field 2',
+                    'value' => 'Value 2',
+                    'short' => false
+                ]
+            ]
+        ];
 
-    $client = new Client('http://fake.endpoint', [
-      'username' => 'Test',
-      'channel' => '#general'
-    ]);
+        $expectedHttpData = [
+            'username' => 'Test',
+            'channel' => '#general',
+            'text' => 'Message',
+            'link_names' => 0,
+            'unfurl_links' => false,
+            'unfurl_media' => true,
+            'mrkdwn' => true,
+            'attachments' => [$attachmentResult]
+        ];
 
-    $message = $client->createMessage()->setText('Message');
+        $client = new Client('http://fake.endpoint', [
+            'username' => 'Test',
+            'channel' => '#general'
+        ]);
 
-    $attachment = new Attachment($attachmentArray);
+        $message = $client->createMessage()->setText('Message');
 
-    $message->attach($attachment);
+        $attachment = new Attachment($attachmentArray);
 
-    $payload = $client->preparePayload($message);
+        $message->attach($attachment);
 
-    $this->assertEquals($expectedHttpData, $payload);
-  }
+        $payload = $client->preparePayload($message);
 
-  public function testSendQueue()
-  {
-    $queue = Mockery::mock('Illuminate\Queue\Capsule\Manager[push]')->makePartial('push');
-    $guzzle = Mockery::mock('GuzzleHttp\Client[post]')->makePartial('post');
-
-    $queue->getContainer()->bind('encrypter', function(){
-      return new Illuminate\Encryption\Encrypter('slack');
-    });
-
-    $queue->addConnection(['driver' => 'sync']);
-
-    $expectedHttpData = [
-      'text' => 'Message',
-      'channel' => '#general',
-      'username' => 'Test',
-      'link_names' => 0,
-      'unfurl_links' => false,
-      'unfurl_media' => true,
-      'mrkdwn' => true,
-      'attachments' => []
-    ];
-
-    $client = new Client('http://fake.endpoint', [
-      'username' => 'Test',
-      'channel' => '#general'
-    ], $queue, $guzzle);
-
-    $guzzle->shouldReceive('post')->withArgs(['http://fake.endpoint', $expectedHttpData]);
-    $queue->shouldReceive('push')->withArgs(['Maknz\Slack\Client', $expectedHttpData]);
-    $this->assertSame($queue, $client->getQueueManager());
-
-    $message = $client->createMessage()->setText('Message');
-    $client->queueMessage($message);
-
-  }
-
+        $this->assertEquals($expectedHttpData, $payload);
+    }
 }

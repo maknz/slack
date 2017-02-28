@@ -1,96 +1,94 @@
 <?php
 
 use Maknz\Slack\Client;
-use Illuminate\Queue\Capsule\Manager as Queue;
+use Illuminate\Queue\SyncQueue as Queue;
 
-class ClientUnitTest extends PHPUnit_Framework_TestCase {
+class ClientUnitTest extends PHPUnit_Framework_TestCase
+{
+    public function testInstantiationWithNoDefaults()
+    {
+        $client = new Client('http://fake.endpoint');
 
-  public function testInstantiationWithNoDefaults()
-  {
-    $client = new Client('http://fake.endpoint');
+        $this->assertInstanceOf('Maknz\Slack\Client', $client);
 
-    $this->assertInstanceOf('Maknz\Slack\Client', $client);
+        $this->assertSame('http://fake.endpoint', $client->getEndpoint());
 
-    $this->assertSame('http://fake.endpoint', $client->getEndpoint());
+        $this->assertNull($client->getQueueManager());
+    }
 
-    $this->assertNull($client->getQueueManager());
-  }
+    public function testInstantiationWithDefaults()
+    {
+        $defaults = [
+            'channel' => '#random',
+            'username' => 'Archer',
+            'icon' => ':ghost:',
+            'link_names' => true,
+            'unfurl_links' => true,
+            'unfurl_media' => false,
+            'allow_markdown' => false,
+            'markdown_in_attachments' => ['text'],
+            'is_slack_enabled' => false
+        ];
 
-  public function testInstantiationWithDefaults()
-  {
-    $defaults = [
-      'channel' => '#random',
-      'username' => 'Archer',
-      'icon' => ':ghost:',
-      'link_names' => true,
-      'unfurl_links' => true,
-      'unfurl_media' => false,
-      'allow_markdown' => false,
-      'markdown_in_attachments' => ['text'],
-      'is_slack_enabled' => false
-    ];
+        $client = new Client('http://fake.endpoint', $defaults);
 
-    $client = new Client('http://fake.endpoint', $defaults);
+        $this->assertSame($defaults['channel'], $client->getDefaultChannel());
 
-    $this->assertSame($defaults['channel'], $client->getDefaultChannel());
+        $this->assertSame($defaults['username'], $client->getDefaultUsername());
 
-    $this->assertSame($defaults['username'], $client->getDefaultUsername());
+        $this->assertSame($defaults['icon'], $client->getDefaultIcon());
 
-    $this->assertSame($defaults['icon'], $client->getDefaultIcon());
+        $this->assertTrue($client->getLinkNames());
 
-    $this->assertTrue($client->getLinkNames());
+        $this->assertTrue($client->getUnfurlLinks());
 
-    $this->assertTrue($client->getUnfurlLinks());
+        $this->assertFalse($client->getUnfurlMedia());
 
-    $this->assertFalse($client->getUnfurlMedia());
+        $this->assertSame($defaults['allow_markdown'], $client->getAllowMarkdown());
 
-    $this->assertSame($defaults['allow_markdown'], $client->getAllowMarkdown());
+        $this->assertSame($defaults['markdown_in_attachments'], $client->getMarkdownInAttachments());
 
-    $this->assertSame($defaults['markdown_in_attachments'], $client->getMarkdownInAttachments());
+        $this->assertFalse($client->getSlackStatus());
+    }
 
-    $this->assertFalse($client->getSlackStatus());
+    public function testInstantiationWithQueue()
+    {
+        $queue = new Queue;
 
-  }
+        $client = new Client('http://fake.endpoing', [], $queue);
 
-  public function testInstantiationWithQueue()
-  {
-    $queue = new Queue;
+        $this->assertInstanceOf('Illuminate\Contracts\Queue\Queue', $client->getQueue());
+    }
 
-    $client = new Client('http://fake.endpoing', [], $queue);
+    public function testCreateMessage()
+    {
+        $defaults = [
+            'channel' => '#random',
+            'username' => 'Archer',
+            'icon' => ':ghost:'
+        ];
 
-    $this->assertInstanceOf('Illuminate\Queue\Capsule\Manager', $client->getQueueManager());
-  }
+        $client = new Client('http://fake.endpoint', $defaults);
 
-  public function testCreateMessage()
-  {
-    $defaults = [
-      'channel' => '#random',
-      'username' => 'Archer',
-      'icon' => ':ghost:'
-    ];
+        $message = $client->createMessage();
 
-    $client = new Client('http://fake.endpoint', $defaults);
+        $this->assertInstanceOf('Maknz\Slack\Message', $message);
 
-    $message = $client->createMessage();
+        $this->assertSame($client->getDefaultChannel(), $message->getChannel());
 
-    $this->assertInstanceOf('Maknz\Slack\Message', $message);
+        $this->assertSame($client->getDefaultUsername(), $message->getUsername());
 
-    $this->assertSame($client->getDefaultChannel(), $message->getChannel());
+        $this->assertSame($client->getDefaultIcon(), $message->getIcon());
+    }
 
-    $this->assertSame($client->getDefaultUsername(), $message->getUsername());
+    public function testWildcardCallToMessage()
+    {
+        $client = new Client('http://fake.endpoint');
 
-    $this->assertSame($client->getDefaultIcon(), $message->getIcon());
-  }
+        $message = $client->to('@regan');
 
-  public function testWildcardCallToMessage()
-  {
-    $client = new Client('http://fake.endpoint');
+        $this->assertInstanceOf('Maknz\Slack\Message', $message);
 
-    $message = $client->to('@regan');
-
-    $this->assertInstanceOf('Maknz\Slack\Message', $message);
-
-    $this->assertSame('@regan', $message->getChannel());
-  }
-
+        $this->assertSame('@regan', $message->getChannel());
+    }
 }
