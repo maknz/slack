@@ -630,7 +630,7 @@ class Message
      * @return void
      */
     public function send($headline, array $postData, array $settings = [],
-                         $pretext = '',$numRetries = self::MAX_RETRY_ATTEMPTS)
+                         $pretext = '', $numRetries = self::MAX_RETRY_ATTEMPTS)
     {
         if($this->client->getSlackStatus())
         {

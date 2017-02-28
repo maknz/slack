@@ -57,7 +57,7 @@ class ClientUnitTest extends PHPUnit_Framework_TestCase
 
         $client = new Client('http://fake.endpoing', [], $queue);
 
-        $this->assertInstanceOf('Illuminate\Contracts\Queue\Queue', $client->getQueueManager());
+        $this->assertInstanceOf('Illuminate\Contracts\Queue\Queue', $client->getQueue());
     }
 
     public function testCreateMessage()
