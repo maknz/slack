@@ -81,13 +81,6 @@ class Message
     protected $attachments = [];
 
     /**
-     * The name of the queue to be used
-     *
-     * @var string
-     */
-    protected $queue = null;
-
-    /**
      *
      * @var string
      */
@@ -462,7 +455,9 @@ class Message
      *
      * @return void
      */
-    protected function _send($text = null, $numRetries)
+    protected function _send($text = null,
+                             $numRetries = self::MAX_RETRY_ATTEMPTS,
+                             $connection = null)
     {
         $isMessageSent = false;
 
@@ -488,7 +483,7 @@ class Message
         {
             $this->setPayload($this->client->preparePayload($this, $numRetries));
 
-            $this->_queue($text, $numRetries);
+            $this->_queue($text, $numRetries, $connection);
         }
     }
 
@@ -500,9 +495,11 @@ class Message
      *
      * @return void
      */
-    protected function _queue($text = null, $numRetries)
+    protected function _queue($text = null,
+                              $numRetries = self::MAX_RETRY_ATTEMPTS,
+                              $connection = null)
     {
-        $this->client->queueMessage($this, $this->queue, $numRetries);
+        $this->client->queueMessage($this, $numRetries, $connection);
     }
 
     /**
@@ -551,8 +548,13 @@ class Message
     * @param bool $asQueue boolean to determine whether the message is to be queued or sent immediately
     * @param integer $numRetries the maximum number of times to retry sending the message.
     */
-    protected function messageHandler($headline, array $postData, array $settings = [],
-                                      $pretext = '', $asQueue = true, $numRetries)
+    protected function messageHandler($headline,
+                                      array $postData,
+                                      array $settings = [],
+                                      $pretext = '',
+                                      $asQueue = true,
+                                      $numRetries = self::MAX_RETRY_ATTEMPTS,
+                                      $connection = null)
     {
         $data = $this->buildMessage($headline, $postData, $pretext);
 
@@ -587,13 +589,13 @@ class Message
         {
             $this->setPayload($this->client->preparePayload($this, $numRetries));
 
-            $this->_queue($headline, $numRetries);
+            $this->_queue($headline, $numRetries, $connection);
         }
         else
         {
             $this->setPayload($this->client->preparePayload($this));
 
-            $this->_send($headline, $numRetries);
+            $this->_send($headline, $numRetries, $connection);
         }
     }
 
@@ -608,13 +610,22 @@ class Message
      *
      * @return void
      */
-    public function queue($headline, array $postData, array $settings = [],
-                          $pretext = '',$numRetries = self::MAX_RETRY_ATTEMPTS)
+    public function queue($headline,
+                          array $postData,
+                          array $settings = [],
+                          $connection = null,
+                          $pretext = '',
+                          $numRetries = self::MAX_RETRY_ATTEMPTS)
     {
         if($this->client->getSlackStatus())
         {
-            return $this->messageHandler($headline, $postData, $settings,
-                                         $pretext, true, $numRetries);
+            return $this->messageHandler($headline,
+                                         $postData,
+                                         $settings,
+                                         $pretext,
+                                         true,
+                                         $numRetries,
+                                         $connection);
         }
     }
 

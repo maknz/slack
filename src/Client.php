@@ -519,13 +519,13 @@ class Client
      * @param \Maknz\Slack\Message $message message
      * @return void
      */
-    public function queueMessage(Message $message, $numRetries)
+    public function queueMessage(Message $message, $numRetries, $connection)
     {
         $payload = $message->getPayload();
 
         $this->maxRetryAttempts = $numRetries;
 
-        $this->queue->push(__CLASS__, $payload);
+        $this->queue->push(__CLASS__, $payload, $connection);
     }
 
     /**
