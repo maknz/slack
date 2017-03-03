@@ -455,7 +455,7 @@ class Message
      *
      * @return void
      */
-    protected function _send(
+    protected function sendMessage(
         $text = null,
         $numRetries = self::MAX_RETRY_ATTEMPTS,
         $queue = null)
@@ -485,7 +485,7 @@ class Message
         {
             $this->setPayload($this->client->preparePayload($this, $numRetries));
 
-            $this->_queue($text, $numRetries, $queue);
+            $this->queueMessage($text, $numRetries, $queue);
         }
     }
 
@@ -497,7 +497,7 @@ class Message
      *
      * @return void
      */
-    protected function _queue(
+    protected function queueMessage(
         $text = null,
         $numRetries = self::MAX_RETRY_ATTEMPTS,
         $queue = null)
@@ -522,7 +522,7 @@ class Message
         ];
 
         // If our data is nested, we need to flatten it
-        $postData = $this->flatten_array($postData);
+        $postData = $this->flattenArray($postData);
 
         // attach for all extra fields
         foreach ($postData as $key => $value)
@@ -594,13 +594,13 @@ class Message
         {
             $this->setPayload($this->client->preparePayload($this, $numRetries));
 
-            $this->_queue($headline, $numRetries, $queue);
+            $this->queueMessage($headline, $numRetries, $queue);
         }
         else
         {
             $this->setPayload($this->client->preparePayload($this));
 
-            $this->_send($headline, $numRetries, $queue);
+            $this->sendMessage($headline, $numRetries, $queue);
         }
     }
 
@@ -683,7 +683,7 @@ class Message
      *
      * @return array
     */
-    protected function flatten_array($array, $separator = '.', $prefix = '')
+    protected function flattenArray($array, $separator = '.', $prefix = '')
     {
         $result = [];
 
@@ -693,10 +693,12 @@ class Message
 
             if (is_array($value))
             {
-                $result = array_merge($result, flatten_array(
-                    $value,
-                    $separator,
-                    $newKey));
+                $result = array_merge(
+                    $result,
+                    flattenArray(
+                        $value,
+                        $separator,
+                        $newKey));
             }
             else
             {
