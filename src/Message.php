@@ -81,13 +81,6 @@ class Message
     protected $attachments = [];
 
     /**
-     * The name of the queue to be used
-     *
-     * @var string
-     */
-    protected $queue = null;
-
-    /**
      *
      * @var string
      */
@@ -377,7 +370,7 @@ class Message
      *
      * @param mixed $attachment attachment
      *
-    * @return $this
+     * @return $this
      * @throws InvalidArgumentException
      */
     public function attach($attachment)
@@ -462,13 +455,17 @@ class Message
      *
      * @return void
      */
-    protected function _send($text = null, $numRetries)
+    protected function sendMessage(
+        $text = null,
+        $numRetries = self::MAX_RETRY_ATTEMPTS,
+        $queue = null)
     {
         $isMessageSent = false;
 
         $numAttempts = 0;
 
-        while(($numAttempts <= $numRetries) and ($isMessageSent === false))
+        while (($numAttempts <= $numRetries) and
+               ($isMessageSent === false))
         {
             try
             {
@@ -484,11 +481,11 @@ class Message
         }
 
         // push it into the queue
-        if($isMessageSent === false)
+        if ($isMessageSent === false)
         {
             $this->setPayload($this->client->preparePayload($this, $numRetries));
 
-            $this->_queue($text, $numRetries);
+            $this->queueMessage($text, $numRetries, $queue);
         }
     }
 
@@ -500,9 +497,12 @@ class Message
      *
      * @return void
      */
-    protected function _queue($text = null, $numRetries)
+    protected function queueMessage(
+        $text = null,
+        $numRetries = self::MAX_RETRY_ATTEMPTS,
+        $queue = null)
     {
-        $this->client->queueMessage($this, $this->queue, $numRetries);
+        $this->client->queueMessage($this, $numRetries, $queue);
     }
 
     /**
@@ -512,7 +512,7 @@ class Message
     *
     * @return $data
     */
-    protected function buildMessage($headline, array $postData, $pretext)
+    protected function buildMessage($headline, array $postData, string $pretext, array $settings)
     {
         // Fallback text for plaintext clients, like IRC
         $data = [
@@ -522,10 +522,10 @@ class Message
         ];
 
         // If our data is nested, we need to flatten it
-        $postData = $this->flatten_array($postData);
+        $postData = $this->flattenArray($postData);
 
         // attach for all extra fields
-        foreach($postData as $key => $value)
+        foreach ($postData as $key => $value)
         {
             //  Fallback text for plaintext clients, like IRC
             $data['fallback'] .= $key . ': ' . $value . '\n';
@@ -549,12 +549,19 @@ class Message
     * @param array $settings post meta data - username, icon etc
     * @param string $pretext
     * @param bool $asQueue boolean to determine whether the message is to be queued or sent immediately
-    * @param integer $numRetries the maximum number of times to retry sending the message.
+    * @param integer $numRetries maximum number of times to retry sending the message.
+    * @param string  $queue Queue on which message has to be sent
     */
-    protected function messageHandler($headline, array $postData, array $settings = [],
-                                      $pretext = '', $asQueue = true, $numRetries)
+    protected function messageHandler(
+        $headline,
+        array $postData,
+        array $settings = [],
+        $pretext = '',
+        $asQueue = true,
+        $numRetries = self::MAX_RETRY_ATTEMPTS,
+        $queue = null)
     {
-        $data = $this->buildMessage($headline, $postData, $pretext);
+        $data = $this->buildMessage($headline, $postData, $pretext, $settings);
 
         $settings['username'] = isset($settings['username']) ? $settings['username'] : null;
 
@@ -573,49 +580,72 @@ class Message
         }
 
         // check for malicious calls.
-        if($numRetries <=0)
+        if ($numRetries <= 0)
         {
             $numRetries = self::MAX_RETRY_ATTEMPTS;
         }
 
-        if($headline)
+        if ($headline)
         {
             $this->setText($headline);
         }
 
-        if($asQueue)
+        if ($asQueue === true)
         {
             $this->setPayload($this->client->preparePayload($this, $numRetries));
 
-            $this->_queue($headline, $numRetries);
+            $this->queueMessage($headline, $numRetries, $queue);
         }
         else
         {
             $this->setPayload($this->client->preparePayload($this));
 
-            $this->_send($headline, $numRetries);
+            $this->sendMessage($headline, $numRetries, $queue);
         }
     }
 
     /**
      * Queue the message for delivery later
      *
-     * @param string  $headline   headline of the message as appearing on channel
-     * @param array   $postData   actual post data
-     * @param array   $settings   post meta data - username, icon etc
-     * @param string  $pretext    pretext
-     * @param integer $numRetries the maximum no of times to retry sending msg
+     * @param string  $headline        headline of the message as appearing on channel
+     * @param array   $postData   Actual post data
+     * @param array   $settings   Post meta data - username, icon etc
+     * @param string  $pretext    Pretext
+     * @param integer $numRetries The maximum no of times to retry sending msg
+     * @param string  $queue      Queue to be used
      *
      * @return void
      */
-    public function queue($headline, array $postData, array $settings = [],
-                          $pretext = '',$numRetries = self::MAX_RETRY_ATTEMPTS)
+    public function queue(
+        $headline,
+        array $postData,
+        array $settings = [],
+        $pretext = '',
+        $numRetries = self::MAX_RETRY_ATTEMPTS,
+        $queue = null)
     {
-        if($this->client->getSlackStatus())
+        if ($this->client->getSlackStatus())
         {
-            return $this->messageHandler($headline, $postData, $settings,
-                                         $pretext, true, $numRetries);
+            return $this->messageHandler(
+                $headline,
+                $postData,
+                $settings,
+                $pretext,
+                true,
+                $numRetries,
+                $queue);
         }
+    }
+
+    public function onQueue(
+        $queue,
+        $headline,
+        array $postData,
+        array $settings = [],
+        $pretext = '',
+        $numRetries = self::MAX_RETRY_ATTEMPTS)
+    {
+        $this->queue($headline, $postData, $settings, $pretext, $numRetries, $queue);
     }
 
     /**
@@ -629,13 +659,18 @@ class Message
      *
      * @return void
      */
-    public function send($headline, array $postData, array $settings = [],
-                         $pretext = '', $numRetries = self::MAX_RETRY_ATTEMPTS)
+    public function send(
+        $headline,
+        array $postData,
+        array $settings = [],
+        $pretext = '',
+        $numRetries = self::MAX_RETRY_ATTEMPTS)
     {
-        if($this->client->getSlackStatus())
+        if ($this->client->getSlackStatus())
         {
-            return $this->messageHandler($headline, $postData, $settings,
-                                         $pretext, false, $numRetries);
+            return $this->messageHandler(
+                $headline, $postData, $settings,
+                $pretext, false, $numRetries);
         }
     }
 
@@ -648,7 +683,7 @@ class Message
      *
      * @return array
     */
-    protected function flatten_array($array, $separator = '.', $prefix = '')
+    protected function flattenArray($array, $separator = '.', $prefix = '')
     {
         $result = [];
 
@@ -658,9 +693,12 @@ class Message
 
             if (is_array($value))
             {
-                $result = array_merge($result, flatten_array($value,
-                                                             $separator,
-                                                             $newKey));
+                $result = array_merge(
+                    $result,
+                    flattenArray(
+                        $value,
+                        $separator,
+                        $newKey));
             }
             else
             {

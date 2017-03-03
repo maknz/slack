@@ -124,9 +124,11 @@ class Client
      *
      * @return void
      */
-    public function __construct($endpoint, array $attributes = [],
-                                QueueContract $queue = null,
-                                Guzzle $guzzle = null)
+    public function __construct(
+        $endpoint,
+        array $attributes = [],
+        QueueContract $queue = null,
+        Guzzle $guzzle = null)
     {
         $this->endpoint = $endpoint;
 
@@ -183,7 +185,8 @@ class Client
     }
 
     /**
-     * Sets the queue to be used
+     * Sets the Connection of Queue to be used
+     * Please Note: This Sets the Connection not the Queue
      *
      * @param string $queue Name of the queue
      *
@@ -197,7 +200,8 @@ class Client
     }
 
     /**
-     * Get the queue to be used
+     * Get the Queue Connection to be used
+     * Please Note: This Gets the Connection not the Queue
      *
      * @return string
      */
@@ -519,13 +523,13 @@ class Client
      * @param \Maknz\Slack\Message $message message
      * @return void
      */
-    public function queueMessage(Message $message, $numRetries)
+    public function queueMessage(Message $message, $numRetries, $queue = null)
     {
         $payload = $message->getPayload();
 
         $this->maxRetryAttempts = $numRetries;
 
-        $this->queue->push(__CLASS__, $payload);
+        $this->queue->push(__CLASS__, $payload, $queue);
     }
 
     /**
@@ -538,7 +542,7 @@ class Client
      */
     public function fire($job, array $data)
     {
-        if($job->attempts() >= $data['metadata']['num_retries'])
+        if ($job->attempts() >= $data['metadata']['num_retries'])
         {
             $job->delete();
         }
@@ -576,7 +580,7 @@ class Client
           'mrkdwn'       => $message->getAllowMarkdown()
         ];
 
-        if($numRetries)
+        if ($numRetries)
         {
             $payload['metadata'] = ['num_retries' => $numRetries];
         }
