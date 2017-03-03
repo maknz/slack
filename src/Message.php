@@ -370,7 +370,7 @@ class Message
      *
      * @param mixed $attachment attachment
      *
-    * @return $this
+     * @return $this
      * @throws InvalidArgumentException
      */
     public function attach($attachment)
@@ -458,7 +458,7 @@ class Message
     protected function _send(
         $text = null,
         $numRetries = self::MAX_RETRY_ATTEMPTS,
-        $connection = null)
+        $queue = null)
     {
         $isMessageSent = false;
 
@@ -481,11 +481,11 @@ class Message
         }
 
         // push it into the queue
-        if($isMessageSent === false)
+        if ($isMessageSent === false)
         {
             $this->setPayload($this->client->preparePayload($this, $numRetries));
 
-            $this->_queue($text, $numRetries, $connection);
+            $this->_queue($text, $numRetries, $queue);
         }
     }
 
@@ -497,11 +497,12 @@ class Message
      *
      * @return void
      */
-    protected function _queue($text = null,
-                              $numRetries = self::MAX_RETRY_ATTEMPTS,
-                              $connection = null)
+    protected function _queue(
+        $text = null,
+        $numRetries = self::MAX_RETRY_ATTEMPTS,
+        $queue = null)
     {
-        $this->client->queueMessage($this, $numRetries, $connection);
+        $this->client->queueMessage($this, $numRetries, $queue);
     }
 
     /**
@@ -511,7 +512,7 @@ class Message
     *
     * @return $data
     */
-    protected function buildMessage($headline, array $postData, $pretext)
+    protected function buildMessage($headline, array $postData, string $pretext, array $settings)
     {
         // Fallback text for plaintext clients, like IRC
         $data = [
@@ -548,7 +549,8 @@ class Message
     * @param array $settings post meta data - username, icon etc
     * @param string $pretext
     * @param bool $asQueue boolean to determine whether the message is to be queued or sent immediately
-    * @param integer $numRetries the maximum number of times to retry sending the message.
+    * @param integer $numRetries maximum number of times to retry sending the message.
+    * @param string  $queue Queue on which message has to be sent
     */
     protected function messageHandler(
         $headline,
@@ -557,9 +559,9 @@ class Message
         $pretext = '',
         $asQueue = true,
         $numRetries = self::MAX_RETRY_ATTEMPTS,
-        $connection = null)
+        $queue = null)
     {
-        $data = $this->buildMessage($headline, $postData, $pretext);
+        $data = $this->buildMessage($headline, $postData, $pretext, $settings);
 
         $settings['username'] = isset($settings['username']) ? $settings['username'] : null;
 
@@ -578,38 +580,39 @@ class Message
         }
 
         // check for malicious calls.
-        if($numRetries <=0)
+        if ($numRetries <= 0)
         {
             $numRetries = self::MAX_RETRY_ATTEMPTS;
         }
 
-        if($headline)
+        if ($headline)
         {
             $this->setText($headline);
         }
 
-        if($asQueue)
+        if ($asQueue === true)
         {
             $this->setPayload($this->client->preparePayload($this, $numRetries));
 
-            $this->_queue($headline, $numRetries, $connection);
+            $this->_queue($headline, $numRetries, $queue);
         }
         else
         {
             $this->setPayload($this->client->preparePayload($this));
 
-            $this->_send($headline, $numRetries, $connection);
+            $this->_send($headline, $numRetries, $queue);
         }
     }
 
     /**
      * Queue the message for delivery later
      *
-     * @param string  $headline   headline of the message as appearing on channel
-     * @param array   $postData   actual post data
-     * @param array   $settings   post meta data - username, icon etc
-     * @param string  $pretext    pretext
-     * @param integer $numRetries the maximum no of times to retry sending msg
+     * @param string  $headline        headline of the message as appearing on channel
+     * @param array   $postData   Actual post data
+     * @param array   $settings   Post meta data - username, icon etc
+     * @param string  $pretext    Pretext
+     * @param integer $numRetries The maximum no of times to retry sending msg
+     * @param string  $queue      Queue to be used
      *
      * @return void
      */
@@ -617,9 +620,9 @@ class Message
         $headline,
         array $postData,
         array $settings = [],
-        string $connection = null,
-        string $pretext = '',
-        int $numRetries = self::MAX_RETRY_ATTEMPTS)
+        $pretext = '',
+        $numRetries = self::MAX_RETRY_ATTEMPTS,
+        $queue = null)
     {
         if ($this->client->getSlackStatus())
         {
@@ -630,8 +633,19 @@ class Message
                 $pretext,
                 true,
                 $numRetries,
-                $connection);
+                $queue);
         }
+    }
+
+    public function onQueue(
+        $queue,
+        $headline,
+        array $postData,
+        array $settings = [],
+        $pretext = '',
+        $numRetries = self::MAX_RETRY_ATTEMPTS)
+    {
+        $this->queue($headline, $postData, $settings, $pretext, $numRetries, $queue);
     }
 
     /**
@@ -679,9 +693,10 @@ class Message
 
             if (is_array($value))
             {
-                $result = array_merge($result, flatten_array($value,
-                                                             $separator,
-                                                             $newKey));
+                $result = array_merge($result, flatten_array(
+                    $value,
+                    $separator,
+                    $newKey));
             }
             else
             {
