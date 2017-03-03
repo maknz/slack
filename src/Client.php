@@ -124,9 +124,10 @@ class Client
      *
      * @return void
      */
-    public function __construct($endpoint, array $attributes = [],
-                                QueueContract $queue = null,
-                                Guzzle $guzzle = null)
+    public function __construct(
+        $endpoint, array $attributes = [],
+        QueueContract $queue = null,
+        Guzzle $guzzle = null)
     {
         $this->endpoint = $endpoint;
 

@@ -455,15 +455,17 @@ class Message
      *
      * @return void
      */
-    protected function _send($text = null,
-                             $numRetries = self::MAX_RETRY_ATTEMPTS,
-                             $connection = null)
+    protected function _send(
+        $text = null,
+        $numRetries = self::MAX_RETRY_ATTEMPTS,
+        $connection = null)
     {
         $isMessageSent = false;
 
         $numAttempts = 0;
 
-        while(($numAttempts <= $numRetries) and ($isMessageSent === false))
+        while (($numAttempts <= $numRetries) and
+               ($isMessageSent === false))
         {
             try
             {
@@ -522,7 +524,7 @@ class Message
         $postData = $this->flatten_array($postData);
 
         // attach for all extra fields
-        foreach($postData as $key => $value)
+        foreach ($postData as $key => $value)
         {
             //  Fallback text for plaintext clients, like IRC
             $data['fallback'] .= $key . ': ' . $value . '\n';
@@ -548,13 +550,14 @@ class Message
     * @param bool $asQueue boolean to determine whether the message is to be queued or sent immediately
     * @param integer $numRetries the maximum number of times to retry sending the message.
     */
-    protected function messageHandler($headline,
-                                      array $postData,
-                                      array $settings = [],
-                                      $pretext = '',
-                                      $asQueue = true,
-                                      $numRetries = self::MAX_RETRY_ATTEMPTS,
-                                      $connection = null)
+    protected function messageHandler(
+        $headline,
+        array $postData,
+        array $settings = [],
+        $pretext = '',
+        $asQueue = true,
+        $numRetries = self::MAX_RETRY_ATTEMPTS,
+        $connection = null)
     {
         $data = $this->buildMessage($headline, $postData, $pretext);
 
@@ -610,22 +613,24 @@ class Message
      *
      * @return void
      */
-    public function queue($headline,
-                          array $postData,
-                          array $settings = [],
-                          $connection = null,
-                          $pretext = '',
-                          $numRetries = self::MAX_RETRY_ATTEMPTS)
+    public function queue(
+        $headline,
+        array $postData,
+        array $settings = [],
+        string $connection = null,
+        string $pretext = '',
+        int $numRetries = self::MAX_RETRY_ATTEMPTS)
     {
-        if($this->client->getSlackStatus())
+        if ($this->client->getSlackStatus())
         {
-            return $this->messageHandler($headline,
-                                         $postData,
-                                         $settings,
-                                         $pretext,
-                                         true,
-                                         $numRetries,
-                                         $connection);
+            return $this->messageHandler(
+                $headline,
+                $postData,
+                $settings,
+                $pretext,
+                true,
+                $numRetries,
+                $connection);
         }
     }
 
@@ -640,13 +645,18 @@ class Message
      *
      * @return void
      */
-    public function send($headline, array $postData, array $settings = [],
-                         $pretext = '', $numRetries = self::MAX_RETRY_ATTEMPTS)
+    public function send(
+        $headline,
+        array $postData,
+        array $settings = [],
+        $pretext = '',
+        $numRetries = self::MAX_RETRY_ATTEMPTS)
     {
-        if($this->client->getSlackStatus())
+        if ($this->client->getSlackStatus())
         {
-            return $this->messageHandler($headline, $postData, $settings,
-                                         $pretext, false, $numRetries);
+            return $this->messageHandler(
+                $headline, $postData, $settings,
+                $pretext, false, $numRetries);
         }
     }
 
