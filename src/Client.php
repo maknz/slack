@@ -498,6 +498,15 @@ class Client
     {
         $encoded = json_encode($data, JSON_UNESCAPED_UNICODE);
 
+        if ($encoded === false)
+        {
+            throw new RuntimeException(
+                sprintf(
+                    'JSON encoding error %s: %s',
+                    json_last_error(),
+                    json_last_error_msg()));
+        }
+
         $this->guzzle->post($this->endpoint, ['body' => $encoded]);
     }
 
@@ -509,9 +518,9 @@ class Client
      */
     public function queueMessage(Message $message, $numRetries, $queue = null)
     {
-        $payload = $this->preparePayload($message);
+        $payload = $this->preparePayload($message, $numRetries);
 
-        $this->maxRetryAttempts = $numRetries;
+        $encoded = json_encode($payload, JSON_UNESCAPED_UNICODE);
 
         $this->queue->push(__CLASS__, $payload, $queue);
     }
@@ -611,8 +620,13 @@ class Client
 
         $encoded = json_encode($payload, JSON_UNESCAPED_UNICODE);
 
-        if ($encoded === false) {
-            throw new RuntimeException(sprintf('JSON encoding error %s: %s', json_last_error(), json_last_error_msg()));
+        if ($encoded === false)
+        {
+            throw new RuntimeException(
+                sprintf(
+                    'JSON encoding error %s: %s',
+                    json_last_error(),
+                    json_last_error_msg()));
         }
 
         $this->guzzle->post($this->endpoint, ['body' => $encoded]);

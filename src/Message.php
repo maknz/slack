@@ -462,7 +462,7 @@ class Message
     *
     * @return $data
     */
-    protected function buildMessage($headline, array $postData, string $pretext, array $settings)
+    protected function buildMessage($headline, array $postData, $pretext, array $settings)
     {
         // Fallback text for plaintext clients, like IRC
         $data = [
