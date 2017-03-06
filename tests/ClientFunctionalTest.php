@@ -1,7 +1,7 @@
 <?php
 
-use Maknz\Slack\Client;
-use Maknz\Slack\Attachment;
+use Razorpay\Slack\Client;
+use Razorpay\Slack\Attachment;
 
 class ClientFunctionalTest extends PHPUnit_Framework_TestCase
 {

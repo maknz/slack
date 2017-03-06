@@ -1,5 +1,5 @@
-Copyright (c) 2014, Regan McEntyre (maknz)
-All rights reserved.
+Original work Copyright (c) 2014-2016, Regan McEntyre (maknz)
+Modified work Copyright (c) 2016-2017, Razorpay
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 

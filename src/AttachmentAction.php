@@ -1,6 +1,6 @@
 <?php
 
-namespace Maknz\Slack;
+namespace Razorpay\Slack;
 
 use InvalidArgumentException;
 
@@ -216,7 +216,7 @@ class AttachmentAction
         }
 
         throw new InvalidArgumentException(
-            'The action confirmation must be an instance of Maknz\Slack\ActionConfirmation or a keyed array');
+            'The action confirmation must be an instance of Razorpay\Slack\ActionConfirmation or a keyed array');
     }
 
     /**

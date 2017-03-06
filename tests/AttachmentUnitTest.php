@@ -1,8 +1,8 @@
 <?php
 
-use Maknz\Slack\Attachment;
-use Maknz\Slack\AttachmentAction;
-use Maknz\Slack\AttachmentField;
+use Razorpay\Slack\Attachment;
+use Razorpay\Slack\AttachmentAction;
+use Razorpay\Slack\AttachmentField;
 
 class AttachmentUnitTest extends PHPUnit_Framework_TestCase
 {

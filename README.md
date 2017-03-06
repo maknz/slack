@@ -1,12 +1,12 @@
 # Slack for PHP
 
-[![Build Status](https://travis-ci.org/maknz/slack.svg?branch=master)](https://travis-ci.org/maknz/slack)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/maknz/slack/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/maknz/slack/?branch=master)
+[![Build Status](https://travis-ci.org/razorpay/slack.svg?branch=master)](https://travis-ci.org/razorpay/slack)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/razorpay/slack/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/razorpay/slack/?branch=master)
 [![StyleCI](https://styleci.io/repos/19448330/shield)](https://styleci.io/repos/19448330)
 
 A simple PHP package for sending messages to [Slack](https://slack.com) with [incoming webhooks](https://my.slack.com/services/new/incoming-webhook), focussed on ease-of-use and elegant syntax. **Note: this package is no longer being actively maintained.**
 
-* Laravel integration: [Slack for Laravel](https://github.com/maknz/slack-laravel)
+* Laravel integration: [Slack for Laravel](https://github.com/razorpay/slack-laravel)
 * Symfony integration: [NexySlackBundle](https://github.com/nexylan/NexySlackBundle)
 
 ## Requirements
@@ -18,7 +18,7 @@ A simple PHP package for sending messages to [Slack](https://slack.com) with [in
 You can install the package using the [Composer](https://getcomposer.org/) package manager. You can install it by running this command in your project root:
 
 ```sh
-composer require maknz/slack
+composer require razorpay/slack
 ```
 
 Then [create an incoming webhook](https://my.slack.com/services/new/incoming-webhook) on your Slack account for the package to use. You'll need the webhook URL to instantiate the client (or for the configuration file if using Laravel).
@@ -29,7 +29,7 @@ Then [create an incoming webhook](https://my.slack.com/services/new/incoming-web
 
 ```php
 // Instantiate without defaults
-$client = new Maknz\Slack\Client('https://hooks.slack.com/...');
+$client = new Razorpay\Slack\Client('https://hooks.slack.com/...');
 
 // Instantiate with defaults, so all messages created
 // will be sent from 'Cyril' and to the #accounting channel
@@ -40,7 +40,7 @@ $settings = [
 	'link_names' => true
 ];
 
-$client = new Maknz\Slack\Client('https://hooks.slack.com/...', $settings);
+$client = new Razorpay\Slack\Client('https://hooks.slack.com/...', $settings);
 ```
 
 #### Settings
@@ -181,7 +181,7 @@ $message->send();
 ```php
 
 // $queue is an instance of Illuminate\Queue\QueueManager
-$client = new Maknz\Slack\Client('http://your.slack.endpoint', $settings, $queue);
+$client = new Razorpay\Slack\Client('http://your.slack.endpoint', $settings, $queue);
 $client->to('@regan')->queue('I am sending this implicitly');
 ```
 

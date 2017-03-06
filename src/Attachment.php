@@ -1,6 +1,6 @@
 <?php
 
-namespace Maknz\Slack;
+namespace Razorpay\Slack;
 
 use InvalidArgumentException;
 
@@ -598,7 +598,7 @@ class Attachment
         }
 
         throw new InvalidArgumentException(
-            'The attachment field must be an instance of Maknz\Slack\AttachmentField or a keyed array');
+            'The attachment field must be an instance of Razorpay\Slack\AttachmentField or a keyed array');
     }
 
     /**
@@ -700,7 +700,7 @@ class Attachment
         }
 
         throw new InvalidArgumentException(
-            'The attachment action must be an instance of Maknz\Slack\AttachmentAction or a keyed array');
+            'The attachment action must be an instance of Razorpay\Slack\AttachmentAction or a keyed array');
     }
 
     /**
