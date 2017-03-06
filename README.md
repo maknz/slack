@@ -176,6 +176,18 @@ $message->to('@regan')->setText('I am sending this explicitly');
 $message->send();
 ```
 
+### Sending via a queue
+
+```php
+
+// $queue is an instance of Illuminate\Queue\QueueManager
+$client = new Maknz\Slack\Client('http://your.slack.endpoint', $settings, $queue);
+$client->to('@regan')->queue('I am sending this implicitly');
+```
+
+If you are using the Laravel service provider, your default queue will be
+automatically used.
+
 ### Attachments
 
 When using attachments, the easiest way is to provide an array of data as shown in the examples, which is actually converted to an Attachment object under the hood. You can also attach an Attachment object to the message:

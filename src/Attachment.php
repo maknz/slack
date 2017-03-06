@@ -202,10 +202,11 @@ class Attachment
         if (isset($attributes['actions'])) {
             $this->setActions($attributes['actions']);
         }
+
     }
 
     /**
-     * Get the fallback text.
+     * Get the fallback text
      *
      * @return string
      */
@@ -218,6 +219,7 @@ class Attachment
      * Set the fallback text.
      *
      * @param string $fallback
+     *
      * @return $this
      */
     public function setFallback($fallback)
@@ -241,6 +243,7 @@ class Attachment
      * Set the optional text to appear within the attachment.
      *
      * @param string $text
+     *
      * @return $this
      */
     public function setText($text)
@@ -310,6 +313,7 @@ class Attachment
      * Set the text that should appear above the formatted data.
      *
      * @param string $pretext
+     *
      * @return $this
      */
     public function setPretext($pretext)
@@ -333,6 +337,7 @@ class Attachment
      * Set the color to use for the attachment.
      *
      * @param string $color
+     *
      * @return $this
      */
     public function setColor($color)

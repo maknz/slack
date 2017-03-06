@@ -1,6 +1,7 @@
 <?php
 
 use Maknz\Slack\Client;
+use Illuminate\Queue\SyncQueue as Queue;
 
 class ClientUnitTest extends PHPUnit_Framework_TestCase
 {

@@ -16,7 +16,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "4.2.*",
-        "mockery/mockery": "0.9.*"
+        "mockery/mockery": "0.9.*",
+        "illuminate/queue": "5.*"
     },
     "suggest": {
         "maknz/slack-laravel": "Required for Laravel support",
