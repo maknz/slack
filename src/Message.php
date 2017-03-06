@@ -611,7 +611,7 @@ class Message
      */
     public function send(
         $headline,
-        array $postData,
+        array $postData = [],
         array $settings = [],
         $pretext = '',
         $numRetries = self::MAX_RETRY_ATTEMPTS)

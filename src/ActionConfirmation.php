@@ -40,19 +40,23 @@ class ActionConfirmation
      */
     public function __construct(array $attributes)
     {
-        if (isset($attributes['title'])) {
+        if (isset($attributes['title']))
+        {
             $this->setTitle($attributes['title']);
         }
 
-        if (isset($attributes['text'])) {
+        if (isset($attributes['text']))
+        {
             $this->setText($attributes['text']);
         }
 
-        if (isset($attributes['ok_text'])) {
+        if (isset($attributes['ok_text']))
+        {
             $this->setOkText($attributes['ok_text']);
         }
 
-        if (isset($attributes['dismiss_text'])) {
+        if (isset($attributes['dismiss_text']))
+        {
             $this->setDismissText($attributes['dismiss_text']);
         }
     }
@@ -141,10 +145,10 @@ class ActionConfirmation
     public function toArray()
     {
         return [
-            'title' => $this->getTitle(),
-            'text' => $this->getText(),
-            'ok_text' => $this->getOkText(),
-            'dismiss_text' => $this->getDismissText(),
+            'title'         => $this->getTitle(),
+            'text'          => $this->getText(),
+            'ok_text'       => $this->getOkText(),
+            'dismiss_text'  => $this->getDismissText(),
         ];
     }
 }

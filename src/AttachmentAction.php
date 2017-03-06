@@ -62,27 +62,33 @@ class AttachmentAction
      */
     public function __construct(array $attributes)
     {
-        if (isset($attributes['name'])) {
+        if (isset($attributes['name']))
+        {
             $this->setName($attributes['name']);
         }
 
-        if (isset($attributes['text'])) {
+        if (isset($attributes['text']))
+        {
             $this->setText($attributes['text']);
         }
 
-        if (isset($attributes['style'])) {
+        if (isset($attributes['style']))
+        {
             $this->setStyle($attributes['style']);
         }
 
-        if (isset($attributes['type'])) {
+        if (isset($attributes['type']))
+        {
             $this->setType($attributes['type']);
         }
 
-        if (isset($attributes['value'])) {
+        if (isset($attributes['value']))
+        {
             $this->setValue($attributes['value']);
         }
 
-        if (isset($attributes['confirm'])) {
+        if (isset($attributes['confirm']))
+        {
             $this->setConfirm($attributes['confirm']);
         }
     }
@@ -196,17 +202,21 @@ class AttachmentAction
      */
     public function setConfirm($confirm)
     {
-        if ($confirm instanceof ActionConfirmation) {
+        if ($confirm instanceof ActionConfirmation)
+        {
             $this->confirm = $confirm;
 
             return $this;
-        } elseif (is_array($confirm)) {
+        }
+        else if (is_array($confirm) === true)
+        {
             $this->confirm = new ActionConfirmation($confirm);
 
             return $this;
         }
 
-        throw new InvalidArgumentException('The action confirmation must be an instance of Maknz\Slack\ActionConfirmation or a keyed array');
+        throw new InvalidArgumentException(
+            'The action confirmation must be an instance of Maknz\Slack\ActionConfirmation or a keyed array');
     }
 
     /**
@@ -217,11 +227,11 @@ class AttachmentAction
     public function toArray()
     {
         return [
-            'name' => $this->getName(),
-            'text' => $this->getText(),
-            'style' => $this->getStyle(),
-            'type' => $this->getType(),
-            'value' => $this->getValue(),
+            'name'    => $this->getName(),
+            'text'    => $this->getText(),
+            'style'   => $this->getStyle(),
+            'type'    => $this->getType(),
+            'value'   => $this->getValue(),
             'confirm' => $this->getConfirm()->toArray(),
         ];
     }

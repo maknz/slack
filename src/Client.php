@@ -43,21 +43,21 @@ class Client
      *
      * @var bool
      */
-    protected $link_names = false;
+    protected $linkNames = false;
 
     /**
      * Whether Slack should unfurl text-based URLs.
      *
      * @var bool
      */
-    protected $unfurl_links = false;
+    protected $unfurlLinks = false;
 
     /**
      * Whether Slack should unfurl media URLs.
      *
      * @var bool
      */
-    protected $unfurl_media = true;
+    protected $unfurlMedia = true;
 
     /**
      * Whether message text should be formatted with Slack's
@@ -65,7 +65,7 @@ class Client
      *
      * @var bool
      */
-    protected $allow_markdown = true;
+    protected $allowMarkdown = true;
 
     /**
      * The attachment fields which should be formatted with
@@ -73,7 +73,7 @@ class Client
      *
      * @var array
      */
-    protected $markdown_in_attachments = [];
+    protected $markdownInAttachments = [];
 
     /**
      * The Guzzle HTTP client instance.
@@ -322,7 +322,7 @@ class Client
      */
     public function getLinkNames()
     {
-        return $this->link_names;
+        return $this->linkNames;
     }
 
     /**
@@ -345,7 +345,7 @@ class Client
      */
     public function setLinkNames($value)
     {
-        $this->link_names = (boolean) $value;
+        $this->linkNames = (boolean) $value;
     }
 
     /**
@@ -355,7 +355,7 @@ class Client
      */
     public function getUnfurlLinks()
     {
-        return $this->unfurl_links;
+        return $this->unfurlLinks;
     }
 
     /**
@@ -367,7 +367,7 @@ class Client
      */
     public function setUnfurlLinks($value)
     {
-        $this->unfurl_links = (boolean) $value;
+        $this->unfurlLinks = (boolean) $value;
     }
 
     /**
@@ -377,7 +377,7 @@ class Client
      */
     public function getUnfurlMedia()
     {
-        return $this->unfurl_media;
+        return $this->unfurlMedia;
     }
 
     /**
@@ -389,7 +389,7 @@ class Client
      */
     public function setUnfurlMedia($value)
     {
-        $this->unfurl_media = (boolean) $value;
+        $this->unfurlMedia = (boolean) $value;
     }
 
     /**
@@ -400,7 +400,7 @@ class Client
      */
     public function getAllowMarkdown()
     {
-        return $this->allow_markdown;
+        return $this->allowMarkdown;
     }
 
     /**
@@ -412,7 +412,7 @@ class Client
      */
     public function setAllowMarkdown($value)
     {
-        $this->allow_markdown = (boolean) $value;
+        $this->allowMarkdown = (boolean) $value;
     }
 
     /**
@@ -423,7 +423,7 @@ class Client
      */
     public function getMarkdownInAttachments()
     {
-        return $this->markdown_in_attachments;
+        return $this->markdownInAttachments;
     }
 
     /**
@@ -436,7 +436,7 @@ class Client
      */
     public function setMarkdownInAttachments(array $fields)
     {
-        $this->markdown_in_attachments = $fields;
+        $this->markdownInAttachments = $fields;
     }
 
     /**

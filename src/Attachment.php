@@ -25,14 +25,14 @@ class Attachment
      *
      * @var string
      */
-    protected $image_url;
+    protected $imageUrl;
 
     /**
      * Optional thumbnail that should appear within the attachment.
      *
      * @var string
      */
-    protected $thumb_url;
+    protected $thumbUrl;
 
     /**
      * Optional text that should appear above the formatted data.
@@ -53,28 +53,28 @@ class Attachment
      *
      * @var string
      */
-    protected $title_link;
+    protected $titleLink;
 
     /**
      * Optional author name for the attachment.
      *
      * @var string
      */
-    protected $author_name;
+    protected $authorName;
 
     /**
      * Optional author link for the attachment.
      *
      * @var string
      */
-    protected $author_link;
+    protected $authorLink;
 
     /**
      * Optional author icon for the attachment.
      *
      * @var string
      */
-    protected $author_icon;
+    protected $authorIcon;
 
     /**
      * The color to use for the attachment.
@@ -95,7 +95,7 @@ class Attachment
      *
      * @var string
      */
-    protected $footer_icon;
+    protected $footerIcon;
 
     /**
      * The timestamp to use for the attachment.
@@ -117,7 +117,7 @@ class Attachment
      *
      * @var array
      */
-    protected $markdown_fields = [];
+    protected $markdownFields = [];
 
     /**
      * A collection of actions (buttons) to include in the attachment.
@@ -135,71 +135,88 @@ class Attachment
      */
     public function __construct(array $attributes)
     {
-        if (isset($attributes['fallback'])) {
+        if (isset($attributes['fallback']))
+        {
             $this->setFallback($attributes['fallback']);
         }
 
-        if (isset($attributes['text'])) {
+        if (isset($attributes['text']))
+        {
             $this->setText($attributes['text']);
         }
 
-        if (isset($attributes['image_url'])) {
+        if (isset($attributes['image_url']))
+        {
             $this->setImageUrl($attributes['image_url']);
         }
 
-        if (isset($attributes['thumb_url'])) {
+        if (isset($attributes['thumb_url']))
+        {
             $this->setThumbUrl($attributes['thumb_url']);
         }
 
-        if (isset($attributes['pretext'])) {
+        if (isset($attributes['pretext']))
+        {
             $this->setPretext($attributes['pretext']);
         }
 
-        if (isset($attributes['color'])) {
+        if (isset($attributes['color']))
+        {
             $this->setColor($attributes['color']);
         }
 
-        if (isset($attributes['footer'])) {
+        if (isset($attributes['footer']))
+        {
             $this->setFooter($attributes['footer']);
         }
 
-        if (isset($attributes['footer_icon'])) {
+        if (isset($attributes['footer_icon']))
+        {
             $this->setFooterIcon($attributes['footer_icon']);
         }
 
-        if (isset($attributes['timestamp'])) {
+        if (isset($attributes['timestamp']))
+        {
             $this->setTimestamp($attributes['timestamp']);
         }
 
-        if (isset($attributes['fields'])) {
+        if (isset($attributes['fields']))
+        {
             $this->setFields($attributes['fields']);
         }
 
-        if (isset($attributes['mrkdwn_in'])) {
+        if (isset($attributes['mrkdwn_in']))
+        {
             $this->setMarkdownFields($attributes['mrkdwn_in']);
         }
 
-        if (isset($attributes['title'])) {
+        if (isset($attributes['title']))
+        {
             $this->setTitle($attributes['title']);
         }
 
-        if (isset($attributes['title_link'])) {
+        if (isset($attributes['title_link']))
+        {
             $this->setTitleLink($attributes['title_link']);
         }
 
-        if (isset($attributes['author_name'])) {
+        if (isset($attributes['author_name']))
+        {
             $this->setAuthorName($attributes['author_name']);
         }
 
-        if (isset($attributes['author_link'])) {
+        if (isset($attributes['author_link']))
+        {
             $this->setAuthorLink($attributes['author_link']);
         }
 
-        if (isset($attributes['author_icon'])) {
+        if (isset($attributes['author_icon']))
+        {
             $this->setAuthorIcon($attributes['author_icon']);
         }
 
-        if (isset($attributes['actions'])) {
+        if (isset($attributes['actions']))
+        {
             $this->setActions($attributes['actions']);
         }
 
@@ -260,18 +277,18 @@ class Attachment
      */
     public function getImageUrl()
     {
-        return $this->image_url;
+        return $this->imageUrl;
     }
 
     /**
      * Set the optional image to appear within the attachment.
      *
-     * @param string $image_url
+     * @param string $imageUrl
      * @return $this
      */
-    public function setImageUrl($image_url)
+    public function setImageUrl($imageUrl)
     {
-        $this->image_url = $image_url;
+        $this->imageUrl = $imageUrl;
 
         return $this;
     }
@@ -283,18 +300,18 @@ class Attachment
      */
     public function getThumbUrl()
     {
-        return $this->thumb_url;
+        return $this->thumbUrl;
     }
 
     /**
      * Set the optional thumbnail to appear within the attachment.
      *
-     * @param string $thumb_url
+     * @param string $thumbUrl
      * @return $this
      */
-    public function setThumbUrl($thumb_url)
+    public function setThumbUrl($thumbUrl)
     {
-        $this->thumb_url = $thumb_url;
+        $this->thumbUrl = $thumbUrl;
 
         return $this;
     }
@@ -377,7 +394,7 @@ class Attachment
      */
     public function getFooterIcon()
     {
-        return $this->footer_icon;
+        return $this->footerIcon;
     }
 
     /**
@@ -388,7 +405,7 @@ class Attachment
      */
     public function setFooterIcon($footerIcon)
     {
-        $this->footer_icon = $footerIcon;
+        $this->footerIcon = $footerIcon;
 
         return $this;
     }
@@ -446,18 +463,18 @@ class Attachment
      */
     public function getTitleLink()
     {
-        return $this->title_link;
+        return $this->titleLink;
     }
 
     /**
      * Set the title link to use for the attachment.
      *
-     * @param string $title_link
+     * @param string $titleLink
      * @return $this
      */
-    public function setTitleLink($title_link)
+    public function setTitleLink($titleLink)
     {
-        $this->title_link = $title_link;
+        $this->titleLink = $titleLink;
 
         return $this;
     }
@@ -469,7 +486,7 @@ class Attachment
      */
     public function getAuthorName()
     {
-        return $this->author_name;
+        return $this->authorName;
     }
 
     /**
@@ -478,9 +495,9 @@ class Attachment
      * @param string $author_name
      * @return $this
      */
-    public function setAuthorName($author_name)
+    public function setAuthorName($authorName)
     {
-        $this->author_name = $author_name;
+        $this->authorName = $authorName;
 
         return $this;
     }
@@ -492,7 +509,7 @@ class Attachment
      */
     public function getAuthorLink()
     {
-        return $this->author_link;
+        return $this->authorLink;
     }
 
     /**
@@ -501,9 +518,9 @@ class Attachment
      * @param string $author_link
      * @return $this
      */
-    public function setAuthorLink($author_link)
+    public function setAuthorLink($authorLink)
     {
-        $this->author_link = $author_link;
+        $this->authorLink = $authorLink;
 
         return $this;
     }
@@ -515,7 +532,7 @@ class Attachment
      */
     public function getAuthorIcon()
     {
-        return $this->author_icon;
+        return $this->authorIcon;
     }
 
     /**
@@ -524,9 +541,9 @@ class Attachment
      * @param string $author_icon
      * @return $this
      */
-    public function setAuthorIcon($author_icon)
+    public function setAuthorIcon($authorIcon)
     {
-        $this->author_icon = $author_icon;
+        $this->authorIcon = $authorIcon;
 
         return $this;
     }
@@ -551,7 +568,8 @@ class Attachment
     {
         $this->clearFields();
 
-        foreach ($fields as $field) {
+        foreach ($fields as $field)
+        {
             $this->addField($field);
         }
 
@@ -566,17 +584,21 @@ class Attachment
      */
     public function addField($field)
     {
-        if ($field instanceof AttachmentField) {
+        if ($field instanceof AttachmentField)
+        {
             $this->fields[] = $field;
 
             return $this;
-        } elseif (is_array($field)) {
+        }
+        else if (is_array($field) === true)
+        {
             $this->fields[] = new AttachmentField($field);
 
             return $this;
         }
 
-        throw new InvalidArgumentException('The attachment field must be an instance of Maknz\Slack\AttachmentField or a keyed array');
+        throw new InvalidArgumentException(
+            'The attachment field must be an instance of Maknz\Slack\AttachmentField or a keyed array');
     }
 
     /**
@@ -611,7 +633,7 @@ class Attachment
      */
     public function getMarkdownFields()
     {
-        return $this->markdown_fields;
+        return $this->markdownFields;
     }
 
     /**
@@ -623,7 +645,7 @@ class Attachment
      */
     public function setMarkdownFields(array $fields)
     {
-        $this->markdown_fields = $fields;
+        $this->markdownFields = $fields;
 
         return $this;
     }
@@ -648,7 +670,8 @@ class Attachment
     {
         $this->clearActions();
 
-        foreach ($actions as $action) {
+        foreach ($actions as $action)
+        {
             $this->addAction($action);
         }
 
@@ -663,17 +686,21 @@ class Attachment
      */
     public function addAction($action)
     {
-        if ($action instanceof AttachmentAction) {
+        if ($action instanceof AttachmentAction)
+        {
             $this->actions[] = $action;
 
             return $this;
-        } elseif (is_array($action)) {
+        }
+        else if (is_array($action) === true)
+        {
             $this->actions[] = new AttachmentAction($action);
 
             return $this;
         }
 
-        throw new InvalidArgumentException('The attachment action must be an instance of Maknz\Slack\AttachmentAction or a keyed array');
+        throw new InvalidArgumentException(
+            'The attachment action must be an instance of Maknz\Slack\AttachmentAction or a keyed array');
     }
 
     /**
@@ -684,24 +711,24 @@ class Attachment
     public function toArray()
     {
         $data = [
-            'fallback' => $this->getFallback(),
-            'text' => $this->getText(),
-            'pretext' => $this->getPretext(),
-            'color' => $this->getColor(),
-            'footer' => $this->getFooter(),
+            'fallback'    => $this->getFallback(),
+            'text'        => $this->getText(),
+            'pretext'     => $this->getPretext(),
+            'color'       => $this->getColor(),
+            'footer'      => $this->getFooter(),
             'footer_icon' => $this->getFooterIcon(),
-            'ts' => $this->getTimestamp() ? $this->getTimestamp()->getTimestamp() : null,
-            'mrkdwn_in' => $this->getMarkdownFields(),
-            'image_url' => $this->getImageUrl(),
-            'thumb_url' => $this->getThumbUrl(),
-            'title' => $this->getTitle(),
-            'title_link' => $this->getTitleLink(),
+            'ts'          => $this->getTimestamp() ? $this->getTimestamp()->getTimestamp() : null,
+            'mrkdwn_in'   => $this->getMarkdownFields(),
+            'image_url'   => $this->getImageUrl(),
+            'thumb_url'   => $this->getThumbUrl(),
+            'title'       => $this->getTitle(),
+            'title_link'  => $this->getTitleLink(),
             'author_name' => $this->getAuthorName(),
             'author_link' => $this->getAuthorLink(),
             'author_icon' => $this->getAuthorIcon(),
         ];
 
-        $data['fields'] = $this->getFieldsAsArrays();
+        $data['fields']  = $this->getFieldsAsArrays();
         $data['actions'] = $this->getActionsAsArrays();
 
         return $data;
@@ -717,7 +744,8 @@ class Attachment
     {
         $fields = [];
 
-        foreach ($this->getFields() as $field) {
+        foreach ($this->getFields() as $field)
+        {
             $fields[] = $field->toArray();
         }
 
@@ -734,7 +762,8 @@ class Attachment
     {
         $actions = [];
 
-        foreach ($this->getActions() as $action) {
+        foreach ($this->getActions() as $action)
+        {
             $actions[] = $action->toArray();
         }
 
