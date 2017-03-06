@@ -183,7 +183,7 @@ class Message
         if ($icon == null) {
             $this->icon = $this->iconType = null;
 
-            return;
+            return $this;
         }
 
         if (mb_substr($icon, 0, 1) == ':' && mb_substr($icon, mb_strlen($icon) - 1, 1) == ':') {

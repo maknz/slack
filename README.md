@@ -28,19 +28,26 @@ Then [create an incoming webhook](https://my.slack.com/services/new/incoming-web
 ### Instantiate the client
 
 ```php
-// Instantiate without defaults
-$client = new Maknz\Slack\Client('https://hooks.slack.com/...');
+$teamOne = new Team('teamname2', 'http://teamname2.slack.com', '#accounting', 'Cyril', ':ghost:');
+$teamTwo = new Team('secondteam', 'http://secondteam.slack.com', '#random', 'Cyril', ':ghost:');
 
 // Instantiate with defaults, so all messages created
 // will be sent from 'Cyril' and to the #accounting channel
 // by default. Any names like @regan or #channel will also be linked.
 $settings = [
-	'username' => 'Cyril',
-	'channel' => '#accounting',
 	'link_names' => true
 ];
 
-$client = new Maknz\Slack\Client('https://hooks.slack.com/...', $settings);
+// teamname2 stands for default channel - it has to be specified
+$client = new Maknz\Slack\Client([$teamOne, $teamTwo], 'teamname2', $settings);
+```
+
+This version supports multiple teams so you can easy switch between teams. Just call `$client->team('TeamName')` and it will switch you to another team
+
+```
+$client->send('wasssup?'); // will be sent to default team - "teamname2"
+$client->team('secondteam')->send('Best team ever!'); // will be sent to team "secondteam"
+$client->send('anybody?'); // will be sent to default team - "teamname2"
 ```
 
 #### Settings
@@ -49,8 +56,6 @@ The default settings are pretty good, but you may wish to set up default behavio
 
 Field | Type | Description
 ----- | ---- | -----------
-`channel` | string | The default channel that messages will be sent to
-`username` | string | The default username for your bot
 `icon` | string | The default icon that messages will be sent with, either `:emoji:` or a URL to an image
 `link_names` | bool | Whether names like `@regan` or `#accounting` should be linked in the message (defaults to false)
 `unfurl_links` | bool | Whether Slack should unfurl text-based URLs (defaults to false)
