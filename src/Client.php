@@ -509,7 +509,7 @@ class Client
      */
     public function queueMessage(Message $message, $numRetries, $queue = null)
     {
-        $payload = $message->getPayload();
+        $payload = $this->preparePayload($message);
 
         $this->maxRetryAttempts = $numRetries;
 

@@ -406,7 +406,6 @@ class Message
      * @return void
      */
     protected function sendMessage(
-        $text = null,
         $numRetries = self::MAX_RETRY_ATTEMPTS,
         $queue = null)
     {
@@ -433,9 +432,7 @@ class Message
         // push it into the queue
         if ($isMessageSent === false)
         {
-            $this->setPayload($this->client->preparePayload($this, $numRetries));
-
-            $this->queueMessage($text, $numRetries, $queue);
+            $this->queueMessage($numRetries, $queue);
         }
     }
 
@@ -448,7 +445,6 @@ class Message
      * @return void
      */
     protected function queueMessage(
-        $text = null,
         $numRetries = self::MAX_RETRY_ATTEMPTS,
         $queue = null)
     {
@@ -542,15 +538,11 @@ class Message
 
         if ($asQueue === true)
         {
-            $this->setPayload($this->client->preparePayload($this, $numRetries));
-
-            $this->queueMessage($headline, $numRetries, $queue);
+            $this->queueMessage($numRetries, $queue);
         }
         else
         {
-            $this->setPayload($this->client->preparePayload($this));
-
-            $this->sendMessage($headline, $numRetries, $queue);
+            $this->sendMessage($numRetries, $queue);
         }
     }
 
