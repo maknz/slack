@@ -422,6 +422,10 @@ class Message
 
                 $isMessageSent = true;
             }
+            catch(\RuntimeException $e)
+            {
+                throw $e;
+            }
             catch(\Exception $e)
             {
             }
