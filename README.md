@@ -90,6 +90,12 @@ $client->to('@regan')->withIcon(':ghost:')->send('Boo!');
 $client->to('#accounting')->withIcon('http://example.com/accounting.png')->send('Some accounting notification');
 ```
 
+#### Sending a message using Queue 
+```php
+
+$client->to('#accounting')->withIcon('http://example.com/accounting.png')->queue('Some accounting notification');
+```
+
 #### Send an attachment ([preview](https://goo.gl/fp3iaY))
 
 ```php
