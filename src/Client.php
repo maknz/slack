@@ -4,8 +4,6 @@ namespace Maknz\Slack;
 
 use GuzzleHttp\Client as Guzzle;
 use RuntimeException;
-use Illuminate\Queue\Capsule\Manager as Queue;
-use Illuminate\Contracts\Queue\Queue as QueueContract;
 use GuzzleHttp\Exception\ClientException;
 
 class Client
@@ -87,7 +85,7 @@ class Client
     /**
      * The QueueManager instance
      *
-     * @var Illuminate\Queue\QueueManager
+     * @var Illuminate\Contracts\Queue\Queue
      */
     protected $queue;
 
@@ -117,17 +115,17 @@ class Client
     /**
      * Instantiate a new Client
      *
-     * @param string        $endpoint   endpoint
-     * @param array         $attributes attributes
-     * @param QueueContract $queue      queue
-     * @param Guzzle        $guzzle     guzzle
+     * @param string                           $endpoint   endpoint
+     * @param array                            $attributes attributes
+     * @param Illuminate\Contracts\Queue\Queue $queue      queue
+     * @param Guzzle                           $guzzle     guzzle
      *
      * @return void
      */
     public function __construct(
         $endpoint,
         array $attributes = [],
-        QueueContract $queue = null,
+        $queue = null,
         Guzzle $guzzle = null)
     {
         $this->endpoint = $endpoint;
@@ -192,7 +190,7 @@ class Client
      *
     * @return $this
     */
-    public function setQueue(QueueContract $queue)
+    public function setQueue($queue)
     {
         $this->queue = $queue;
 
