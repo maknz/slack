@@ -410,6 +410,16 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
         $client->send('Test Message');
     }
 
+    public function testNoOfRetries()
+    {
+        $client = $this->getNetworkStubbedClientAndThrowException(11, 1);
+
+        $client->send('Test Message');
+
+        $this->guzzle->mockery_verify();
+        $this->queue->mockery_verify();
+    }
+
     protected function getNetworkStubbedClient()
     {
         $guzzle = Mockery::mock('GuzzleHttp\Client');
@@ -423,17 +433,16 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
         return new Client('http://fake.endpoint', [], $queue, $guzzle);
     }
 
-    protected function getNetworkStubbedClientAndThrowException()
+    protected function getNetworkStubbedClientAndThrowException($guzzleCount = 1, $queueCount = 1)
     {
-        $guzzle = Mockery::mock('GuzzleHttp\Client');
+        $this->guzzle = Mockery::mock('GuzzleHttp\Client');
 
-        $guzzle->shouldReceive('post')->andThrow(new Exception());
+        $this->guzzle->shouldReceive('post')->times($guzzleCount)->andThrow(new Exception());
 
-        $queue = Mockery::mock('Illuminate\queue');
+        $this->queue = Mockery::mock('Illuminate\queue');
 
-        $queue->shouldReceive('push');
+        $this->queue->shouldReceive('push')->times($queueCount);
 
-        return new Client('http://fake.endpoint', [], $queue, $guzzle);
+        return new Client('http://fake.endpoint', [], $this->queue, $this->guzzle);
     }
-
 }
