@@ -326,16 +326,6 @@ class Client
     }
 
     /**
-     * Returns the QueueManager instance being used
-     *
-     * @return Illuminate\Queue\QueueManager
-     */
-    public function getQueueManager()
-    {
-        return $this->queue;
-    }
-
-    /**
      * Set whether messages sent will have names (like @regan)
      * will be converted into links
      *

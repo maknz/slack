@@ -12,19 +12,35 @@ class ClientUnitTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Razorpay\Slack\Client', $client);
 
         $this->assertSame('http://fake.endpoint', $client->getEndpoint());
+
+        $client->setEndpoint('http://new.fake.endpoint');
+
+        $this->assertSame('http://new.fake.endpoint', $client->getEndpoint());
+    }
+
+    public function testGetAndSetQueue()
+    {
+        $queue = new Queue;
+
+        $client = new Client('http://fake.endpoint');
+
+        $client->setQueue($queue);
+
+        $this->assertInstanceOf('Illuminate\Contracts\Queue\Queue', $client->getQueue());
     }
 
     public function testInstantiationWithDefaults()
     {
         $defaults = [
-            'channel' => '#random',
-            'username' => 'Archer',
-            'icon' => ':ghost:',
-            'link_names' => true,
-            'unfurl_links' => true,
-            'unfurl_media' => false,
-            'allow_markdown' => false,
+            'channel'                 => '#random',
+            'username'                => 'Archer',
+            'icon'                    => ':ghost:',
+            'link_names'              => true,
+            'unfurl_links'            => true,
+            'unfurl_media'            => false,
+            'allow_markdown'          => false,
             'markdown_in_attachments' => ['text'],
+            'is_slack_enabled'        => true,
         ];
 
         $client = new Client('http://fake.endpoint', $defaults);
