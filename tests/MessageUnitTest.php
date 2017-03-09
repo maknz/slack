@@ -169,6 +169,19 @@ class MessageUnitTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(':ghost:', $message->getIcon());
     }
 
+    public function testSetMarkdown()
+    {
+        $message = $this->getMessage();
+
+        $message->enableMarkdown();
+
+        $this->assertEquals(true, $message->getAllowMarkdown());
+
+        $message->disableMarkdown();
+
+        $this->assertEquals(false, $message->getAllowMarkdown());
+    }
+
     public function testSetIconToUrl()
     {
         $message = $this->getMessage();
