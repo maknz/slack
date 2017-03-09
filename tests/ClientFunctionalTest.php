@@ -2,6 +2,10 @@
 
 use Razorpay\Slack\Client;
 use Razorpay\Slack\Attachment;
+use Illuminate\Container\Container;
+use Illuminate\Queue\Jobs\SyncJob as Jobs;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Psr7\Request;
 
 class ClientFunctionalTest extends PHPUnit_Framework_TestCase
 {
@@ -420,6 +424,54 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
         $this->queue->mockery_verify();
     }
 
+    public function testClientFire()
+    {
+        $job = new Jobs(new Container(), '', 'test-connection', 'test-queue');
+
+        $client = $this->getNetworkStubbedClient();
+
+        $data = [
+            'metadata' => [
+                'num_retries' => 1,
+            ]
+        ];
+
+        $client->fire($job, $data);
+
+        $data = [
+            'metadata' => [
+                'num_retries' => 10,
+            ],
+            'text' => 'Test Message'
+        ];
+
+        $client->fire($job, $data);
+    }
+
+    public function testClientFireWithException()
+    {
+        $job = new Jobs(new Container(), '', 'test-connection', 'test-queue');
+
+        $client = $this->getNetworkStubbedClientAndThrowClientException();
+
+        $data = [
+            'metadata' => [
+                'num_retries' => 1,
+            ]
+        ];
+
+        $client->fire($job, $data);
+
+        $data = [
+            'metadata' => [
+                'num_retries' => 10,
+            ],
+            'text' => 'Test Message'
+        ];
+
+        $client->fire($job, $data);
+    }
+
     protected function getNetworkStubbedClient()
     {
         $guzzle = Mockery::mock('GuzzleHttp\Client');
@@ -438,6 +490,19 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
         $this->guzzle = Mockery::mock('GuzzleHttp\Client');
 
         $this->guzzle->shouldReceive('post')->times($guzzleCount)->andThrow(new Exception());
+
+        $this->queue = Mockery::mock('Illuminate\queue');
+
+        $this->queue->shouldReceive('push')->times($queueCount);
+
+        return new Client('http://fake.endpoint', [], $this->queue, $this->guzzle);
+    }
+
+    protected function getNetworkStubbedClientAndThrowClientException($guzzleCount = 1, $queueCount = 1)
+    {
+        $this->guzzle = Mockery::mock('GuzzleHttp\Client');
+
+        $this->guzzle->shouldReceive('post')->times($guzzleCount)->andThrow(new ClientException('Invalid', new Request('post', 'http://fake.endpoint')));
 
         $this->queue = Mockery::mock('Illuminate\queue');
 
