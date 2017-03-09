@@ -564,7 +564,7 @@ class Message
      */
     public function queue(
         $headline,
-        array $postData,
+        array $postData = [],
         array $settings = [],
         $pretext = '',
         $numRetries = self::MAX_RETRY_ATTEMPTS,
@@ -586,7 +586,7 @@ class Message
     public function onQueue(
         $queue,
         $headline,
-        array $postData,
+        array $postData = [],
         array $settings = [],
         $pretext = '',
         $numRetries = self::MAX_RETRY_ATTEMPTS)

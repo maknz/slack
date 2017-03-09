@@ -328,12 +328,43 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
         $client->send(mb_convert_encoding('æøå', 'ISO-8859-1', 'UTF-8'));
     }
 
+    public function testSendMessageWithSlackDisabled()
+    {
+        $client = $this->getNetworkStubbedClient();
+
+        $client->setSlackStatus(false);
+
+        $client->send('Test Message');
+    }
+
+    public function testSendMessage()
+    {
+        $client = $this->getNetworkStubbedClient();
+
+        $client->send('Test Message');
+    }
+
+    public function testSendMessageOnQueue()
+    {
+        $client = $this->getNetworkStubbedClient();
+
+        $client->queue('Test Message');
+
+        $client->setSlackStatus(false);
+
+        $client->send('Test Message');
+    }
+
     protected function getNetworkStubbedClient()
     {
         $guzzle = Mockery::mock('GuzzleHttp\Client');
 
         $guzzle->shouldReceive('post');
 
-        return new Client('http://fake.endpoint', [], $guzzle);
+        $queue = Mockery::mock('Illuminate\queue');
+
+        $queue->shouldReceive('push');
+
+        return new Client('http://fake.endpoint', [], $queue, $guzzle);
     }
 }
