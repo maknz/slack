@@ -95,7 +95,6 @@ class Client
      */
     protected $slackStatus = true;
 
-
     /**
      * Queue wait timeout on releasing the job. Ideally, for a more complicated scenario
      * the wait timeout could increase based on the number of failures. But we
@@ -474,33 +473,6 @@ class Client
     }
 
     /**
-     * Actually send the message
-     *
-     * @param array $data Slack Payload
-     *
-     * @return void
-     * @throws GuzzleHttp\Exception\ClientException   throws exception due to network errors. The client/caller
-     *                                                needs to handle this as the resulting behavior might be
-     *                                                different for different client calls between syncronous and
-     *                                                asynchronous calls
-     */
-    protected function messagePoster($data)
-    {
-        $encoded = json_encode($data, JSON_UNESCAPED_UNICODE);
-
-        if ($encoded === false)
-        {
-            throw new RuntimeException(
-                sprintf(
-                    'JSON encoding error %s: %s',
-                    json_last_error(),
-                    json_last_error_msg()));
-        }
-
-        $this->guzzle->post($this->endpoint, ['body' => $encoded]);
-    }
-
-    /**
      * Queue a message
      *
      * @param \Razorpay\Slack\Message $message message
@@ -533,7 +505,7 @@ class Client
         {
             try
             {
-                $this->messagePoster($data);
+                $this->sendPayload($data);
 
                 $job->delete();
             }
@@ -566,11 +538,6 @@ class Client
         if ($numRetries)
         {
             $payload['metadata'] = ['num_retries' => $numRetries];
-        }
-
-        if ($icon = $message->getIcon())
-        {
-            $payload[$message->getIconType()] = $icon;
         }
 
         $payload['attachments'] = $this->getAttachmentsAsArrays($message);
@@ -608,6 +575,22 @@ class Client
     {
         $payload = $this->preparePayload($message);
 
+        $this->sendPayload($payload);
+    }
+
+    /**
+     * Actually send the message
+     *
+     * @param array $data Slack Payload
+     *
+     * @return void
+     * @throws GuzzleHttp\Exception\ClientException   throws exception due to network errors. The client/caller
+     *                                                needs to handle this as the resulting behavior might be
+     *                                                different for different client calls between syncronous and
+     *                                                asynchronous calls
+     */
+    public function sendPayload($payload)
+    {
         $encoded = json_encode($payload, JSON_UNESCAPED_UNICODE);
 
         if ($encoded === false)

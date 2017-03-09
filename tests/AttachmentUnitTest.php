@@ -3,6 +3,7 @@
 use Razorpay\Slack\Attachment;
 use Razorpay\Slack\AttachmentAction;
 use Razorpay\Slack\AttachmentField;
+use Razorpay\Slack\ActionConfirmation;
 
 class AttachmentUnitTest extends PHPUnit_Framework_TestCase
 {
@@ -220,6 +221,48 @@ class AttachmentUnitTest extends PHPUnit_Framework_TestCase
         $this->assertSame('Text 1', $actions[0]->getText());
     }
 
+    public function testInvalidAction()
+    {
+        $ac = new AttachmentAction([
+            'name' => 'Name 1',
+            'text' => 'Text 1',
+            'style' => 'default',
+            'type' => 'button',
+            'value' => 'Value 1',
+            'confirm' => [
+                'title' => 'Title 1',
+                'text' => 'Text 1',
+                'ok_text' => 'OK Text 1',
+                'dismiss_text' => 'Dismiss Text 1',
+            ],
+        ]);
+
+        $this->setExpectedException(InvalidArgumentException::class, 'The action confirmation must be an instance of Razorpay\Slack\ActionConfirmation or a keyed array');
+
+        $ac->setConfirm('Invalid');
+    }
+
+    public function testActionConfirmationObject()
+    {
+        $ac = new AttachmentAction([
+            'name' => 'Name 1',
+            'text' => 'Text 1',
+            'style' => 'default',
+            'type' => 'button',
+            'value' => 'Value 1',
+            'confirm' => [
+                'title' => 'Title 1',
+                'text' => 'Text 1',
+                'ok_text' => 'OK Text 1',
+                'dismiss_text' => 'Dismiss Text 1',
+            ],
+        ]);
+
+        $acc = new ActionConfirmation([]);
+
+        $ac->setConfirm($acc);
+    }
+
     public function testAddActionAsObject()
     {
         $a = new Attachment([
@@ -314,5 +357,29 @@ class AttachmentUnitTest extends PHPUnit_Framework_TestCase
         $a->setFields([]);
 
         $this->assertSame(0, count($a->getFields()));
+    }
+
+    public function testInvalidAttachmentField()
+    {
+        $a = new Attachment([
+            'fallback' => 'Fallback',
+            'text'     => 'Text',
+        ]);
+
+        $this->setExpectedException(InvalidArgumentException::class, 'The attachment field must be an instance of Razorpay\Slack\AttachmentField or a keyed array');
+
+        $a->addField('Invalid');
+    }
+
+    public function testInvalidAddAction()
+    {
+        $a = new Attachment([
+            'fallback' => 'Fallback',
+            'text'     => 'Text',
+        ]);
+
+        $this->setExpectedException(InvalidArgumentException::class, 'The attachment action must be an instance of Razorpay\Slack\AttachmentAction or a keyed array');
+
+        $a->addAction('Invalid');
     }
 }
