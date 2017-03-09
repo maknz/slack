@@ -344,13 +344,68 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
         $client->send('Test Message');
     }
 
-    public function testSendMessageOnQueue()
+    public function testSendMessageWithPostData()
+    {
+        $client = $this->getNetworkStubbedClient();
+
+        $client->send('Test Message', ['test'=> 'data']);
+    }
+
+    public function testSendMessageWithMultiplArrayPostData()
+    {
+        $client = $this->getNetworkStubbedClient();
+
+        $client->send('Test Message', ['test'=> ['key' =>'value']]);
+    }
+
+    public function testSendMessageWithInvalidRetry()
+    {
+        $client = $this->getNetworkStubbedClient();
+
+        $client->send('Test Message', [], [], '', -10);
+    }
+
+    public function testSendMessageWithChannel()
+    {
+        $client = $this->getNetworkStubbedClient();
+
+        $client->send('Test Message', [], ['channel'=> '#general']);
+    }
+
+    public function testSendMessageQueue()
     {
         $client = $this->getNetworkStubbedClient();
 
         $client->queue('Test Message');
 
         $client->setSlackStatus(false);
+
+        $client->queue('Test Message');
+    }
+
+    public function testSendMessageOnQueue()
+    {
+        $client = $this->getNetworkStubbedClient();
+
+        $client->onQueue('queue', 'Test Message');
+
+        $client->setSlackStatus(false);
+
+        $client->onQueue('queue', 'Test Message');
+    }
+
+    public function testInvalidAttachments()
+    {
+        $client = $this->getNetworkStubbedClient();
+
+        $this->setExpectedException(InvalidArgumentException::class, 'Attachment must be an instance of Razorpay\Slack\Attachment or a keyed array');
+
+        $client->attach('invalid attachment');
+    }
+
+    public function testUnchaughtExceptionInSend()
+    {
+        $client = $this->getNetworkStubbedClientAndThrowException();
 
         $client->send('Test Message');
     }
@@ -367,4 +422,18 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
 
         return new Client('http://fake.endpoint', [], $queue, $guzzle);
     }
+
+    protected function getNetworkStubbedClientAndThrowException()
+    {
+        $guzzle = Mockery::mock('GuzzleHttp\Client');
+
+        $guzzle->shouldReceive('post')->andThrow(new Exception());
+
+        $queue = Mockery::mock('Illuminate\queue');
+
+        $queue->shouldReceive('push');
+
+        return new Client('http://fake.endpoint', [], $queue, $guzzle);
+    }
+
 }

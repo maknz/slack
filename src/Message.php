@@ -641,7 +641,7 @@ class Message
             {
                 $result = array_merge(
                     $result,
-                    flattenArray(
+                    $this->flattenArray(
                         $value,
                         $separator,
                         $newKey));
