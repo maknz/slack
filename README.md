@@ -1,8 +1,7 @@
 # Slack for PHP
 
 [![Build Status](https://travis-ci.org/razorpay/slack.svg?branch=master)](https://travis-ci.org/razorpay/slack)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/razorpay/slack/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/razorpay/slack/?branch=master)
-[![StyleCI](https://styleci.io/repos/19448330/shield)](https://styleci.io/repos/19448330)
+[![Coverage Status](https://coveralls.io/repos/github/razorpay/slack/badge.svg?branch=plugins)](https://coveralls.io/github/razorpay/slack?branch=plugins)
 
 A simple PHP package for sending messages to [Slack](https://slack.com) with [incoming webhooks](https://my.slack.com/services/new/incoming-webhook), focussed on ease-of-use and elegant syntax. **Note: this package is no longer being actively maintained.**
 
