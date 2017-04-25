@@ -484,7 +484,7 @@ class Client
 
         $encoded = json_encode($payload, JSON_UNESCAPED_UNICODE);
 
-        $this->queue->push(__CLASS__, $payload, $queue);
+        $this->queue->push(static::class, $payload, $queue);
     }
 
     /**
