@@ -223,7 +223,7 @@ class Message
      * Slack's Markdown-like language.
      *
      * @param bool $value
-     * @return void
+     * @return $this
      */
     public function setAllowMarkdown($value)
     {
@@ -235,7 +235,7 @@ class Message
     /**
      * Enable Markdown formatting for the message.
      *
-     * @return void
+     * @return $this
      */
     public function enableMarkdown()
     {
@@ -247,7 +247,7 @@ class Message
     /**
      * Disable Markdown formatting for the message.
      *
-     * @return void
+     * @return $this
      */
     public function disableMarkdown()
     {
@@ -272,7 +272,7 @@ class Message
      * in Slack's Markdown-like language.
      *
      * @param array $fields
-     * @return void
+     * @return $this
      */
     public function setMarkdownInAttachments(array $fields)
     {
