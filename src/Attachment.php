@@ -120,6 +120,14 @@ class Attachment
     protected $markdown_fields = [];
 
     /**
+     * The callback_id used by the API receiving
+     * the POST request to respond to interactive buttons 
+     *
+     * @var string
+     */
+    protected $callback_id;
+
+    /**
      * A collection of actions (buttons) to include in the attachment.
      * A maximum of 5 actions may be provided.
      *
@@ -197,6 +205,10 @@ class Attachment
 
         if (isset($attributes['author_icon'])) {
             $this->setAuthorIcon($attributes['author_icon']);
+        }
+
+        if (isset($attributes['callback_id'])) {
+            $this->setCallbackId($attributes['callback_id']);
         }
 
         if (isset($attributes['actions'])) {
@@ -624,6 +636,28 @@ class Attachment
     }
 
     /**
+     * Get the callback_id specified for the attachment
+     *
+     * @return string
+     */
+    public function getCallbackId()
+    {
+        return $this->callback_id;
+    }
+
+    /**
+     * Set the callback_id for the attachment
+     *
+     * @param string
+     * @return $this
+     */    public function setCallbackId($callback_id)
+    {
+        $this->callback_id = $callback_id;
+
+        return $this;
+    }
+    
+    /**
      * Get the collection of actions (buttons) to include in the attachment.
      *
      * @return AttachmentAction[]
@@ -694,6 +728,7 @@ class Attachment
             'author_name' => $this->getAuthorName(),
             'author_link' => $this->getAuthorLink(),
             'author_icon' => $this->getAuthorIcon(),
+            'callback_id' => $this->getCallbackId(),
         ];
 
         $data['fields'] = $this->getFieldsAsArrays();
