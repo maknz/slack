@@ -15,6 +15,7 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
             'username' => 'Archer',
             'channel' => '@regan',
             'text' => 'Message',
+            'icon_emoji' => ':poop:',
             'link_names' => 0,
             'unfurl_links' => false,
             'unfurl_media' => true,
@@ -24,7 +25,7 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
 
         $client = new Client('http://fake.endpoint');
 
-        $message = $client->to('@regan')->from('Archer')->setText('Message');
+        $message = $client->to('@regan')->withIcon(':poop:')->from('Archer')->setText('Message');
 
         $payload = $client->preparePayload($message);
 
