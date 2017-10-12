@@ -8,13 +8,24 @@ use RuntimeException;
 /**
  * Class Client
  *
- * @method Message attach($attachment)
- * @method Message clearAttachments()
- * @method Message disableMarkdown()
+ * @method string getText()
+ * @method Message setText(string $text)
+ * @method string getChannel()
+ * @method Message setChannel(string $channel)
+ * @method string getUsername()
+ * @method Message setUsername(string $username)
+ * @method string getIcon()
+ * @method Message setIcon(string $icon)
+ * @method string getIconType()
  * @method Message enableMarkdown()
+ * @method Message disableMarkdown()
  * @method Message from(string $username)
- * @method Message to(string $username)
+ * @method Message to(string $channel)
  * @method Message withIcon(string $icon)
+ * @method Message attach(mixed $attachment)
+ * @method array getAttachments()
+ * @method Message setAttachments(array $attachments)
+ * @method Message clearAttachments()
  * @method Message send(string $text = null)
  */
 class Client
