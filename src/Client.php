@@ -360,7 +360,7 @@ class Client
      * Send a message.
      *
      * @param \Maknz\Slack\Message $message
-     * @return void
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function sendMessage(Message $message)
     {
@@ -372,7 +372,7 @@ class Client
             throw new RuntimeException(sprintf('JSON encoding error %s: %s', json_last_error(), json_last_error_msg()));
         }
 
-        $this->guzzle->post($this->endpoint, ['body' => $encoded]);
+        return $this->guzzle->post($this->endpoint, ['body' => $encoded]);
     }
 
     /**
