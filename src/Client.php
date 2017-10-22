@@ -368,6 +368,11 @@ class Client
         $payload = $this->preparePayload($message);
 
         if ($web_api) {
+            foreach ($payload as $key => $p) {
+                if (is_array($p)) {
+                    $payload[$key] = json_encode($p, JSON_UNESCAPED_UNICODE);
+                }
+            }
             return $this->guzzle->post($this->endpoint, ['form_params' => $payload]);
         }
         else {
