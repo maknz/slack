@@ -360,19 +360,25 @@ class Client
      * Send a message.
      *
      * @param \Maknz\Slack\Message $message
+     * @param bool $web_api Incoming web hook or Web API
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function sendMessage(Message $message)
+    public function sendMessage(Message $message, $web_api = false)
     {
         $payload = $this->preparePayload($message);
 
-        $encoded = json_encode($payload, JSON_UNESCAPED_UNICODE);
-
-        if ($encoded === false) {
-            throw new RuntimeException(sprintf('JSON encoding error %s: %s', json_last_error(), json_last_error_msg()));
+        if ($web_api) {
+            return $this->guzzle->post($this->endpoint, ['form_params' => $payload]);
         }
+        else {
+            $encoded = json_encode($payload, JSON_UNESCAPED_UNICODE);
 
-        return $this->guzzle->post($this->endpoint, ['body' => $encoded]);
+            if ($encoded === false) {
+                throw new RuntimeException(sprintf('JSON encoding error %s: %s', json_last_error(), json_last_error_msg()));
+            }
+
+            return $this->guzzle->post($this->endpoint, ['body' => $encoded]);
+        }
     }
 
     /**
