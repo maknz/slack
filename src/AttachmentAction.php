@@ -216,18 +216,18 @@ class AttachmentAction
      */
     public function toArray()
     {
-        $confirm = $this->getConfirm();
         $ret = [
-            'name' => $this->getName(),
-            'text' => $this->getText(),
-            'style' => $this->getStyle(),
-            'type' => $this->getType(),
-            'value' => $this->getValue(),
+            'name'    => $this->getName(),
+            'text'    => $this->getText(),
+            'style'   => $this->getStyle(),
+            'type'    => $this->getType(),
+            'value'   => $this->getValue(),
+            'confirm' => $this->getConfirm()->toArray(),
         ];
 
-        if($confirm){
-            $ret['confirm'] = $confirm->toArray();
-        }
+        $ret = array_filter($ret, function($item) {
+            return !empty($item);
+        });
 
         return $ret;
     }

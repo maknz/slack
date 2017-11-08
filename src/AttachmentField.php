@@ -125,10 +125,16 @@ class AttachmentField
      */
     public function toArray()
     {
-        return [
+        $ret = [
             'title' => $this->getTitle(),
             'value' => $this->getValue(),
             'short' => $this->getShort(),
         ];
+
+        $ret = array_filter($ret, function($item) {
+            return !empty($item);
+        });
+
+        return $ret;
     }
 }

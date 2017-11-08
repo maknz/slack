@@ -14,6 +14,13 @@ class Attachment
     protected $fallback;
 
     /**
+     * The callback_id
+     *
+     * @var string
+     */
+    protected $callback_id;
+
+    /**
      * Optional text that should appear within the attachment.
      *
      * @var string
@@ -139,6 +146,10 @@ class Attachment
             $this->setFallback($attributes['fallback']);
         }
 
+        if (isset($attributes['callback_id'])) {
+            $this->setCallbackId($attributes['callback_id']);
+        }
+
         if (isset($attributes['text'])) {
             $this->setText($attributes['text']);
         }
@@ -223,6 +234,29 @@ class Attachment
     public function setFallback($fallback)
     {
         $this->fallback = $fallback;
+
+        return $this;
+    }
+
+
+    /**
+     * Get the callback_id.
+     *
+     * @return string
+     */
+    public function getCallbackId() {
+        return $this->callback_id;
+    }
+
+
+    /**
+     * Set the callback_id.
+     *
+     * @param string $fallback
+     * @return $this
+     */
+    public function setCallbackId($callback_id) {
+        $this->callback_id = $callback_id;
 
         return $this;
     }
@@ -679,18 +713,19 @@ class Attachment
     public function toArray()
     {
         $data = [
-            'fallback' => $this->getFallback(),
-            'text' => $this->getText(),
-            'pretext' => $this->getPretext(),
-            'color' => $this->getColor(),
-            'footer' => $this->getFooter(),
+            'fallback'    => $this->getFallback(),
+            'callback_id' => $this->getCallbackId(),
+            'text'        => $this->getText(),
+            'pretext'     => $this->getPretext(),
+            'color'       => $this->getColor(),
+            'footer'      => $this->getFooter(),
             'footer_icon' => $this->getFooterIcon(),
-            'ts' => $this->getTimestamp() ? $this->getTimestamp()->getTimestamp() : null,
-            'mrkdwn_in' => $this->getMarkdownFields(),
-            'image_url' => $this->getImageUrl(),
-            'thumb_url' => $this->getThumbUrl(),
-            'title' => $this->getTitle(),
-            'title_link' => $this->getTitleLink(),
+            'ts'          => $this->getTimestamp() ? $this->getTimestamp()->getTimestamp() : null,
+            'mrkdwn_in'   => $this->getMarkdownFields(),
+            'image_url'   => $this->getImageUrl(),
+            'thumb_url'   => $this->getThumbUrl(),
+            'title'       => $this->getTitle(),
+            'title_link'  => $this->getTitleLink(),
             'author_name' => $this->getAuthorName(),
             'author_link' => $this->getAuthorLink(),
             'author_icon' => $this->getAuthorIcon(),
@@ -698,6 +733,10 @@ class Attachment
 
         $data['fields'] = $this->getFieldsAsArrays();
         $data['actions'] = $this->getActionsAsArrays();
+
+        $data = array_filter($data, function($item) {
+            return !empty($item);
+        });
 
         return $data;
     }

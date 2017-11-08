@@ -410,6 +410,10 @@ class Client
 
         $payload['attachments'] = $this->getAttachmentsAsArrays($message);
 
+        $payload = array_filter($payload, function($item) {
+            return !empty($item);
+        });
+
         return $payload;
     }
 
