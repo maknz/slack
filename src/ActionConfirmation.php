@@ -140,11 +140,17 @@ class ActionConfirmation
      */
     public function toArray()
     {
-        return [
+        $ret = [
             'title' => $this->getTitle(),
             'text' => $this->getText(),
             'ok_text' => $this->getOkText(),
             'dismiss_text' => $this->getDismissText(),
         ];
+
+        $ret = array_filter($ret, function($item) {
+            return !empty($item);
+        });
+
+        return $ret;
     }
 }
