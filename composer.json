@@ -27,5 +27,6 @@
             "Maknz\\Slack\\": "src/"
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "abandoned": "alek13/slack"
 }
