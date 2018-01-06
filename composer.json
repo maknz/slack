@@ -1,6 +1,6 @@
 {
     "name": "alek13/slack",
-    "description": "A simple PHP package for sending messages to Slack, with a focus on ease of use and elegant syntax.",
+    "description": "A simple PHP package (fork of maknz/slack) for sending messages to Slack, with a focus on ease of use and elegant syntax.",
     "keywords": ["laravel", "slack"],
     "license": "BSD-2-Clause",
     "authors": [
