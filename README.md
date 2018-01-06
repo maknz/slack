@@ -1,17 +1,17 @@
 # Slack for PHP
 
-[![Build Status](https://travis-ci.org/maknz/slack.svg?branch=master)](https://travis-ci.org/maknz/slack)
+[![Build Status](https://travis-ci.org/maknz/slack.svg?branch=master)](https://travis-ci.org/alek13/slack)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/maknz/slack/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/maknz/slack/?branch=master)
 [![StyleCI](https://styleci.io/repos/19448330/shield)](https://styleci.io/repos/19448330)
 
-A simple PHP package for sending messages to [Slack](https://slack.com) with [incoming webhooks](https://my.slack.com/services/new/incoming-webhook), focussed on ease-of-use and elegant syntax. **Note: this package is no longer being actively maintained.**
+A simple PHP package for sending messages to [Slack](https://slack.com) with [incoming webhooks](https://my.slack.com/services/new/incoming-webhook), focussed on ease-of-use and elegant syntax.
 
 * Laravel integration: [Slack for Laravel](https://github.com/maknz/slack-laravel)
 * Symfony integration: [NexySlackBundle](https://github.com/nexylan/NexySlackBundle)
 
 ## Requirements
 
-* PHP 5.5, 5.6, 7.0 or HHVM
+* PHP 5.5, 5.6, 7.0, 7.1, 7.2 or HHVM
 
 ## Installation
 
