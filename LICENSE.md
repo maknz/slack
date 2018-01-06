@@ -1,5 +1,5 @@
-Copyright (c) 2014, Regan McEntyre (maknz)
-All rights reserved.
+Copyright (c) 2017-20xx, Alexander Chibrikin (alek13)  
+Copyright (c) 2014-2017, Regan McEntyre (maknz)  
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
