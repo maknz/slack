@@ -1,12 +1,16 @@
 {
-    "name": "maknz/slack",
-    "description": "A simple PHP package for sending messages to Slack, with a focus on ease of use and elegant syntax. Includes Laravel support out of the box.",
+    "name": "alek13/slack",
+    "description": "A simple PHP package for sending messages to Slack, with a focus on ease of use and elegant syntax.",
     "keywords": ["laravel", "slack"],
     "license": "BSD-2-Clause",
     "authors": [
         {
             "name": "maknz",
             "email": "github@mak.geek.nz"
+        },
+        {
+            "name": "Alexander Chibrikin",
+            "email": "alek13.me@gmail.com"
         }
     ],
     "require": {
