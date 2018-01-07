@@ -1,10 +1,12 @@
 # maknz/slack
 
-[![Build Status](https://travis-ci.org/maknz/slack.svg?branch=master)](https://travis-ci.org/alek13/slack)
+[![Build Status](https://travis-ci.org/alek13/slack.svg?branch=master)](https://travis-ci.org/alek13/slack)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/maknz/slack/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/maknz/slack/?branch=master)
 [![StyleCI](https://styleci.io/repos/19448330/shield)](https://styleci.io/repos/19448330)
 
-A simple PHP package for sending messages to [Slack](https://slack.com) with [incoming webhooks](https://my.slack.com/services/new/incoming-webhook), focussed on ease-of-use and elegant syntax.
+A simple PHP package for sending messages to [Slack](https://slack.com)
+with [incoming webhooks](https://my.slack.com/services/new/incoming-webhook),
+focused on ease-of-use and elegant syntax.
 
 * Laravel integration: [Slack for Laravel](https://github.com/maknz/slack-laravel)
 * Symfony integration: [NexySlackBundle](https://github.com/nexylan/NexySlackBundle)
@@ -18,7 +20,7 @@ A simple PHP package for sending messages to [Slack](https://slack.com) with [in
 You can install the package using the [Composer](https://getcomposer.org/) package manager. You can install it by running this command in your project root:
 
 ```sh
-composer require maknz/slack
+composer require alek13/slack
 ```
 
 Then [create an incoming webhook](https://my.slack.com/services/new/incoming-webhook) on your Slack account for the package to use. You'll need the webhook URL to instantiate the client (or for the configuration file if using Laravel).
