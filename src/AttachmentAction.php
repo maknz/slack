@@ -216,13 +216,15 @@ class AttachmentAction
      */
     public function toArray()
     {
+        $confirm = $this->getConfirm();
+
         return [
             'name' => $this->getName(),
             'text' => $this->getText(),
             'style' => $this->getStyle(),
             'type' => $this->getType(),
             'value' => $this->getValue(),
-            'confirm' => $this->getConfirm()->toArray(),
+            'confirm' => $confirm ? $confirm->toArray() : null,
         ];
     }
 }
