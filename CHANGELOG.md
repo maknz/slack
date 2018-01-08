@@ -1,6 +1,11 @@
 # Change Log
 
-## [1.8.0](https://github.com/skywinder/ActionSheetPicker-3.0/tree/2.3.0)
+## [1.8.0](https://github.com/alek13/slack/compare/1.7.0...1.8.0)
+ - speed up builds: store composer cache Alexander Chibrikin 1/8/18 4:11 AM
+ - add extra branch-alias for packagist Alexander Chibrikin 1/8/18 3:52 AM
+ - bugfix: fail on build AttachmentAction without confirm (fixes #1, fixes maknz/slack#61) Alexander Chibrikin 1/7/18 5:33 PM
+ - fix travis build; add builds for php 7.1, 7.2, nightly Alexander Chibrikin 1/6/18 8:48 PM
+ - rename & publish new package on Packagist.org
  - add CHANGELOG.md Alexander Chibrikin 1/8/18 1:39 AM
  - Better Travis version testing maknz 6/25/16 5:43 AM
  - Drop PHP 5.4, throw an exception if JSON encoding fails maknz 5/28/16 8:29 AM
