@@ -31,5 +31,10 @@
             "Maknz\\Slack\\": "src/"
         }
     },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.x-dev"
+        }
+    },
     "minimum-stability": "stable"
 }
