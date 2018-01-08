@@ -15,3 +15,7 @@ before_script:
 
 script:
   - vendor/bin/phpunit
+
+cache:
+  directories:
+    - $HOME/.composer/cache
