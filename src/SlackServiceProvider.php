@@ -2,8 +2,8 @@
 
 namespace Maknz\Slack;
 
-use Illuminate\Support\ServiceProvider;
 use RuntimeException;
+use Illuminate\Support\ServiceProvider;
 
 class SlackServiceProvider extends ServiceProvider
 {
