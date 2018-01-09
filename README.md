@@ -1,7 +1,7 @@
 # maknz/slack
 
 [![Build Status](https://travis-ci.org/alek13/slack.svg?branch=master)](https://travis-ci.org/alek13/slack)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/maknz/slack/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/maknz/slack/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/alek13/slack/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/alek13/slack/?branch=master)
 [![StyleCI](https://styleci.io/repos/19448330/shield)](https://styleci.io/repos/19448330)
 [![Slack Welcome](https://img.shields.io/badge/slack-welcome-brightgreen.svg)](https://join.slack.com/t/php-slack/shared_invite/enQtMjk1OTExNDkzMjg1LTk5ODg3MGE1OThlYzZlM2U0N2I5Y2FhM2NiYmFlMjE1MDNiOWRjMjc1ZDIwNWZlNzBkZWQ2ZWM1NzdmMjM5YzQ)
 
