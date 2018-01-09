@@ -1,8 +1,10 @@
 # Slack for PHP
 
 [![Build Status](https://travis-ci.org/alek13/slack.svg?branch=master)](https://travis-ci.org/alek13/slack)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/maknz/slack/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/maknz/slack/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/alek13/slack/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/alek13/slack/?branch=master)
+[![Dependency Status](https://beta.gemnasium.com/badges/github.com/alek13/slack.svg)](https://beta.gemnasium.com/projects/github.com/alek13/slack)
 [![StyleCI](https://styleci.io/repos/19448330/shield)](https://styleci.io/repos/19448330)
+[![Slack Welcome](https://img.shields.io/badge/slack-welcome-brightgreen.svg)](https://join.slack.com/t/php-slack/shared_invite/enQtMjk1OTExNDkzMjg1LTk5ODg3MGE1OThlYzZlM2U0N2I5Y2FhM2NiYmFlMjE1MDNiOWRjMjc1ZDIwNWZlNzBkZWQ2ZWM1NzdmMjM5YzQ)
 
 A simple PHP package for sending messages to [Slack](https://slack.com)
 with [incoming webhooks](https://my.slack.com/services/new/incoming-webhook),
