@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.8.1](https://github.com/alek13/slack/compare/1.8.0...1.8.1)
+
+ - Fix bug where message wouldn't get returned on send, closes maknz/slack#47 maknz* 6/26/16 8:06 AM
+ - integrated Gemnasium; add dependency status badge Alexander Chibrikin 1/9/18 3:38 AM
+ - integrated Scrutinizer-CI; change badge Alexander Chibrikin 1/9/18 3:36 AM
+ - add slack welcome badge for community slack workspace Alexander Chibrikin 1/8/18 11:55 PM
+
 ## [1.8.0](https://github.com/alek13/slack/compare/1.7.0...1.8.0)
  - speed up builds: store composer cache Alexander Chibrikin 1/8/18 4:11 AM
  - add extra branch-alias for packagist Alexander Chibrikin 1/8/18 3:52 AM
