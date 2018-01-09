@@ -2,8 +2,8 @@
 
 namespace Maknz\Slack;
 
-use Illuminate\Support\ServiceProvider;
 use GuzzleHttp\Client as Guzzle;
+use Illuminate\Support\ServiceProvider;
 
 class SlackServiceProviderLaravel4 extends ServiceProvider
 {

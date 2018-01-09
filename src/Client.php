@@ -2,8 +2,8 @@
 
 namespace Maknz\Slack;
 
-use GuzzleHttp\Client as Guzzle;
 use RuntimeException;
+use GuzzleHttp\Client as Guzzle;
 
 class Client
 {
