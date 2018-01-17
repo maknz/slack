@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.9.0](https://github.com/alek13/slack/compare/1.9.0...1.9.1)
+ - improve & fix doc-block: right types + @throws added
+ - fix Attachment::setIcon() return value
+
 ## [1.9.0](https://github.com/alek13/slack/compare/1.8.1...1.9.0)
  - Added optional footer attachments. Closes maknz/slack#87, closes #2 George* 6/15/16 12:08 AM
  - Php doc-blocks fixes. (Mesut Vatansever* 10/20/16 12:06 PM, Michal Vyšinský* 10/19/16 10:58 AM, Freek Van der Herten* 7/18/16 10:51 PM)
