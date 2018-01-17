@@ -83,9 +83,12 @@ class Client
     /**
      * Instantiate a new Client.
      *
-     * @param string $endpoint
-     * @param array $attributes
-     * @return void
+     * @param string                  $endpoint
+     * @param array                   $attributes
+     * @param \GuzzleHttp\Client|null $guzzle
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
      */
     public function __construct($endpoint, array $attributes = [], Guzzle $guzzle = null)
     {
@@ -360,7 +363,8 @@ class Client
      * Send a message.
      *
      * @param \Maknz\Slack\Message $message
-     * @return void
+     *
+     * @throws \RuntimeException
      */
     public function sendMessage(Message $message)
     {
@@ -406,6 +410,7 @@ class Client
      * Get the attachments in array form.
      *
      * @param \Maknz\Slack\Message $message
+     *
      * @return array
      */
     protected function getAttachmentsAsArrays(Message $message)

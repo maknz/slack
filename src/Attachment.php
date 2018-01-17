@@ -131,7 +131,8 @@ class Attachment
      * Instantiate a new Attachment.
      *
      * @param array $attributes
-     * @return void
+     *
+     * @throws \InvalidArgumentException
      */
     public function __construct(array $attributes)
     {
@@ -491,9 +492,10 @@ class Attachment
     }
 
     /**
-     * Set the auhtor link to use for the attachment.
+     * Set the author link to use for the attachment.
      *
      * @param string $author_link
+     *
      * @return $this
      */
     public function setAuthorLink($author_link)
@@ -540,7 +542,10 @@ class Attachment
      * Set the fields for the attachment.
      *
      * @param array $fields
+     *
      * @return $this
+     *
+     * @throws \InvalidArgumentException
      */
     public function setFields(array $fields)
     {
@@ -557,7 +562,10 @@ class Attachment
      * Add a field to the attachment.
      *
      * @param mixed $field
+     *
      * @return $this
+     *
+     * @throws \InvalidArgumentException
      */
     public function addField($field)
     {
@@ -637,7 +645,10 @@ class Attachment
      * Set the collection of actions (buttons) to include in the attachment.
      *
      * @param array $actions
+     *
      * @return Attachment
+     *
+     * @throws \InvalidArgumentException
      */
     public function setActions($actions)
     {
@@ -654,7 +665,10 @@ class Attachment
      * Add an action to the attachment.
      *
      * @param mixed $action
+     *
      * @return $this
+     *
+     * @throws \InvalidArgumentException
      */
     public function addAction($action)
     {

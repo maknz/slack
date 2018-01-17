@@ -45,7 +45,7 @@ class Message
     /**
      * The type of icon we are using.
      *
-     * @var enum
+     * @var string (one of self::ICON_* constants)
      */
     protected $iconType;
 
@@ -68,7 +68,7 @@ class Message
     /**
      * An array of attachments to send.
      *
-     * @var array
+     * @var Attachment[]
      */
     protected $attachments = [];
 
@@ -86,6 +86,7 @@ class Message
      * Instantiate a new Message.
      *
      * @param \Maknz\Slack\Client $client
+     *
      * @return void
      */
     public function __construct(Client $client)
@@ -107,6 +108,7 @@ class Message
      * Set the message text.
      *
      * @param string $text
+     *
      * @return $this
      */
     public function setText($text)
@@ -130,6 +132,7 @@ class Message
      * Set the channel we will post to.
      *
      * @param string $channel
+     *
      * @return $this
      */
     public function setChannel($channel)
@@ -153,6 +156,7 @@ class Message
      * Set the username we will post as.
      *
      * @param string $username
+     *
      * @return $this
      */
     public function setUsername($username)
@@ -176,6 +180,7 @@ class Message
      * Set the icon (either URL or emoji) we will post as.
      *
      * @param string $icon
+     *
      * @return $this
      */
     public function setIcon($icon)
@@ -183,7 +188,7 @@ class Message
         if ($icon == null) {
             $this->icon = $this->iconType = null;
 
-            return;
+            return $this;
         }
 
         if (mb_substr($icon, 0, 1) == ':' && mb_substr($icon, mb_strlen($icon) - 1, 1) == ':') {
@@ -223,11 +228,12 @@ class Message
      * Slack's Markdown-like language.
      *
      * @param bool $value
-     * @return void
+     *
+     * @return $this
      */
     public function setAllowMarkdown($value)
     {
-        $this->allow_markdown = (bool) $value;
+        $this->allow_markdown = (bool)$value;
 
         return $this;
     }
@@ -235,7 +241,7 @@ class Message
     /**
      * Enable Markdown formatting for the message.
      *
-     * @return void
+     * @return $this
      */
     public function enableMarkdown()
     {
@@ -247,7 +253,7 @@ class Message
     /**
      * Disable Markdown formatting for the message.
      *
-     * @return void
+     * @return $this
      */
     public function disableMarkdown()
     {
@@ -272,7 +278,8 @@ class Message
      * in Slack's Markdown-like language.
      *
      * @param array $fields
-     * @return void
+     *
+     * @return $this
      */
     public function setMarkdownInAttachments(array $fields)
     {
@@ -285,6 +292,7 @@ class Message
      * Change the name of the user the post will be made as.
      *
      * @param string $username
+     *
      * @return $this
      */
     public function from($username)
@@ -298,6 +306,7 @@ class Message
      * Change the channel the post will be made to.
      *
      * @param string $channel
+     *
      * @return $this
      */
     public function to($channel)
@@ -311,6 +320,7 @@ class Message
      * Chainable method for setting the icon.
      *
      * @param string $icon
+     *
      * @return $this
      */
     public function withIcon($icon)
@@ -324,7 +334,10 @@ class Message
      * Add an attachment to the message.
      *
      * @param mixed $attachment
+     *
      * @return $this
+     *
+     * @throws \InvalidArgumentException
      */
     public function attach($attachment)
     {
@@ -335,7 +348,7 @@ class Message
         } elseif (is_array($attachment)) {
             $attachmentObject = new Attachment($attachment);
 
-            if (! isset($attachment['mrkdwn_in'])) {
+            if ( ! isset($attachment['mrkdwn_in'])) {
                 $attachmentObject->setMarkdownFields($this->getMarkdownInAttachments());
             }
 
@@ -350,7 +363,7 @@ class Message
     /**
      * Get the attachments for the message.
      *
-     * @return array
+     * @return Attachment[]
      */
     public function getAttachments()
     {
@@ -361,7 +374,10 @@ class Message
      * Set the attachments for the message.
      *
      * @param array $attachments
+     *
      * @return $this
+     *
+     * @throws \InvalidArgumentException
      */
     public function setAttachments(array $attachments)
     {
@@ -390,7 +406,10 @@ class Message
      * Send the message.
      *
      * @param string $text The text to send
-     * @return void
+     *
+     * @return \Maknz\Slack\Message
+     *
+     * @throws \RuntimeException
      */
     public function send($text = null)
     {
