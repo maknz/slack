@@ -58,7 +58,8 @@ class AttachmentAction
      * Instantiate a new AttachmentAction.
      *
      * @param array $attributes
-     * @return void
+     *
+     * @throws \InvalidArgumentException
      */
     public function __construct(array $attributes)
     {
@@ -192,7 +193,10 @@ class AttachmentAction
 
     /**
      * @param ActionConfirmation|array $confirm
+     *
      * @return AttachmentAction
+     *
+     * @throws \InvalidArgumentException
      */
     public function setConfirm($confirm)
     {
