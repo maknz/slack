@@ -48,6 +48,13 @@ class AttachmentAction
     protected $value;
 
     /**
+     * Optional URL.
+     *
+     * @var string
+     */
+    protected $url;
+
+    /**
      * Confirmation field.
      *
      * @var ActionConfirmation
@@ -77,6 +84,10 @@ class AttachmentAction
 
         if (isset($attributes['type'])) {
             $this->setType($attributes['type']);
+        }
+
+        if (isset($attributes['url'])) {
+            $this->setUrl($attributes['url']);
         }
 
         if (isset($attributes['value'])) {
@@ -122,6 +133,25 @@ class AttachmentAction
     public function setText($text)
     {
         $this->text = $text;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param string $url
+     * @return AttachmentAction
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
 
         return $this;
     }
@@ -228,6 +258,7 @@ class AttachmentAction
             'style' => $this->getStyle(),
             'type' => $this->getType(),
             'value' => $this->getValue(),
+            'url' => $this->getUrl(),
             'confirm' => $confirm ? $confirm->toArray() : null,
         ];
     }
