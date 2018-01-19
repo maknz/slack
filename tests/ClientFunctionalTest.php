@@ -220,6 +220,7 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
                     'style' => 'default',
                     'type' => 'button',
                     'value' => 'Value 1',
+                    'url' => 'https://www.example.com/',
                     'confirm' => [
                         'title' => 'Title 1',
                         'text' => 'Text 1',
@@ -233,6 +234,7 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
                     'style' => 'default',
                     'type' => 'button',
                     'value' => 'Value 2',
+                    'url' => null,
                     'confirm' => [
                         'title' => 'Title 2',
                         'text' => 'Text 2',
@@ -267,6 +269,7 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
                     'style' => 'default',
                     'type' => 'button',
                     'value' => 'Value 1',
+                    'url' => 'https://www.example.com/',
                     'confirm' => [
                         'title' => 'Title 1',
                         'text' => 'Text 1',
@@ -280,6 +283,7 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
                     'style' => 'default',
                     'type' => 'button',
                     'value' => 'Value 2',
+                    'url' => null,
                     'confirm' => [
                         'title' => 'Title 2',
                         'text' => 'Text 2',
