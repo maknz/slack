@@ -1,6 +1,9 @@
 # Change Log
 
-## [1.9.0](https://github.com/alek13/slack/compare/1.9.0...1.9.1)
+## [1.10.0](https://github.com/alek13/slack/compare/1.9.1...1.10.0)
+ - Support of `url` field in `AttachmentAction` (by @rasmusdencker)
+
+## [1.9.1](https://github.com/alek13/slack/compare/1.9.0...1.9.1)
  - improve & fix doc-block: right types + @throws added
  - fix Attachment::setIcon() return value
 
