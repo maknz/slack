@@ -405,6 +405,8 @@ class Message
     /**
      * Send the message.
      *
+     * @deprecated
+     *
      * @param string $text The text to send
      *
      * @return \Maknz\Slack\Message
