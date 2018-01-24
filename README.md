@@ -10,8 +10,8 @@ A simple PHP package for sending messages to [Slack](https://slack.com)
 with [incoming webhooks](https://my.slack.com/services/new/incoming-webhook),
 focused on ease-of-use and elegant syntax.
 
-*supports:* PHP `5.5`, `5.6`, `7.0`, `7.1`, `7.2` or HHVM
-*require:* `guzzlehttp/guzzle` any of versions `~6.0|~5.0|~4.0`
+**supports:** PHP `5.5`, `5.6`, `7.0`, `7.1`, `7.2` or HHVM  
+**require:** `guzzlehttp/guzzle` any of versions `~6.0|~5.0|~4.0`
 
 > This is the fork of popular, great, but abandoned package [`maknz/slack`](https://github.com/maknz/slack)
 
