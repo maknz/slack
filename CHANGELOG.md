@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.10.1](https://github.com/alek13/slack/compare/1.10.0...1.10.1)
+ - mark `Message::send` deprecated for #15
+ - mark Laravel Provider as deprecated with link to new [separate package](https://github.com/alek13/slack-laravel)
+ - add `Questions` section in readme
+ - add `Quick Tour` section in readme
+
 ## [1.10.0](https://github.com/alek13/slack/compare/1.9.1...1.10.0)
  - Support of `url` field in `AttachmentAction` (by @rasmusdencker)
 
