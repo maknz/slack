@@ -10,22 +10,35 @@ A simple PHP package for sending messages to [Slack](https://slack.com)
 with [incoming webhooks](https://my.slack.com/services/new/incoming-webhook),
 focused on ease-of-use and elegant syntax.
 
-* Laravel integration: [Slack for Laravel](https://github.com/maknz/slack-laravel)
-* Symfony integration: [NexySlackBundle](https://github.com/nexylan/NexySlackBundle)
+*supports:* PHP `5.5`, `5.6`, `7.0`, `7.1`, `7.2` or HHVM
+*require:* `guzzlehttp/guzzle` any of versions `~6.0|~5.0|~4.0`
 
-## Requirements
+> This is the fork of popular, great, but abandoned package [`maknz/slack`](https://github.com/maknz/slack)
 
-* PHP 5.5, 5.6, 7.0, 7.1, 7.2 or HHVM
+# Quick Tour
+ - `composer require alek13/slack`
+ - [create an incoming webhook](https://my.slack.com/services/new/incoming-webhook) & copy `hook_url`
+ - `$client = new Client('http://hook_url')`
+ - `$client->to('#general')->send('Good morning');`
+
+Done!
+
+-------------------------------------------------
+-------------------------------------------------
+-------------------------------------------------
 
 ## Installation
 
-You can install the package using the [Composer](https://getcomposer.org/) package manager. You can install it by running this command in your project root:
+You can install the package using the [Composer](https://getcomposer.org/) package manager by running in your project root:
 
 ```sh
 composer require alek13/slack
 ```
 
-Then [create an incoming webhook](https://my.slack.com/services/new/incoming-webhook) on your Slack account for the package to use. You'll need the webhook URL to instantiate the client (or for the configuration file if using Laravel).
+## Incoming WebHook
+
+Then [create an incoming webhook](https://my.slack.com/services/new/incoming-webhook) on your Slack account for the package to use.
+You'll need the webhook URL to instantiate the client (or for the configuration file if using Laravel).
 
 ## Basic Usage
 
