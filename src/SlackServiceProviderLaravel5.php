@@ -5,6 +5,10 @@ namespace Maknz\Slack;
 use GuzzleHttp\Client as Guzzle;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * @deprecated see `alek13/slack-laravel` package
+ * @link https://github.com/alek13/slack-laravel
+ */
 class SlackServiceProviderLaravel5 extends ServiceProvider
 {
     /**

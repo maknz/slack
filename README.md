@@ -40,7 +40,9 @@ composer require alek13/slack
 Then [create an incoming webhook](https://my.slack.com/services/new/incoming-webhook) on your Slack account for the package to use.
 You'll need the webhook URL to instantiate the client (or for the configuration file if using Laravel).
 
-## Laravel
+## Laravel (@deprecated)
+
+> Warning: this functionality deprecated in this package and will be brought out into separated package
 
 We include service providers and a facade for easy integration and a nice syntax for Laravel.
 
@@ -305,6 +307,18 @@ $attachment = new Attachment([]);
 $attachment->setFields($bigArrayOfFields);
 ```
 
+# Questions
+
+[![Slack Welcome](https://img.shields.io/badge/slack-welcome-brightgreen.svg)](https://join.slack.com/t/php-slack/shared_invite/enQtMjk1OTExNDkzMjg1LTk5ODg3MGE1OThlYzZlM2U0N2I5Y2FhM2NiYmFlMjE1MDNiOWRjMjc1ZDIwNWZlNzBkZWQ2ZWM1NzdmMjM5YzQ)
+
+If you have any questions how to use or contribute,  
+you are welcome in our [Slack Workspace](https://join.slack.com/t/php-slack/shared_invite/enQtMjk1OTExNDkzMjg1LTk5ODg3MGE1OThlYzZlM2U0N2I5Y2FhM2NiYmFlMjE1MDNiOWRjMjc1ZDIwNWZlNzBkZWQ2ZWM1NzdmMjM5YzQ). 
+
 ## Contributing
 
-If you're having problems, spot a bug, or have a feature suggestion, please log and issue on Github. If you'd like to have a crack yourself, fork the package and make a pull request. Please include tests for any added or changed functionality. If it's a bug, include a regression test.
+[![Slack Welcome](https://img.shields.io/badge/slack-welcome-brightgreen.svg)](https://join.slack.com/t/php-slack/shared_invite/enQtMjk1OTExNDkzMjg1LTk5ODg3MGE1OThlYzZlM2U0N2I5Y2FhM2NiYmFlMjE1MDNiOWRjMjc1ZDIwNWZlNzBkZWQ2ZWM1NzdmMjM5YzQ)
+
+If you're having problems, spot a bug, or have a feature suggestion, please log and issue on Github.
+If you'd like to have a crack yourself, fork the package and make a pull request.
+Please include tests for any added or changed functionality.
+If it's a bug, include a regression test.
