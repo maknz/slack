@@ -9,7 +9,6 @@ use Mockery;
 class MessageUnitTest extends TestCase
 {
     /**
-     *
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
      */
@@ -19,7 +18,6 @@ class MessageUnitTest extends TestCase
     }
 
     /**
-     *
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
      */
@@ -33,7 +31,6 @@ class MessageUnitTest extends TestCase
     }
 
     /**
-     *
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
      */
@@ -47,7 +44,6 @@ class MessageUnitTest extends TestCase
     }
 
     /**
-     *
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
      */
@@ -61,7 +57,6 @@ class MessageUnitTest extends TestCase
     }
 
     /**
-     *
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
      */
@@ -75,7 +70,6 @@ class MessageUnitTest extends TestCase
     }
 
     /**
-     *
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
      */
@@ -89,7 +83,6 @@ class MessageUnitTest extends TestCase
     }
 
     /**
-     *
      * @throws \InvalidArgumentException
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
@@ -124,7 +117,6 @@ class MessageUnitTest extends TestCase
     }
 
     /**
-     *
      * @throws \InvalidArgumentException
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
@@ -150,7 +142,6 @@ class MessageUnitTest extends TestCase
     }
 
     /**
-     *
      * @throws \InvalidArgumentException
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
@@ -185,7 +176,6 @@ class MessageUnitTest extends TestCase
     }
 
     /**
-     *
      * @throws \InvalidArgumentException
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
@@ -216,7 +206,6 @@ class MessageUnitTest extends TestCase
     }
 
     /**
-     *
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
      */
@@ -232,7 +221,6 @@ class MessageUnitTest extends TestCase
     }
 
     /**
-     *
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
      */
