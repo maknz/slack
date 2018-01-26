@@ -4,3 +4,9 @@ risky: false
 
 linting: true
 
+enabled:
+  - not_operator_with_space
+
+disabled:
+  - single_blank_line_before_namespace
+  - cast_spaces
