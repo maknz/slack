@@ -1,5 +1,4 @@
 <?php
-
 namespace Maknz\Slack;
 
 class AttachmentField
