@@ -127,81 +127,86 @@ class Attachment
     protected $actions = [];
 
     /**
+     * Internal attribute to property map.
+     *
+     * @var array
+     */
+    protected static $availableAttributes = [
+        'fallback'    => 'fallback',
+        'text'        => 'text',
+        'image_url'   => 'image_url',
+        'thumb_url'   => 'thumb_url',
+        'pretext'     => 'pretext',
+        'color'       => 'color',
+        'footer'      => 'footer',
+        'footer_icon' => 'footer_icon',
+        'timestamp'   => 'timestamp',
+        'fields'      => 'fields',
+        'mrkdwn_in'   => 'markdown_fields',
+        'title'       => 'title',
+        'title_link'  => 'title_link',
+        'author_name' => 'author_name',
+        'author_link' => 'author_link',
+        'author_icon' => 'author_icon',
+        'actions'     => 'actions',
+    ];
+
+    /**
      * Instantiate a new Attachment.
      *
      * @param array $attributes
-     *
-     * @throws \InvalidArgumentException
      */
     public function __construct(array $attributes)
     {
-        if (isset($attributes['fallback'])) {
-            $this->setFallback($attributes['fallback']);
+        foreach ($attributes as $attribute => $value) {
+            $setter = self::getAttributeSetter($attribute);
+            if ($setter === null) {
+                continue;
+            }
+            $this->$setter($value);
         }
+    }
 
-        if (isset($attributes['text'])) {
-            $this->setText($attributes['text']);
-        }
+    /**
+     * Returns property setter method by given attribute name.
+     *
+     * @param string $attribute
+     *
+     * @return null|string
+     */
+    private static function getAttributeSetter(string $attribute)
+    {
+        $property = self::getAttributeProperty($attribute);
 
-        if (isset($attributes['image_url'])) {
-            $this->setImageUrl($attributes['image_url']);
-        }
+        return $property !== null ? self::propertyToSetter($property) : null;
+    }
 
-        if (isset($attributes['thumb_url'])) {
-            $this->setThumbUrl($attributes['thumb_url']);
-        }
+    /**
+     * Returns property name by given attribute name.
+     *
+     * @param string $attribute
+     *
+     * @return string|null
+     */
+    private static function getAttributeProperty(string $attribute)
+    {
+        return static::$availableAttributes[$attribute] ?? null;
+    }
 
-        if (isset($attributes['pretext'])) {
-            $this->setPretext($attributes['pretext']);
-        }
+    /**
+     * Converts property name to setter method name.
+     *
+     * @param string $property
+     *
+     * @return string
+     */
+    private static function propertyToSetter(string $property): string
+    {
+        $property = str_replace('_', ' ', $property);
+        $property = ucwords($property);
+        $property = str_replace(' ', '', $property);
 
-        if (isset($attributes['color'])) {
-            $this->setColor($attributes['color']);
-        }
-
-        if (isset($attributes['footer'])) {
-            $this->setFooter($attributes['footer']);
-        }
-
-        if (isset($attributes['footer_icon'])) {
-            $this->setFooterIcon($attributes['footer_icon']);
-        }
-
-        if (isset($attributes['timestamp'])) {
-            $this->setTimestamp($attributes['timestamp']);
-        }
-
-        if (isset($attributes['fields'])) {
-            $this->setFields($attributes['fields']);
-        }
-
-        if (isset($attributes['mrkdwn_in'])) {
-            $this->setMarkdownFields($attributes['mrkdwn_in']);
-        }
-
-        if (isset($attributes['title'])) {
-            $this->setTitle($attributes['title']);
-        }
-
-        if (isset($attributes['title_link'])) {
-            $this->setTitleLink($attributes['title_link']);
-        }
-
-        if (isset($attributes['author_name'])) {
-            $this->setAuthorName($attributes['author_name']);
-        }
-
-        if (isset($attributes['author_link'])) {
-            $this->setAuthorLink($attributes['author_link']);
-        }
-
-        if (isset($attributes['author_icon'])) {
-            $this->setAuthorIcon($attributes['author_icon']);
-        }
-
-        if (isset($attributes['actions'])) {
-            $this->setActions($attributes['actions']);
-        }
+        return 'set' . $property;
     }
 
     /**
@@ -218,6 +223,7 @@ class Attachment
      * Set the fallback text.
      *
      * @param string $fallback
+     *
      * @return $this
      */
     public function setFallback($fallback)
@@ -241,6 +247,7 @@ class Attachment
      * Set the optional text to appear within the attachment.
      *
      * @param string $text
+     *
      * @return $this
      */
     public function setText($text)
@@ -264,6 +271,7 @@ class Attachment
      * Set the optional image to appear within the attachment.
      *
      * @param string $image_url
+     *
      * @return $this
      */
     public function setImageUrl($image_url)
@@ -287,6 +295,7 @@ class Attachment
      * Set the optional thumbnail to appear within the attachment.
      *
      * @param string $thumb_url
+     *
      * @return $this
      */
     public function setThumbUrl($thumb_url)
@@ -310,6 +319,7 @@ class Attachment
      * Set the text that should appear above the formatted data.
      *
      * @param string $pretext
+     *
      * @return $this
      */
     public function setPretext($pretext)
@@ -333,6 +343,7 @@ class Attachment
      * Set the color to use for the attachment.
      *
      * @param string $color
+     *
      * @return $this
      */
     public function setColor($color)
@@ -356,6 +367,7 @@ class Attachment
      * Set the footer text to use for the attachment.
      *
      * @param string $footer
+     *
      * @return $this
      */
     public function setFooter($footer)
@@ -379,6 +391,7 @@ class Attachment
      * Set the footer icon to use for the attachment.
      *
      * @param string $footerIcon
+     *
      * @return $this
      */
     public function setFooterIcon($footerIcon)
@@ -402,6 +415,7 @@ class Attachment
      * Set the timestamp to use for the attachment.
      *
      * @param \DateTime $timestamp
+     *
      * @return $this
      */
     public function setTimestamp($timestamp)
@@ -425,6 +439,7 @@ class Attachment
      * Set the title to use for the attachment.
      *
      * @param string $title
+     *
      * @return $this
      */
     public function setTitle($title)
@@ -448,6 +463,7 @@ class Attachment
      * Set the title link to use for the attachment.
      *
      * @param string $title_link
+     *
      * @return $this
      */
     public function setTitleLink($title_link)
@@ -471,6 +487,7 @@ class Attachment
      * Set the author name to use for the attachment.
      *
      * @param string $author_name
+     *
      * @return $this
      */
     public function setAuthorName($author_name)
@@ -518,6 +535,7 @@ class Attachment
      * Set the author icon to use for the attachment.
      *
      * @param string $author_icon
+     *
      * @return $this
      */
     public function setAuthorIcon($author_icon)
@@ -621,6 +639,7 @@ class Attachment
      * Markdown-like language.
      *
      * @param array $fields
+     *
      * @return $this
      */
     public function setMarkdownFields(array $fields)
@@ -692,24 +711,24 @@ class Attachment
     public function toArray()
     {
         $data = [
-            'fallback' => $this->getFallback(),
-            'text' => $this->getText(),
-            'pretext' => $this->getPretext(),
-            'color' => $this->getColor(),
-            'footer' => $this->getFooter(),
+            'fallback'    => $this->getFallback(),
+            'text'        => $this->getText(),
+            'pretext'     => $this->getPretext(),
+            'color'       => $this->getColor(),
+            'footer'      => $this->getFooter(),
             'footer_icon' => $this->getFooterIcon(),
-            'ts' => $this->getTimestamp() ? $this->getTimestamp()->getTimestamp() : null,
-            'mrkdwn_in' => $this->getMarkdownFields(),
-            'image_url' => $this->getImageUrl(),
-            'thumb_url' => $this->getThumbUrl(),
-            'title' => $this->getTitle(),
-            'title_link' => $this->getTitleLink(),
+            'ts'          => $this->getTimestamp() ? $this->getTimestamp()->getTimestamp() : null,
+            'mrkdwn_in'   => $this->getMarkdownFields(),
+            'image_url'   => $this->getImageUrl(),
+            'thumb_url'   => $this->getThumbUrl(),
+            'title'       => $this->getTitle(),
+            'title_link'  => $this->getTitleLink(),
             'author_name' => $this->getAuthorName(),
             'author_link' => $this->getAuthorLink(),
             'author_icon' => $this->getAuthorIcon(),
         ];
 
-        $data['fields'] = $this->getFieldsAsArrays();
+        $data['fields']  = $this->getFieldsAsArrays();
         $data['actions'] = $this->getActionsAsArrays();
 
         return $data;
