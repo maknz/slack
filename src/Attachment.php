@@ -206,7 +206,7 @@ class Attachment
         $property = ucwords($property);
         $property = str_replace(' ', '', $property);
 
-        return 'set' . $property;
+        return 'set'.$property;
     }
 
     /**
@@ -728,7 +728,7 @@ class Attachment
             'author_icon' => $this->getAuthorIcon(),
         ];
 
-        $data['fields']  = $this->getFieldsAsArrays();
+        $data['fields'] = $this->getFieldsAsArrays();
         $data['actions'] = $this->getActionsAsArrays();
 
         return $data;
