@@ -1,8 +1,8 @@
 <?php
 namespace Slack\Tests;
 
-use Maknz\Slack\Message;
 use Maknz\Slack\Attachment;
+use Maknz\Slack\Message;
 use Mockery;
 
 class MessageUnitTest extends TestCase

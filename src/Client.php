@@ -1,9 +1,8 @@
 <?php
-
 namespace Maknz\Slack;
 
-use RuntimeException;
 use GuzzleHttp\Client as Guzzle;
+use RuntimeException;
 
 class Client
 {

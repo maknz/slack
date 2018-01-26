@@ -2,8 +2,8 @@
 namespace Slack\Tests;
 
 use DateTime;
-use Maknz\Slack\Client;
 use Maknz\Slack\Attachment;
+use Maknz\Slack\Client;
 use Mockery;
 use RuntimeException;
 

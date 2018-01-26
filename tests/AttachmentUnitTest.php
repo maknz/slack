@@ -3,8 +3,8 @@ namespace Slack\Tests;
 
 use DateTime;
 use Maknz\Slack\Attachment;
-use Maknz\Slack\AttachmentField;
 use Maknz\Slack\AttachmentAction;
+use Maknz\Slack\AttachmentField;
 
 class AttachmentUnitTest extends TestCase
 {
