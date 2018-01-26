@@ -6,7 +6,6 @@ use Maknz\Slack\Client;
 class ClientUnitTest extends TestCase
 {
     /**
-     *
      * @throws \InvalidArgumentException
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
@@ -22,7 +21,6 @@ class ClientUnitTest extends TestCase
     }
 
     /**
-     *
      * @throws \InvalidArgumentException
      * @throws \PHPUnit\Framework\AssertionFailedError
      * @throws \PHPUnit\Framework\Exception
@@ -62,7 +60,6 @@ class ClientUnitTest extends TestCase
     }
 
     /**
-     *
      * @throws \InvalidArgumentException
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
@@ -90,7 +87,6 @@ class ClientUnitTest extends TestCase
     }
 
     /**
-     *
      * @throws \InvalidArgumentException
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException

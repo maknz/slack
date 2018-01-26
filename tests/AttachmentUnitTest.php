@@ -9,7 +9,6 @@ use Maknz\Slack\AttachmentField;
 class AttachmentUnitTest extends TestCase
 {
     /**
-     *
      * @throws \InvalidArgumentException
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
@@ -49,7 +48,6 @@ class AttachmentUnitTest extends TestCase
     }
 
     /**
-     *
      * @throws \InvalidArgumentException
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
@@ -81,7 +79,6 @@ class AttachmentUnitTest extends TestCase
     }
 
     /**
-     *
      * @throws \InvalidArgumentException
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
@@ -216,7 +213,6 @@ class AttachmentUnitTest extends TestCase
     }
 
     /**
-     *
      * @throws \InvalidArgumentException
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
@@ -250,7 +246,6 @@ class AttachmentUnitTest extends TestCase
     }
 
     /**
-     *
      * @throws \InvalidArgumentException
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
@@ -286,7 +281,6 @@ class AttachmentUnitTest extends TestCase
     }
 
     /**
-     *
      * @throws \InvalidArgumentException
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
@@ -312,7 +306,6 @@ class AttachmentUnitTest extends TestCase
     }
 
     /**
-     *
      * @throws \InvalidArgumentException
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
@@ -340,7 +333,6 @@ class AttachmentUnitTest extends TestCase
     }
 
     /**
-     *
      * @throws \InvalidArgumentException
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException

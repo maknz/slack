@@ -10,7 +10,6 @@ use RuntimeException;
 class ClientFunctionalTest extends TestCase
 {
     /**
-     *
      * @throws \InvalidArgumentException
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
@@ -39,7 +38,6 @@ class ClientFunctionalTest extends TestCase
     }
 
     /**
-     *
      * @throws \InvalidArgumentException
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
@@ -118,7 +116,6 @@ class ClientFunctionalTest extends TestCase
     }
 
     /**
-     *
      * @throws \InvalidArgumentException
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
@@ -218,7 +215,6 @@ class ClientFunctionalTest extends TestCase
     }
 
     /**
-     *
      * @throws \InvalidArgumentException
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
@@ -354,7 +350,6 @@ class ClientFunctionalTest extends TestCase
     }
 
     /**
-     *
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */
