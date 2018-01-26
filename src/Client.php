@@ -84,6 +84,22 @@ class Client
     protected $guzzle;
 
     /**
+     * Option name to setter method map.
+     *
+     * @var array
+     */
+    protected static $optionSetter = [
+        'channel'                 => 'setDefaultChannel',
+        'username'                => 'setDefaultUsername',
+        'icon'                    => 'setDefaultIcon',
+        'link_names'              => 'setLinkNames',
+        'unfurl_links'            => 'setUnfurlLinks',
+        'unfurl_media'            => 'setUnfurlMedia',
+        'allow_markdown'          => 'setAllowMarkdown',
+        'markdown_in_attachments' => 'setMarkdownInAttachments',
+    ];
+
+    /**
      * Instantiate a new Client.
      *
      * @param string                  $endpoint
@@ -97,47 +113,30 @@ class Client
     {
         $this->endpoint = $endpoint;
 
-        if (isset($options['channel'])) {
-            $this->setDefaultChannel($options['channel']);
-        }
+        $this->setOptions($options);
 
-        if (isset($options['username'])) {
-            $this->setDefaultUsername($options['username']);
-        }
+        $this->guzzle = $guzzle ?: new Guzzle();
+    }
 
-        if (isset($options['icon'])) {
-            $this->setDefaultIcon($options['icon']);
-        }
-
-        if (isset($options['link_names'])) {
-            $this->setLinkNames($options['link_names']);
-        }
-
-        if (isset($options['unfurl_links'])) {
-            $this->setUnfurlLinks($options['unfurl_links']);
-        }
-
-        if (isset($options['unfurl_media'])) {
-            $this->setUnfurlMedia($options['unfurl_media']);
-        }
-
-        if (isset($options['allow_markdown'])) {
-            $this->setAllowMarkdown($options['allow_markdown']);
-        }
-
-        if (isset($options['markdown_in_attachments'])) {
-            $this->setMarkdownInAttachments($options['markdown_in_attachments']);
-        }
-
-        $this->guzzle = $guzzle ?: new Guzzle;
+    /**
+     * Returns property setter method by given option name.
+     *
+     * @param string $option
+     *
+     * @return mixed|null
+     */
+    private static function getOptionSetter(string $option)
+    {
+        return static::$optionSetter[$option] ?? null;
     }
 
     /**
      * Pass any unhandled methods through to a new Message
      * instance.
      *
-     * @param string $name The name of the method
-     * @param array $arguments The method arguments
+     * @param string $name      The name of the method
+     * @param array  $arguments The method arguments
+     *
      * @return \Maknz\Slack\Message
      */
     public function __call($name, $arguments)
@@ -159,6 +158,7 @@ class Client
      * Set the Slack endpoint.
      *
      * @param string $endpoint
+     *
      * @return void
      */
     public function setEndpoint($endpoint)
@@ -180,6 +180,7 @@ class Client
      * Set the default channel messages will be created for.
      *
      * @param string $channel
+     *
      * @return void
      */
     public function setDefaultChannel($channel)
@@ -201,6 +202,7 @@ class Client
      * Set the default username messages will be created for.
      *
      * @param string $username
+     *
      * @return void
      */
     public function setDefaultUsername($username)
@@ -222,6 +224,7 @@ class Client
      * Set the default icon messages will be created with.
      *
      * @param string $icon
+     *
      * @return void
      */
     public function setDefaultIcon($icon)
@@ -245,11 +248,12 @@ class Client
      * will be converted into links.
      *
      * @param bool $value
+     *
      * @return void
      */
     public function setLinkNames($value)
     {
-        $this->link_names = (bool) $value;
+        $this->link_names = (bool)$value;
     }
 
     /**
@@ -266,11 +270,12 @@ class Client
      * Set whether text links should be unfurled.
      *
      * @param bool $value
+     *
      * @return void
      */
     public function setUnfurlLinks($value)
     {
-        $this->unfurl_links = (bool) $value;
+        $this->unfurl_links = (bool)$value;
     }
 
     /**
@@ -287,11 +292,12 @@ class Client
      * Set whether media links should be unfurled.
      *
      * @param bool $value
+     *
      * @return void
      */
     public function setUnfurlMedia($value)
     {
-        $this->unfurl_media = (bool) $value;
+        $this->unfurl_media = (bool)$value;
     }
 
     /**
@@ -310,11 +316,12 @@ class Client
      * Slack's Markdown-like language.
      *
      * @param bool $value
+     *
      * @return void
      */
     public function setAllowMarkdown($value)
     {
-        $this->allow_markdown = (bool) $value;
+        $this->allow_markdown = (bool)$value;
     }
 
     /**
@@ -333,6 +340,7 @@ class Client
      * in Slack's Markdown-like language.
      *
      * @param array $fields
+     *
      * @return void
      */
     public function setMarkdownInAttachments(array $fields)
@@ -386,18 +394,19 @@ class Client
      * Prepares the payload to be sent to the webhook.
      *
      * @param \Maknz\Slack\Message $message The message to send
+     *
      * @return array
      */
     public function preparePayload(Message $message)
     {
         $payload = [
-            'text' => $message->getText(),
-            'channel' => $message->getChannel(),
-            'username' => $message->getUsername(),
-            'link_names' => $this->getLinkNames() ? 1 : 0,
+            'text'         => $message->getText(),
+            'channel'      => $message->getChannel(),
+            'username'     => $message->getUsername(),
+            'link_names'   => $this->getLinkNames() ? 1 : 0,
             'unfurl_links' => $this->getUnfurlLinks(),
             'unfurl_media' => $this->getUnfurlMedia(),
-            'mrkdwn' => $message->getAllowMarkdown(),
+            'mrkdwn'       => $message->getAllowMarkdown(),
         ];
 
         if ($icon = $message->getIcon()) {
@@ -425,5 +434,32 @@ class Client
         }
 
         return $attachments;
+    }
+
+    /**
+     * @param array $options
+     *
+     * @return \Maknz\Slack\Client
+     */
+    public function setOptions(array $options)
+    {
+        foreach ($options as $option => $value) {
+            $this->setOption($option, $value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param $option
+     * @param $value
+     *
+     */
+    public function setOption($option, $value)
+    {
+        $setter = self::getOptionSetter($option);
+        if ($setter !== null) {
+            $this->$setter($value);
+        }
     }
 }

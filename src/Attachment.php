@@ -160,10 +160,9 @@ class Attachment
     {
         foreach ($attributes as $attribute => $value) {
             $setter = self::getAttributeSetter($attribute);
-            if ($setter === null) {
-                continue;
+            if ($setter !== null) {
+                $this->$setter($value);
             }
-            $this->$setter($value);
         }
     }
 
