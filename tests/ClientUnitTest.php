@@ -1,8 +1,9 @@
 <?php
+namespace Slack\Tests;
 
 use Maknz\Slack\Client;
 
-class ClientUnitTest extends PHPUnit_Framework_TestCase
+class ClientUnitTest extends TestCase
 {
     public function testInstantiationWithNoDefaults()
     {

@@ -1,9 +1,11 @@
 <?php
+namespace Slack\Tests;
 
 use Maknz\Slack\Message;
 use Maknz\Slack\Attachment;
+use Mockery;
 
-class MessageUnitTest extends PHPUnit_Framework_TestCase
+class MessageUnitTest extends TestCase
 {
     public function testInstantiation()
     {

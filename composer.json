@@ -19,12 +19,13 @@
         "ext-mbstring": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.2.*",
-        "mockery/mockery": "0.9.*"
+        "mockery/mockery": "0.9.*",
+        "phpunit/phpunit": "^6.5"
     },
     "autoload": {
         "psr-4": {
-            "Maknz\\Slack\\": "src/"
+            "Maknz\\Slack\\": "src/",
+            "Slack\\Tests\\": "tests/"
         }
     },
     "extra": {

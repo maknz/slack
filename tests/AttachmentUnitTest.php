@@ -1,10 +1,12 @@
 <?php
+namespace Slack\Tests;
 
+use DateTime;
 use Maknz\Slack\Attachment;
 use Maknz\Slack\AttachmentField;
 use Maknz\Slack\AttachmentAction;
 
-class AttachmentUnitTest extends PHPUnit_Framework_TestCase
+class AttachmentUnitTest extends TestCase
 {
     public function testAttachmentCreationFromArray()
     {
