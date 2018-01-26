@@ -9,6 +9,13 @@ use RuntimeException;
 
 class ClientFunctionalTest extends TestCase
 {
+    /**
+     *
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \RuntimeException
+     */
     public function testPlainMessage()
     {
         $expectedHttpData = [
@@ -31,6 +38,13 @@ class ClientFunctionalTest extends TestCase
         $this->assertEquals($expectedHttpData, $payload);
     }
 
+    /**
+     *
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \RuntimeException
+     */
     public function testMessageWithAttachments()
     {
         $now = new DateTime;
@@ -103,6 +117,13 @@ class ClientFunctionalTest extends TestCase
         $this->assertEquals($expectedHttpData, $payload);
     }
 
+    /**
+     *
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \RuntimeException
+     */
     public function testMessageWithAttachmentsAndFields()
     {
         $now = new DateTime;
@@ -196,6 +217,13 @@ class ClientFunctionalTest extends TestCase
         $this->assertEquals($expectedHttpData, $payload);
     }
 
+    /**
+     *
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \RuntimeException
+     */
     public function testMessageWithAttachmentsAndActions()
     {
         $now = new DateTime;
@@ -325,6 +353,11 @@ class ClientFunctionalTest extends TestCase
         $this->assertEquals($expectedHttpData, $payload);
     }
 
+    /**
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     */
     public function testBadEncodingThrowsException()
     {
         $client = $this->getNetworkStubbedClient();
@@ -337,8 +370,15 @@ class ClientFunctionalTest extends TestCase
         $client->send(mb_convert_encoding('æøå', 'ISO-8859-1', 'UTF-8'));
     }
 
+    /**
+     * @return \Maknz\Slack\Client
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     */
     protected function getNetworkStubbedClient()
     {
+        /** @var \Mockery\Mock $guzzle */
         $guzzle = Mockery::mock('GuzzleHttp\Client');
 
         $guzzle->shouldReceive('post');

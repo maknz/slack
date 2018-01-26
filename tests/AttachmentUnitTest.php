@@ -8,6 +8,12 @@ use Maknz\Slack\AttachmentField;
 
 class AttachmentUnitTest extends TestCase
 {
+    /**
+     *
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     */
     public function testAttachmentCreationFromArray()
     {
         $now = new DateTime;
@@ -42,6 +48,12 @@ class AttachmentUnitTest extends TestCase
         $this->assertEquals($now, $a->getTimestamp());
     }
 
+    /**
+     *
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     */
     public function testAttachmentCreationFromArrayWithFields()
     {
         $a = new Attachment([
@@ -68,6 +80,12 @@ class AttachmentUnitTest extends TestCase
         $this->assertSame('Title 2', $fields[1]->getTitle());
     }
 
+    /**
+     *
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     */
     public function testAttachmentToArray()
     {
         $now = new DateTime;
@@ -197,6 +215,12 @@ class AttachmentUnitTest extends TestCase
         $this->assertSame($out, $a->toArray());
     }
 
+    /**
+     *
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     */
     public function testAddActionAsArray()
     {
         $a = new Attachment([
@@ -225,6 +249,12 @@ class AttachmentUnitTest extends TestCase
         $this->assertSame('Text 1', $actions[0]->getText());
     }
 
+    /**
+     *
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     */
     public function testAddActionAsObject()
     {
         $a = new Attachment([
@@ -255,6 +285,12 @@ class AttachmentUnitTest extends TestCase
         $this->assertSame($ac, $actions[0]);
     }
 
+    /**
+     *
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     */
     public function testAddFieldAsArray()
     {
         $a = new Attachment([
@@ -275,6 +311,12 @@ class AttachmentUnitTest extends TestCase
         $this->assertSame('Title 1', $fields[0]->getTitle());
     }
 
+    /**
+     *
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     */
     public function testAddFieldAsObject()
     {
         $a = new Attachment([
@@ -297,6 +339,12 @@ class AttachmentUnitTest extends TestCase
         $this->assertSame($f, $fields[0]);
     }
 
+    /**
+     *
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     */
     public function testSetFields()
     {
         $a = new Attachment([

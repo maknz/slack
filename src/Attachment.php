@@ -530,7 +530,7 @@ class Attachment
     /**
      * Get the fields for the attachment.
      *
-     * @return array
+     * @return AttachmentField[]|array
      */
     public function getFields()
     {
@@ -560,7 +560,7 @@ class Attachment
     /**
      * Add a field to the attachment.
      *
-     * @param mixed $field
+     * @param AttachmentField|array $field
      *
      * @return $this
      *

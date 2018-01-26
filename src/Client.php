@@ -4,6 +4,10 @@ namespace Maknz\Slack;
 use GuzzleHttp\Client as Guzzle;
 use RuntimeException;
 
+/**
+ * @method Message to(string $channel)
+ * @method Message send(string $text = null)
+ */
 class Client
 {
     /**

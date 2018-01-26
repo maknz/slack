@@ -2,16 +2,27 @@
 namespace Slack\Tests;
 
 use Maknz\Slack\Attachment;
+use Maknz\Slack\Client;
 use Maknz\Slack\Message;
 use Mockery;
 
 class MessageUnitTest extends TestCase
 {
+    /**
+     *
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     */
     public function testInstantiation()
     {
         $this->assertInstanceOf('Maknz\Slack\Message', $this->getMessage());
     }
 
+    /**
+     *
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     */
     public function testSetText()
     {
         $message = $this->getMessage();
@@ -21,6 +32,11 @@ class MessageUnitTest extends TestCase
         $this->assertSame('Hello world', $message->getText());
     }
 
+    /**
+     *
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     */
     public function testSetChannelWithTo()
     {
         $message = $this->getMessage();
@@ -30,6 +46,11 @@ class MessageUnitTest extends TestCase
         $this->assertSame('#php', $message->getChannel());
     }
 
+    /**
+     *
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     */
     public function testSetChannelWithSetter()
     {
         $message = $this->getMessage();
@@ -39,6 +60,11 @@ class MessageUnitTest extends TestCase
         $this->assertSame('#php', $message->getChannel());
     }
 
+    /**
+     *
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     */
     public function testSetUsernameWithFrom()
     {
         $message = $this->getMessage();
@@ -48,6 +74,11 @@ class MessageUnitTest extends TestCase
         $this->assertSame('Archer', $message->getUsername());
     }
 
+    /**
+     *
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     */
     public function testSetUsernameWithSetter()
     {
         $message = $this->getMessage();
@@ -57,6 +88,12 @@ class MessageUnitTest extends TestCase
         $this->assertSame('Archer', $message->getUsername());
     }
 
+    /**
+     *
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     */
     public function testAttachWithArray()
     {
         $message = $this->getMessage();
@@ -86,6 +123,12 @@ class MessageUnitTest extends TestCase
         $this->assertEquals($attachmentArray['color'], $obj->getColor());
     }
 
+    /**
+     *
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     */
     public function testAttachWithObject()
     {
         $message = $this->getMessage();
@@ -106,6 +149,12 @@ class MessageUnitTest extends TestCase
         $this->assertEquals($obj, $remoteObj);
     }
 
+    /**
+     *
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     */
     public function testMultipleAttachments()
     {
         $message = $this->getMessage();
@@ -135,6 +184,12 @@ class MessageUnitTest extends TestCase
         $this->assertEquals($obj2, $remote2);
     }
 
+    /**
+     *
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     */
     public function testSetAttachmentsWipesExistingAttachments()
     {
         $message = $this->getMessage();
@@ -160,6 +215,11 @@ class MessageUnitTest extends TestCase
         $this->assertEquals('a', $message->getAttachments()[0]->getFallback());
     }
 
+    /**
+     *
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     */
     public function testSetIconToEmoji()
     {
         $message = $this->getMessage();
@@ -171,6 +231,11 @@ class MessageUnitTest extends TestCase
         $this->assertEquals(':ghost:', $message->getIcon());
     }
 
+    /**
+     *
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     */
     public function testSetIconToUrl()
     {
         $message = $this->getMessage();
@@ -182,8 +247,14 @@ class MessageUnitTest extends TestCase
         $this->assertEquals('http://www.fake.com/someimage.png', $message->getIcon());
     }
 
+    /**
+     * @return \Maknz\Slack\Message
+     */
     protected function getMessage()
     {
-        return new Message(Mockery::mock('Maknz\Slack\Client'));
+        /** @var \Mockery\MockInterface|Client $clientMock */
+        $clientMock = Mockery::mock('Maknz\Slack\Client');
+
+        return new Message($clientMock);
     }
 }

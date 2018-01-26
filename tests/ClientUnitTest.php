@@ -5,6 +5,13 @@ use Maknz\Slack\Client;
 
 class ClientUnitTest extends TestCase
 {
+    /**
+     *
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \RuntimeException
+     */
     public function testInstantiationWithNoDefaults()
     {
         $client = new Client('http://fake.endpoint');
@@ -14,6 +21,14 @@ class ClientUnitTest extends TestCase
         $this->assertSame('http://fake.endpoint', $client->getEndpoint());
     }
 
+    /**
+     *
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\AssertionFailedError
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \RuntimeException
+     */
     public function testInstantiationWithDefaults()
     {
         $defaults = [
@@ -46,6 +61,13 @@ class ClientUnitTest extends TestCase
         $this->assertSame($defaults['markdown_in_attachments'], $client->getMarkdownInAttachments());
     }
 
+    /**
+     *
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \RuntimeException
+     */
     public function testCreateMessage()
     {
         $defaults = [
@@ -67,6 +89,13 @@ class ClientUnitTest extends TestCase
         $this->assertSame($client->getDefaultIcon(), $message->getIcon());
     }
 
+    /**
+     *
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \RuntimeException
+     */
     public function testWildcardCallToMessage()
     {
         $client = new Client('http://fake.endpoint');
