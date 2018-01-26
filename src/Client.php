@@ -453,7 +453,6 @@ class Client
     /**
      * @param $option
      * @param $value
-     *
      */
     public function setOption($option, $value)
     {
