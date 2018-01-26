@@ -87,46 +87,46 @@ class Client
      * Instantiate a new Client.
      *
      * @param string                  $endpoint
-     * @param array                   $attributes
+     * @param array                   $options
      * @param \GuzzleHttp\Client|null $guzzle
      *
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */
-    public function __construct($endpoint, array $attributes = [], Guzzle $guzzle = null)
+    public function __construct($endpoint, array $options = [], Guzzle $guzzle = null)
     {
         $this->endpoint = $endpoint;
 
-        if (isset($attributes['channel'])) {
-            $this->setDefaultChannel($attributes['channel']);
+        if (isset($options['channel'])) {
+            $this->setDefaultChannel($options['channel']);
         }
 
-        if (isset($attributes['username'])) {
-            $this->setDefaultUsername($attributes['username']);
+        if (isset($options['username'])) {
+            $this->setDefaultUsername($options['username']);
         }
 
-        if (isset($attributes['icon'])) {
-            $this->setDefaultIcon($attributes['icon']);
+        if (isset($options['icon'])) {
+            $this->setDefaultIcon($options['icon']);
         }
 
-        if (isset($attributes['link_names'])) {
-            $this->setLinkNames($attributes['link_names']);
+        if (isset($options['link_names'])) {
+            $this->setLinkNames($options['link_names']);
         }
 
-        if (isset($attributes['unfurl_links'])) {
-            $this->setUnfurlLinks($attributes['unfurl_links']);
+        if (isset($options['unfurl_links'])) {
+            $this->setUnfurlLinks($options['unfurl_links']);
         }
 
-        if (isset($attributes['unfurl_media'])) {
-            $this->setUnfurlMedia($attributes['unfurl_media']);
+        if (isset($options['unfurl_media'])) {
+            $this->setUnfurlMedia($options['unfurl_media']);
         }
 
-        if (isset($attributes['allow_markdown'])) {
-            $this->setAllowMarkdown($attributes['allow_markdown']);
+        if (isset($options['allow_markdown'])) {
+            $this->setAllowMarkdown($options['allow_markdown']);
         }
 
-        if (isset($attributes['markdown_in_attachments'])) {
-            $this->setMarkdownInAttachments($attributes['markdown_in_attachments']);
+        if (isset($options['markdown_in_attachments'])) {
+            $this->setMarkdownInAttachments($options['markdown_in_attachments']);
         }
 
         $this->guzzle = $guzzle ?: new Guzzle;
