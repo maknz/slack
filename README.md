@@ -307,6 +307,10 @@ $attachment = new Attachment([]);
 $attachment->setFields($bigArrayOfFields);
 ```
 
+# Playground
+
+There is the [`php-slack/playground`](https://github.com/php-slack/playground) simple console script to test messaging and to see how messages looks really.
+
 # Questions
 
 [![Slack Welcome](https://img.shields.io/badge/slack-welcome-brightgreen.svg)](https://join.slack.com/t/php-slack/shared_invite/enQtMjk1OTExNDkzMjg1LTk5ODg3MGE1OThlYzZlM2U0N2I5Y2FhM2NiYmFlMjE1MDNiOWRjMjc1ZDIwNWZlNzBkZWQ2ZWM1NzdmMjM5YzQ)
