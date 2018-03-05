@@ -414,7 +414,7 @@ class Message
      */
     public function send($text = null)
     {
-        if ($text) {
+        if ($text !== null) {
             $this->setText($text);
         }
 
