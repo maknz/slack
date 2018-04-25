@@ -1,6 +1,6 @@
 # Slack for PHP
 
-[![Build Status](https://travis-ci.org/alek13/slack.svg?branch=master)](https://travis-ci.org/alek13/slack)
+[![Build Status](https://travis-ci.org/php-slack/slack.svg?branch=master)](https://travis-ci.org/php-slack/slack)
 [![Code Coverage](https://scrutinizer-ci.com/g/alek13/slack/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/alek13/slack/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/alek13/slack/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/alek13/slack/?branch=master)
 [![Dependency Status](https://beta.gemnasium.com/badges/github.com/alek13/slack.svg)](https://beta.gemnasium.com/projects/github.com/alek13/slack)
