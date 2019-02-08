@@ -6,7 +6,7 @@ php:
   - 7.0
   - 7.1
   - 7.2
-  - nightly
+  - 7.3
   - hhvm
 
 before_script:
