@@ -1,8 +1,8 @@
 # Slack for PHP
 
 [![Build Status](https://travis-ci.org/php-slack/slack.svg?branch=master)](https://travis-ci.org/php-slack/slack)
-[![Code Coverage](https://scrutinizer-ci.com/g/alek13/slack/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/alek13/slack/?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/alek13/slack/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/alek13/slack/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/php-slack/slack/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/php-slack/slack/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/php-slack/slack/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/php-slack/slack/?branch=master)
 [![StyleCI](https://styleci.io/repos/116497800/shield)](https://styleci.io/repos/116497800) |
 [![Slack Welcome](https://img.shields.io/badge/slack-welcome-brightgreen.svg)](https://join.slack.com/t/php-slack/shared_invite/enQtMjk1OTExNDkzMjg1LTk5ODg3MGE1OThlYzZlM2U0N2I5Y2FhM2NiYmFlMjE1MDNiOWRjMjc1ZDIwNWZlNzBkZWQ2ZWM1NzdmMjM5YzQ)
 
