@@ -10,7 +10,7 @@ A simple PHP package for sending messages to [Slack](https://slack.com)
 with [incoming webhooks](https://my.slack.com/services/new/incoming-webhook),
 focused on ease-of-use and elegant syntax.
 
-**supports:** PHP `7.0`, `7.1`, `7.2`  
+**supports:** PHP `7.0`, `7.1`, `7.2`
 **require:** `guzzlehttp/guzzle` any of versions `~6.0|~5.0|~4.0`
 
 > This is the fork of popular, great, but abandoned package [`maknz/slack`](https://github.com/maknz/slack)
@@ -51,9 +51,12 @@ $client = new Maknz\Slack\Client('https://hooks.slack.com/...');
 // Instantiate with defaults, so all messages created
 // will be sent from 'Cyril' and to the #accounting channel
 // by default. Any names like @regan or #channel will also be linked.
+// use response_type (in_channel | ephemeral) to denote whether the message will be visible
+// to others in the channel.
 $settings = [
 	'username' => 'Cyril',
 	'channel' => '#accounting',
+	'reponse_type' => 'in_channel',
 	'link_names' => true
 ];
 
@@ -69,6 +72,7 @@ Field | Type | Description
 `channel` | string | The default channel that messages will be sent to
 `username` | string | The default username for your bot
 `icon` | string | The default icon that messages will be sent with, either `:emoji:` or a URL to an image
+`response_type` | string | Whether to show the response in the channel to all members or privately ('ephemeral' | 'in_channel')
 `link_names` | bool | Whether names like `@regan` or `#accounting` should be linked in the message (defaults to false)
 `unfurl_links` | bool | Whether Slack should unfurl text-based URLs (defaults to false)
 `unfurl_media` | bool | Whether Slack should unfurl media-based URLs, like tweets or Youtube videos (defaults to true)
@@ -254,8 +258,8 @@ There is the [`php-slack/playground`](https://github.com/php-slack/playground) s
 
 [![Slack Welcome](https://img.shields.io/badge/slack-welcome-brightgreen.svg)](https://join.slack.com/t/php-slack/shared_invite/enQtMjk1OTExNDkzMjg1LTk5ODg3MGE1OThlYzZlM2U0N2I5Y2FhM2NiYmFlMjE1MDNiOWRjMjc1ZDIwNWZlNzBkZWQ2ZWM1NzdmMjM5YzQ)
 
-If you have any questions how to use or contribute,  
-you are welcome in our [Slack Workspace](https://join.slack.com/t/php-slack/shared_invite/enQtMjk1OTExNDkzMjg1LTk5ODg3MGE1OThlYzZlM2U0N2I5Y2FhM2NiYmFlMjE1MDNiOWRjMjc1ZDIwNWZlNzBkZWQ2ZWM1NzdmMjM5YzQ). 
+If you have any questions how to use or contribute,
+you are welcome in our [Slack Workspace](https://join.slack.com/t/php-slack/shared_invite/enQtMjk1OTExNDkzMjg1LTk5ODg3MGE1OThlYzZlM2U0N2I5Y2FhM2NiYmFlMjE1MDNiOWRjMjc1ZDIwNWZlNzBkZWQ2ZWM1NzdmMjM5YzQ).
 
 ## Contributing
 
