@@ -39,6 +39,14 @@ class Client
     protected $icon;
 
     /**
+     * Whether the response should be viewable by others
+     * when posted to a channel. 'ephemeral' | 'in_channel'
+     *
+     * @var string
+     */
+    protected $response_type = 'ephemeral';
+
+    /**
      * Whether to link names like @regan or leave
      * them as plain text.
      *
@@ -92,6 +100,7 @@ class Client
         'channel'                 => 'setDefaultChannel',
         'username'                => 'setDefaultUsername',
         'icon'                    => 'setDefaultIcon',
+        'response_type'           => 'setResponseType',
         'link_names'              => 'setLinkNames',
         'unfurl_links'            => 'setUnfurlLinks',
         'unfurl_media'            => 'setUnfurlMedia',
@@ -230,6 +239,30 @@ class Client
     public function setDefaultIcon($icon)
     {
         $this->icon = $icon;
+    }
+
+    /**
+     * Get whether the response should be viewable by others
+     * when posted to a channel. 'ephemeral' | 'in_channel'
+     *
+     * @return string
+     */
+    public function getResponseType()
+    {
+        return $this->response_type;
+    }
+
+    /**
+     * Set whether the response should be viewable by others
+     * when posted to a channel. 'ephemeral' | 'in_channel'
+     *
+     * @param string $value
+     *
+     * @return void
+     */
+    public function setResponseType($value)
+    {
+        $this->response_type = $value;
     }
 
     /**
@@ -403,6 +436,7 @@ class Client
             'text'         => $message->getText(),
             'channel'      => $message->getChannel(),
             'username'     => $message->getUsername(),
+            'response_type'=> $this->getResponseType(),
             'link_names'   => $this->getLinkNames() ? 1 : 0,
             'unfurl_links' => $this->getUnfurlLinks(),
             'unfurl_media' => $this->getUnfurlMedia(),
