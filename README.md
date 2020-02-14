@@ -10,7 +10,7 @@ A simple PHP package for sending messages to [Slack](https://slack.com)
 with [incoming webhooks](https://my.slack.com/services/new/incoming-webhook),
 focused on ease-of-use and elegant syntax.
 
-**supports:** PHP `7.0`, `7.1`, `7.2`
+**supports:** PHP `7.0`, `7.1`, `7.2`  
 **require:** `guzzlehttp/guzzle` any of versions `~6.0|~5.0|~4.0`
 
 > This is the fork of popular, great, but abandoned package [`maknz/slack`](https://github.com/maknz/slack)
@@ -258,8 +258,8 @@ There is the [`php-slack/playground`](https://github.com/php-slack/playground) s
 
 [![Slack Welcome](https://img.shields.io/badge/slack-welcome-brightgreen.svg)](https://join.slack.com/t/php-slack/shared_invite/enQtMjk1OTExNDkzMjg1LTk5ODg3MGE1OThlYzZlM2U0N2I5Y2FhM2NiYmFlMjE1MDNiOWRjMjc1ZDIwNWZlNzBkZWQ2ZWM1NzdmMjM5YzQ)
 
-If you have any questions how to use or contribute,
-you are welcome in our [Slack Workspace](https://join.slack.com/t/php-slack/shared_invite/enQtMjk1OTExNDkzMjg1LTk5ODg3MGE1OThlYzZlM2U0N2I5Y2FhM2NiYmFlMjE1MDNiOWRjMjc1ZDIwNWZlNzBkZWQ2ZWM1NzdmMjM5YzQ).
+If you have any questions how to use or contribute,  
+you are welcome in our [Slack Workspace](https://join.slack.com/t/php-slack/shared_invite/enQtMjk1OTExNDkzMjg1LTk5ODg3MGE1OThlYzZlM2U0N2I5Y2FhM2NiYmFlMjE1MDNiOWRjMjc1ZDIwNWZlNzBkZWQ2ZWM1NzdmMjM5YzQ). 
 
 ## Contributing
 
