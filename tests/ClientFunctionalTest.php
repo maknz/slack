@@ -21,6 +21,7 @@ class ClientFunctionalTest extends TestCase
             'username' => 'Archer',
             'channel' => '@regan',
             'text' => 'Message',
+            'response_type' => 'ephemeral',
             'link_names' => 0,
             'unfurl_links' => false,
             'unfurl_media' => true,
@@ -105,6 +106,7 @@ class ClientFunctionalTest extends TestCase
             'username' => 'Test',
             'channel' => '#general',
             'text' => 'Message',
+            'response_type' => 'ephemeral',
             'link_names' => 0,
             'unfurl_links' => false,
             'unfurl_media' => true,
@@ -142,16 +144,16 @@ class ClientFunctionalTest extends TestCase
             'author_link' => 'http://fake.host/',
             'author_icon' => 'http://fake.host/image.png',
             'fields' => [
-                [
+                  [
                     'title' => 'Field 1',
                     'value' => 'Value 1',
                     'short' => false,
-                ],
-                [
+                  ],
+                  [
                     'title' => 'Field 2',
                     'value' => 'Value 2',
                     'short' => false,
-                ],
+                  ],
             ],
             'actions' => [],
         ];
@@ -173,16 +175,16 @@ class ClientFunctionalTest extends TestCase
             'author_link' => 'http://fake.host/',
             'author_icon' => 'http://fake.host/image.png',
             'fields' => [
-                [
+                  [
                     'title' => 'Field 1',
                     'value' => 'Value 1',
                     'short' => false,
-                ],
-                [
+                  ],
+                  [
                     'title' => 'Field 2',
                     'value' => 'Value 2',
                     'short' => false,
-                ],
+                  ],
             ],
             'actions' => [],
         ];
@@ -204,6 +206,7 @@ class ClientFunctionalTest extends TestCase
             'username' => 'Test',
             'channel' => '#general',
             'text' => 'Message',
+            'response_type' => 'ephemeral',
             'link_names' => 0,
             'unfurl_links' => false,
             'unfurl_media' => true,
@@ -339,6 +342,7 @@ class ClientFunctionalTest extends TestCase
             'username' => 'Test',
             'channel' => '#general',
             'text' => 'Message',
+            'response_type' => 'ephemeral',
             'link_names' => 0,
             'unfurl_links' => false,
             'unfurl_media' => true,
