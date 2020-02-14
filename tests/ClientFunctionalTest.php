@@ -142,16 +142,16 @@ class ClientFunctionalTest extends TestCase
             'author_link' => 'http://fake.host/',
             'author_icon' => 'http://fake.host/image.png',
             'fields' => [
-              [
-                'title' => 'Field 1',
-                'value' => 'Value 1',
-                'short' => false,
-              ],
-              [
-                'title' => 'Field 2',
-                'value' => 'Value 2',
-                'short' => false,
-              ],
+                [
+                    'title' => 'Field 1',
+                    'value' => 'Value 1',
+                    'short' => false,
+                ],
+                [
+                    'title' => 'Field 2',
+                    'value' => 'Value 2',
+                    'short' => false,
+                ],
             ],
             'actions' => [],
         ];
@@ -173,16 +173,16 @@ class ClientFunctionalTest extends TestCase
             'author_link' => 'http://fake.host/',
             'author_icon' => 'http://fake.host/image.png',
             'fields' => [
-              [
-                'title' => 'Field 1',
-                'value' => 'Value 1',
-                'short' => false,
-              ],
-              [
-                'title' => 'Field 2',
-                'value' => 'Value 2',
-                'short' => false,
-              ],
+                [
+                    'title' => 'Field 1',
+                    'value' => 'Value 1',
+                    'short' => false,
+                ],
+                [
+                    'title' => 'Field 2',
+                    'value' => 'Value 2',
+                    'short' => false,
+                ],
             ],
             'actions' => [],
         ];
