@@ -33,6 +33,7 @@ class ClientUnitTest extends TestCase
             'channel' => '#random',
             'username' => 'Archer',
             'icon' => ':ghost:',
+            'response_type' => 'ephemeral',
             'link_names' => true,
             'unfurl_links' => true,
             'unfurl_media' => false,
