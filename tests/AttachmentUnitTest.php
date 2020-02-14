@@ -58,16 +58,16 @@ class AttachmentUnitTest extends TestCase
             'fallback' => 'Fallback',
             'text' => 'Text',
             'fields' => [
-              [
-                'title' => 'Title 1',
-                'value' => 'Value 1',
-                'short' => false,
-              ],
-              [
-                'title' => 'Title 2',
-                'value' => 'Value 1',
-                'short' => false,
-              ],
+                [
+                    'title' => 'Title 1',
+                    'value' => 'Value 1',
+                    'short' => false,
+                ],
+                [
+                    'title' => 'Title 2',
+                    'value' => 'Value 1',
+                    'short' => false,
+                ],
             ],
         ]);
 
@@ -104,16 +104,16 @@ class AttachmentUnitTest extends TestCase
             'author_link' => 'http://fake.host/',
             'author_icon' => 'http://fake.host/image.png',
             'fields' => [
-              [
-                'title' => 'Title 1',
-                'value' => 'Value 1',
-                'short' => false,
-              ],
-              [
-                'title' => 'Title 2',
-                'value' => 'Value 1',
-                'short' => false,
-              ],
+                [
+                    'title' => 'Title 1',
+                    'value' => 'Value 1',
+                    'short' => false,
+                ],
+                [
+                    'title' => 'Title 2',
+                    'value' => 'Value 1',
+                    'short' => false,
+                ],
             ],
             'actions' => [
                 [
@@ -164,16 +164,16 @@ class AttachmentUnitTest extends TestCase
             'author_link' => 'http://fake.host/',
             'author_icon' => 'http://fake.host/image.png',
             'fields' => [
-              [
-                'title' => 'Title 1',
-                'value' => 'Value 1',
-                'short' => false,
-              ],
-              [
-                'title' => 'Title 2',
-                'value' => 'Value 1',
-                'short' => false,
-              ],
+                [
+                    'title' => 'Title 1',
+                    'value' => 'Value 1',
+                    'short' => false,
+                ],
+                [
+                    'title' => 'Title 2',
+                    'value' => 'Value 1',
+                    'short' => false,
+                ],
             ],
             'actions' => [
                 [
@@ -313,14 +313,14 @@ class AttachmentUnitTest extends TestCase
     public function testAddFieldAsObject()
     {
         $a = new Attachment([
-          'fallback' => 'Fallback',
-          'text' => 'Text',
+            'fallback' => 'Fallback',
+            'text' => 'Text',
         ]);
 
         $f = new AttachmentField([
-          'title' => 'Title 1',
-          'value' => 'Value 1',
-          'short' => true,
+            'title' => 'Title 1',
+            'value' => 'Value 1',
+            'short' => true,
         ]);
 
         $a->addField($f);
@@ -340,18 +340,18 @@ class AttachmentUnitTest extends TestCase
     public function testSetFields()
     {
         $a = new Attachment([
-          'fallback' => 'Fallback',
-          'text' => 'Text',
+            'fallback' => 'Fallback',
+            'text' => 'Text',
         ]);
 
         $a->addField([
-          'title' => 'Title 1',
-          'value' => 'Value 1',
-          'short' => true,
+            'title' => 'Title 1',
+            'value' => 'Value 1',
+            'short' => true,
         ])->addField([
-          'title' => 'Title 2',
-          'value' => 'Value 2',
-          'short' => true,
+            'title' => 'Title 2',
+            'value' => 'Value 2',
+            'short' => true,
         ]);
 
         $this->assertSame(2, count($a->getFields()));
