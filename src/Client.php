@@ -40,7 +40,7 @@ class Client
 
     /**
      * Whether the response should be viewable by others
-     * when posted to a channel. 'ephemeral' | 'in_channel'
+     * when posted to a channel. 'ephemeral' | 'in_channel'.
      *
      * @var string
      */
@@ -243,7 +243,7 @@ class Client
 
     /**
      * Get whether the response should be viewable by others
-     * when posted to a channel. 'ephemeral' | 'in_channel'
+     * when posted to a channel. 'ephemeral' | 'in_channel'.
      *
      * @return string
      */
@@ -254,7 +254,7 @@ class Client
 
     /**
      * Set whether the response should be viewable by others
-     * when posted to a channel. 'ephemeral' | 'in_channel'
+     * when posted to a channel. 'ephemeral' | 'in_channel'.
      *
      * @param string $value
      *
