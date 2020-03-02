@@ -18,19 +18,19 @@ abstract class BlockElement extends Payload
      * @var array
      */
     protected static $validFor = [
-        'button'              => ['section', 'actions'],
-        'checkbox'            => ['section', 'actions', 'input'],
-        'datepicker'          => ['section', 'actions', 'input'],
-        'image'               => ['section', 'context'],
-        'multi_static_select' => ['section', 'input'],
-        'overflow'            => ['section', 'actions'],
-        'plain_text_input'    => ['section', 'actions', 'input'],
-        'radio_buttons'       => ['section', 'actions', 'input'],
-        'static_select'       => ['section', 'actions', 'input'],
+        'button'              => ['Button',       ['section', 'actions']],
+        'checkbox'            => ['Checkbox',     ['section', 'actions', 'input']],
+        'datepicker'          => ['DatePicker',   ['section', 'actions', 'input']],
+        'image'               => ['Image',        ['section', 'context']],
+        'multi_static_select' => ['MultiSelect',  ['section', 'input']],
+        'overflow'            => ['Overflow',     ['section', 'actions']],
+        'plain_text_input'    => ['TextInput',    ['section', 'actions', 'input']],
+        'radio_buttons'       => ['RadioButtons', ['section', 'actions', 'input']],
+        'static_select'       => ['Select',       ['section', 'actions', 'input']],
 
         // Context Block allows a Text object to be used directly, so need to map types here
-        'plain_text'          => ['context'],
-        'mrkdwn'              => ['context'],
+        'plain_text'          => ['Text', ['context']],
+        'mrkdwn'              => ['Text', ['context']],
     ];
 
     /**
@@ -62,7 +62,8 @@ abstract class BlockElement extends Payload
             throw new InvalidArgumentException('Block type must be one of: ' . implode(', ', $validElements) . '.');
         }
 
-        $className = __NAMESPACE__ . '\\BlockElement\\' . ucfirst($attributes['type']);
+        $className = __NAMESPACE__.'\\BlockElement\\'.static::$validFor[$attributes['type']][0];
+
         return new $className($attributes);
     }
 
@@ -76,7 +77,7 @@ abstract class BlockElement extends Payload
     public function isValidFor(Block $block)
     {
         $blockType = $block->getType();
-        $validBlocks = static::$validFor[$this->getType()];
+        $validBlocks = static::$validFor[$this->getType()][1];
 
         return in_array($blockType, $validBlocks);
     }

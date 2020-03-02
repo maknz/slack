@@ -69,6 +69,7 @@ abstract class Block extends Payload
         }
 
         $validBlocks = [
+            'actions',
             'section',
         ];
 
@@ -80,6 +81,4 @@ abstract class Block extends Payload
 
         return new $className($attributes);
     }
-
-    abstract public function getType();
 }

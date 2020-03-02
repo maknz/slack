@@ -58,11 +58,6 @@ class Section extends Block
      */
     protected static $fieldClass = Text::class;
 
-    public function getType()
-    {
-        return $this->type;
-    }
-
     /**
      * Get the section text.
      *
@@ -103,18 +98,6 @@ class Section extends Block
         $field = static::$fieldClass::create($field);
 
         $this->fields[] = $field;
-
-        return $this;
-    }
-
-    public function getBlockId()
-    {
-        return $this->block_id;
-    }
-
-    public function setBlockId($blockId)
-    {
-        $this->block_id = $blockId;
 
         return $this;
     }
