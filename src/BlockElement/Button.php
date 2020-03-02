@@ -1,11 +1,7 @@
 <?php
 namespace Maknz\Slack\BlockElement;
 
-use InvalidArgumentException;
-use Maknz\Slack\BlockElement;
-use Maknz\Slack\Object\Confirmation;
-
-class Button extends BlockElement
+class Button extends Confirmable
 {
     const STYLE_DEFAULT = 'default';
     const STYLE_PRIMARY = 'primary';
@@ -52,8 +48,6 @@ class Button extends BlockElement
      * @var string
      */
     protected $style;
-
-    protected $confirm;
 
     /**
      * Internal attribute to property map.
@@ -189,26 +183,6 @@ class Button extends BlockElement
         $this->style = $style;
 
         return $this;
-    }
-
-    public function getConfirm()
-    {
-        return $this->confirm;
-    }
-
-    public function setConfirm($confirm)
-    {
-        if (is_array($confirm)) {
-            $confirm = new Confirmation($confirm);
-        }
-
-        if ($confirm instanceof Confirmation) {
-            $this->confirm = $confirm;
-
-            return $this;
-        }
-
-        throw new InvalidArgumentException('Confirm must be a keyed array or ' . Confirmation::class . ' object');
     }
 
     /**

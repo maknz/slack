@@ -3,10 +3,9 @@ namespace Maknz\Slack\BlockElement;
 
 use InvalidArgumentException;
 use Maknz\Slack\BlockElement;
-use Maknz\Slack\Object\Confirmation;
 use Maknz\Slack\Object\Option;
 
-class Checkboxes extends BlockElement
+class Checkboxes extends Confirmable
 {
     /**
      * Block type.
@@ -18,8 +17,6 @@ class Checkboxes extends BlockElement
     protected $action_id;
 
     protected $options;
-
-    protected $confirm;
 
     /**
      * Internal attribute to property map.
@@ -103,26 +100,6 @@ class Checkboxes extends BlockElement
         return array_values(array_filter($this->getOptions(), function (Option $o) {
             return $o->isInitiallySelected();
         }));
-    }
-
-    public function getConfirm()
-    {
-        return $this->confirm;
-    }
-
-    public function setConfirm($confirm)
-    {
-        if (is_array($confirm)) {
-            $confirm = new Confirmation($confirm);
-        }
-
-        if ($confirm instanceof Confirmation) {
-            $this->confirm = $confirm;
-
-            return $this;
-        }
-
-        throw new InvalidArgumentException('Confirm must be a keyed array or ' . Confirmation::class . ' object');
     }
 
     /**
