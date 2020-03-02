@@ -177,11 +177,11 @@ class Text extends BlockElement implements Field
      *
      * @throws \InvalidArgumentException
      */
-    public static function create($text)
+    public static function create($text, $type = null)
     {
         if (is_string($text)) {
             $text = [
-                'type' => static::TYPE_PLAIN,
+                'type' => $type ?? static::TYPE_PLAIN,
                 'text' => $text,
             ];
         }
@@ -191,6 +191,10 @@ class Text extends BlockElement implements Field
         }
 
         if ($text instanceof static) {
+            if ($type && $text->getType() != $type) {
+                throw new InvalidArgumentException('Text type must be '.$type);
+            }
+
             return $text;
         }
 
