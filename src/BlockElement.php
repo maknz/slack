@@ -24,6 +24,7 @@ abstract class BlockElement extends Payload
         'image'            => ['section', 'context'],
         'overflow'         => ['section', 'actions'],
         'plain_text_input' => ['section', 'actions', 'input'],
+        'radio_buttons'    => ['section', 'actions', 'input'],
 
         // Context Block allows a Text object to be used directly, so need to map types here
         'plain_text'       => ['context'],
