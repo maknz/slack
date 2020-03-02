@@ -19,6 +19,7 @@ abstract class BlockElement extends Payload
      */
     protected static $validFor = [
         'button'     => ['section', 'actions'],
+        'checkbox'   => ['section', 'actions', 'input'],
 
         // Context Block allows a Text object to be used directly, so need to map types here
         'plain_text' => ['context'],
