@@ -18,18 +18,19 @@ abstract class BlockElement extends Payload
      * @var array
      */
     protected static $validFor = [
-        'button'           => ['section', 'actions'],
-        'checkbox'         => ['section', 'actions', 'input'],
-        'datepicker'       => ['section', 'actions', 'input'],
-        'image'            => ['section', 'context'],
-        'overflow'         => ['section', 'actions'],
-        'plain_text_input' => ['section', 'actions', 'input'],
-        'radio_buttons'    => ['section', 'actions', 'input'],
-        'static_select'    => ['section', 'actions', 'input'],
+        'button'              => ['section', 'actions'],
+        'checkbox'            => ['section', 'actions', 'input'],
+        'datepicker'          => ['section', 'actions', 'input'],
+        'image'               => ['section', 'context'],
+        'multi_static_select' => ['section', 'input'],
+        'overflow'            => ['section', 'actions'],
+        'plain_text_input'    => ['section', 'actions', 'input'],
+        'radio_buttons'       => ['section', 'actions', 'input'],
+        'static_select'       => ['section', 'actions', 'input'],
 
         // Context Block allows a Text object to be used directly, so need to map types here
-        'plain_text'       => ['context'],
-        'mrkdwn'           => ['context'],
+        'plain_text'          => ['context'],
+        'mrkdwn'              => ['context'],
     ];
 
     /**

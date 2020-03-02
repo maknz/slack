@@ -3,9 +3,8 @@ namespace Maknz\Slack\BlockElement;
 
 use InvalidArgumentException;
 use Maknz\Slack\Object\OptionGroup;
-use Maknz\Slack\BlockElement\Text;
 
-class Select extends Options
+class Select extends AbstractSelect
 {
     /**
      * Block type.
@@ -13,10 +12,6 @@ class Select extends Options
      * @var string
      */
     protected $type = 'static_select';
-
-    protected $placeholder;
-
-    protected $option_groups;
 
     /**
      * Whether one of the options is initially selected.
@@ -37,25 +32,6 @@ class Select extends Options
         'option_groups' => 'option_groups',
         'confirm'       => 'confirm',
     ];
-
-    public function getPlaceholder()
-    {
-        return $this->placeholder;
-    }
-
-    public function setPlaceholder($placeholder)
-    {
-        $this->placeholder = Text::create($placeholder, Text::TYPE_PLAIN);
-
-        return $this;
-    }
-
-    public function setOptions(array $options)
-    {
-        $this->clearOptionGroups();
-
-        return parent::setOptions($options);
-    }
 
     /**
      * Add an option to the select.
@@ -78,38 +54,7 @@ class Select extends Options
             $this->hasInitialOption = true;
         }
 
-        parent::addOption($option);
-        $this->clearOptionGroups();
-
-        return $this;
-    }
-
-    public function getOptionGroups()
-    {
-        return $this->option_groups;
-    }
-
-    public function getOptionGroupsAsArrays()
-    {
-        $groups = [];
-
-        foreach ($this->getOptionGroups() as $group) {
-            $groups[] = $group->toArray();
-        }
-
-        return $groups;
-    }
-
-    public function setOptionGroups(array $groups)
-    {
-        $this->clearOptions();
-        $this->clearOptionGroups();
-
-        foreach ($groups as $group) {
-            $this->addOptionGroup($group);
-        }
-
-        return $this;
+        return parent::addOption($option);
     }
 
     /**
@@ -123,9 +68,7 @@ class Select extends Options
             $this->hasSelectedOption = false;
         }
 
-        $this->option_groups = [];
-
-        return $this;
+        return parent::clearOptionGroups();
     }
 
     /**
@@ -140,13 +83,6 @@ class Select extends Options
         }
 
         return parent::clearOptions();
-    }
-
-    public function clearAllOptions() {
-        $this->clearOptions();
-        $this->clearOptionGroups();
-
-        return $this;
     }
 
     /**
@@ -164,23 +100,17 @@ class Select extends Options
             $group = new OptionGroup($group);
         }
 
-        if ($group instanceof OptionGroup) {
-            $this->clearOptions();
+        parent::addOptionGroup($group);
 
-            if ($group->hasSelectedOption()) {
-                if ($this->hasInitialOption) {
-                    throw new InvalidArgumentException('Only one option can be initially selected');
-                }
-
-                $this->hasInitialOption = true;
+        if ($group->hasSelectedOption()) {
+            if ($this->hasInitialOption) {
+                throw new InvalidArgumentException('Only one option can be initially selected');
             }
 
-            $this->option_groups[] = $group;
-
-            return $this;
+            $this->hasInitialOption = true;
         }
 
-        throw new InvalidArgumentException('The option group must be an instance of ' . OptionGroup::class . ' or a keyed array');
+        return $this;
     }
 
     /**
