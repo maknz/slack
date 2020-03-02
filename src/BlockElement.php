@@ -21,6 +21,7 @@ abstract class BlockElement extends Payload
         'button'     => ['section', 'actions'],
         'checkbox'   => ['section', 'actions', 'input'],
         'datepicker' => ['section', 'actions', 'input'],
+        'image'      => ['section', 'context'],
 
         // Context Block allows a Text object to be used directly, so need to map types here
         'plain_text' => ['context'],
