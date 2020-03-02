@@ -1,7 +1,7 @@
 <?php
 namespace Maknz\Slack;
 
-class AttachmentField
+class AttachmentField implements Field
 {
     /**
      * The required title field of the field.

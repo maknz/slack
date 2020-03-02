@@ -3,8 +3,10 @@ namespace Maknz\Slack;
 
 use InvalidArgumentException;
 
-class Attachment
+class Attachment extends Payload
 {
+    use FieldsTrait;
+
     /**
      * The fallback text to use for clients that don't support attachments.
      *
@@ -104,13 +106,6 @@ class Attachment
     protected $timestamp;
 
     /**
-     * The fields of the attachment.
-     *
-     * @var array
-     */
-    protected $fields = [];
-
-    /**
      * The fields of the attachment that Slack should interpret
      * with its Markdown-like language.
      *
@@ -152,61 +147,11 @@ class Attachment
     ];
 
     /**
-     * Instantiate a new Attachment.
+     * Class name of valid fields.
      *
-     * @param array $attributes
+     * @var string
      */
-    public function __construct(array $attributes)
-    {
-        foreach ($attributes as $attribute => $value) {
-            $setter = self::getAttributeSetter($attribute);
-            if ($setter !== null) {
-                $this->$setter($value);
-            }
-        }
-    }
-
-    /**
-     * Returns property setter method by given attribute name.
-     *
-     * @param string $attribute
-     *
-     * @return null|string
-     */
-    private static function getAttributeSetter(string $attribute)
-    {
-        $property = self::getAttributeProperty($attribute);
-
-        return $property !== null ? self::propertyToSetter($property) : null;
-    }
-
-    /**
-     * Returns property name by given attribute name.
-     *
-     * @param string $attribute
-     *
-     * @return string|null
-     */
-    private static function getAttributeProperty(string $attribute)
-    {
-        return static::$availableAttributes[$attribute] ?? null;
-    }
-
-    /**
-     * Converts property name to setter method name.
-     *
-     * @param string $property
-     *
-     * @return string
-     */
-    private static function propertyToSetter(string $property): string
-    {
-        $property = str_replace('_', ' ', $property);
-        $property = ucwords($property);
-        $property = str_replace(' ', '', $property);
-
-        return 'set'.$property;
-    }
+    protected static $fieldClass = AttachmentField::class;
 
     /**
      * Get the fallback text.
@@ -545,72 +490,6 @@ class Attachment
     }
 
     /**
-     * Get the fields for the attachment.
-     *
-     * @return AttachmentField[]|array
-     */
-    public function getFields()
-    {
-        return $this->fields;
-    }
-
-    /**
-     * Set the fields for the attachment.
-     *
-     * @param array $fields
-     *
-     * @return $this
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function setFields(array $fields)
-    {
-        $this->clearFields();
-
-        foreach ($fields as $field) {
-            $this->addField($field);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Add a field to the attachment.
-     *
-     * @param AttachmentField|array $field
-     *
-     * @return $this
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function addField($field)
-    {
-        if ($field instanceof AttachmentField) {
-            $this->fields[] = $field;
-
-            return $this;
-        } elseif (is_array($field)) {
-            $this->fields[] = new AttachmentField($field);
-
-            return $this;
-        }
-
-        throw new InvalidArgumentException('The attachment field must be an instance of Maknz\Slack\AttachmentField or a keyed array');
-    }
-
-    /**
-     * Clear the fields for the attachment.
-     *
-     * @return $this
-     */
-    public function clearFields()
-    {
-        $this->fields = [];
-
-        return $this;
-    }
-
-    /**
      * Clear the actions for the attachment.
      *
      * @return $this
@@ -731,23 +610,6 @@ class Attachment
         $data['actions'] = $this->getActionsAsArrays();
 
         return $data;
-    }
-
-    /**
-     * Iterates over all fields in this attachment and returns
-     * them in their array form.
-     *
-     * @return array
-     */
-    protected function getFieldsAsArrays()
-    {
-        $fields = [];
-
-        foreach ($this->getFields() as $field) {
-            $fields[] = $field->toArray();
-        }
-
-        return $fields;
     }
 
     /**

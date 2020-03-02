@@ -73,6 +73,8 @@ class AttachmentUnitTest extends TestCase
 
         $fields = $a->getFields();
 
+        $this->assertInstanceOf(AttachmentField::class, $fields[0]);
+
         $this->assertSame('Title 1', $fields[0]->getTitle());
 
         $this->assertSame('Title 2', $fields[1]->getTitle());
@@ -278,86 +280,5 @@ class AttachmentUnitTest extends TestCase
         $this->assertSame(1, count($actions));
 
         $this->assertSame($ac, $actions[0]);
-    }
-
-    /**
-     * @throws \InvalidArgumentException
-     * @throws \PHPUnit\Framework\Exception
-     * @throws \PHPUnit\Framework\ExpectationFailedException
-     */
-    public function testAddFieldAsArray()
-    {
-        $a = new Attachment([
-            'fallback' => 'Fallback',
-            'text' => 'Text',
-        ]);
-
-        $a->addField([
-            'title' => 'Title 1',
-            'value' => 'Value 1',
-            'short' => true,
-        ]);
-
-        $fields = $a->getFields();
-
-        $this->assertSame(1, count($fields));
-
-        $this->assertSame('Title 1', $fields[0]->getTitle());
-    }
-
-    /**
-     * @throws \InvalidArgumentException
-     * @throws \PHPUnit\Framework\Exception
-     * @throws \PHPUnit\Framework\ExpectationFailedException
-     */
-    public function testAddFieldAsObject()
-    {
-        $a = new Attachment([
-            'fallback' => 'Fallback',
-            'text' => 'Text',
-        ]);
-
-        $f = new AttachmentField([
-            'title' => 'Title 1',
-            'value' => 'Value 1',
-            'short' => true,
-        ]);
-
-        $a->addField($f);
-
-        $fields = $a->getFields();
-
-        $this->assertSame(1, count($fields));
-
-        $this->assertSame($f, $fields[0]);
-    }
-
-    /**
-     * @throws \InvalidArgumentException
-     * @throws \PHPUnit\Framework\Exception
-     * @throws \PHPUnit\Framework\ExpectationFailedException
-     */
-    public function testSetFields()
-    {
-        $a = new Attachment([
-            'fallback' => 'Fallback',
-            'text' => 'Text',
-        ]);
-
-        $a->addField([
-            'title' => 'Title 1',
-            'value' => 'Value 1',
-            'short' => true,
-        ])->addField([
-            'title' => 'Title 2',
-            'value' => 'Value 2',
-            'short' => true,
-        ]);
-
-        $this->assertSame(2, count($a->getFields()));
-
-        $a->setFields([]);
-
-        $this->assertSame(0, count($a->getFields()));
     }
 }
