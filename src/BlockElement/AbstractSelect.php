@@ -18,7 +18,7 @@ abstract class AbstractSelect extends Options
      *
      * @var Maknz\Slack\Object\OptionGroup[]
      */
-    protected $option_groups;
+    protected $option_groups = [];
 
     /**
      * Get the placeholder.

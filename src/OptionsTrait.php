@@ -11,7 +11,7 @@ trait OptionsTrait
      *
      * @var \Maknz\Slack\Object\Option[]
      */
-    protected $options;
+    protected $options = [];
 
     /**
      * Get options available within the block.
