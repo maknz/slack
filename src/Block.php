@@ -72,6 +72,7 @@ abstract class Block extends Payload
             'actions',
             'context',
             'divider',
+            'file',
             'section',
         ];
 
