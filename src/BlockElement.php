@@ -58,8 +58,8 @@ abstract class BlockElement extends Payload
 
         $validElements = array_keys(static::$validFor);
 
-        if (!in_array($attributes['type'], $validElements)) {
-            throw new InvalidArgumentException('Block type must be one of: ' . implode(', ', $validElements) . '.');
+        if ( ! in_array($attributes['type'], $validElements)) {
+            throw new InvalidArgumentException('Invalid Block type "'.$attributes['type'].'". Must be one of: '.implode(', ', $validElements).'.');
         }
 
         $className = __NAMESPACE__.'\\BlockElement\\'.static::$validFor[$attributes['type']][0];

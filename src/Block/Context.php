@@ -1,12 +1,12 @@
 <?php
 namespace Maknz\Slack\Block;
 
-class Actions extends ElementsBlock
+class Context extends ElementsBlock
 {
     /**
      * Block type.
      *
      * @var string
      */
-    protected $type = 'actions';
+    protected $type = 'context';
 }
