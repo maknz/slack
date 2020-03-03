@@ -74,6 +74,7 @@ abstract class Block extends Payload
             'divider',
             'file',
             'image',
+            'input',
             'section',
         ];
 
