@@ -206,6 +206,29 @@ class MessageUnitTest extends TestCase
     }
 
     /**
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     */
+    public function testWithBlock()
+    {
+        $message = $this->getMessage();
+
+        $message->withBlock([
+            'type' => 'section',
+            'text' => 'Hi',
+        ]);
+
+        $blocks = $message->getBlocks();
+
+        $this->assertSame(1, count($blocks));
+
+        $obj = $blocks[0];
+
+        $this->assertSame('Hi', $obj->getText()->getText());
+    }
+
+    /**
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
      */

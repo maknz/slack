@@ -155,6 +155,28 @@ $client->to('@regan')->attach([
 ])->send('New user feedback');
 ```
 
+#### Using blocks ([Block Kit](https://api.slack.com/block-kit))
+
+```php
+$client->to('@regan')->withBlock([
+    'type' => 'section',
+    'text' => 'Do you love the app?'
+])->withBlock([
+    'type' => 'actions',
+    'elements' => [[
+        'type'      => 'button',
+        'text'      => 'Love it',
+        'style'     => 'primary',
+        'action_id' => 'love',
+    ], [
+        'type'      => 'button',
+        'text'      => 'Hate it',
+        'style'     => 'danger',
+        'action_id' => 'hate',
+    ],
+])->send('Notification fallback message');
+```
+
 ## Advanced usage
 
 ### Markdown

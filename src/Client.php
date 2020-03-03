@@ -447,7 +447,11 @@ class Client
             $payload[$message->getIconType()] = $icon;
         }
 
-        $payload['attachments'] = $this->getAttachmentsAsArrays($message);
+        if (count($message->getBlocks())) {
+            $payload['blocks'] = $message->getBlocksAsArrays();
+        } else {
+            $payload['attachments'] = $this->getAttachmentsAsArrays($message);
+        }
 
         return $payload;
     }

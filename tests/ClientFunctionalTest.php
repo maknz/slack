@@ -3,6 +3,7 @@ namespace Slack\Tests;
 
 use DateTime;
 use Maknz\Slack\Attachment;
+use Maknz\Slack\Block;
 use Maknz\Slack\Client;
 use Mockery;
 use RuntimeException;
@@ -144,16 +145,16 @@ class ClientFunctionalTest extends TestCase
             'author_link' => 'http://fake.host/',
             'author_icon' => 'http://fake.host/image.png',
             'fields' => [
-                  [
+                [
                     'title' => 'Field 1',
                     'value' => 'Value 1',
                     'short' => false,
-                  ],
-                  [
+                ],
+                [
                     'title' => 'Field 2',
                     'value' => 'Value 2',
                     'short' => false,
-                  ],
+                ],
             ],
             'actions' => [],
         ];
@@ -175,16 +176,16 @@ class ClientFunctionalTest extends TestCase
             'author_link' => 'http://fake.host/',
             'author_icon' => 'http://fake.host/image.png',
             'fields' => [
-                  [
+                [
                     'title' => 'Field 1',
                     'value' => 'Value 1',
                     'short' => false,
-                  ],
-                  [
+                ],
+                [
                     'title' => 'Field 2',
                     'value' => 'Value 2',
                     'short' => false,
-                  ],
+                ],
             ],
             'actions' => [],
         ];
@@ -348,6 +349,78 @@ class ClientFunctionalTest extends TestCase
             'unfurl_media' => true,
             'mrkdwn' => true,
             'attachments' => [$attachmentOutput],
+        ];
+
+        $this->assertEquals($expectedHttpData, $payload);
+    }
+
+    /**
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \RuntimeException
+     */
+    public function testMessageWithBlocks()
+    {
+        $client = new Client('http://fake.endpoint', [
+            'username' => 'Test',
+            'channel' => '#general',
+        ]);
+
+        $message = $client->createMessage()->setText('Fallback text');
+
+        $block = Block::factory([
+            'type' => 'actions',
+            'elements' => [[
+                'type'      => 'button',
+                'text'      => 'Positive button',
+                'style'     => 'primary',
+                'action_id' => 'yes',
+            ], [
+                'type'      => 'button',
+                'text'      => 'Negative button',
+                'style'     => 'danger',
+                'action_id' => 'no',
+            ]],
+        ]);
+
+        $message->withBlock($block);
+
+        $payload = $client->preparePayload($message);
+
+        $blockOutput = [
+            'type' => 'actions',
+            'elements' => [[
+                'type'  => 'button',
+                'text' => [
+                    'type' => 'plain_text',
+                    'text'  => 'Positive button',
+                    'emoji' => false,
+                ],
+                'style' => 'primary',
+                'action_id' => 'yes',
+            ], [
+                'type'  => 'button',
+                'text' => [
+                    'type' => 'plain_text',
+                    'text'  => 'Negative button',
+                    'emoji' => false,
+                ],
+                'style' => 'danger',
+                'action_id' => 'no',
+            ]],
+        ];
+
+        $expectedHttpData = [
+            'username' => 'Test',
+            'channel' => '#general',
+            'text' => 'Fallback text',
+            'response_type' => 'ephemeral',
+            'link_names' => 0,
+            'unfurl_links' => false,
+            'unfurl_media' => true,
+            'mrkdwn' => true,
+            'blocks' => [$blockOutput],
         ];
 
         $this->assertEquals($expectedHttpData, $payload);

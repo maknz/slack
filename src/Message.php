@@ -72,6 +72,13 @@ class Message
     protected $attachments = [];
 
     /**
+     * An array of blocks to send.
+     *
+     * @var Block[]
+     */
+    protected $blocks = [];
+
+    /**
      * @var string
      */
     const ICON_TYPE_URL = 'icon_url';
@@ -397,6 +404,89 @@ class Message
     public function clearAttachments()
     {
         $this->attachments = [];
+
+        return $this;
+    }
+
+    /**
+     * Add a block to the message.
+     *
+     * @param mixed $block
+     *
+     * @return $this
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function withBlock($block)
+    {
+        if ($block instanceof Block) {
+            $this->blocks[] = $block;
+
+            return $this;
+        } elseif (is_array($block)) {
+            $blockObject = Block::factory($block);
+            $this->blocks[] = $blockObject;
+
+            return $this;
+        }
+
+        throw new InvalidArgumentException('Block must be an instance of Maknz\\Slack\\Block or a keyed array');
+    }
+
+    /**
+     * Get the blocks for the message.
+     *
+     * @return Block[]
+     */
+    public function getBlocks()
+    {
+        return $this->blocks;
+    }
+
+    /**
+     * Get the blocks for the message in array format.
+     *
+     * @return array
+     */
+    public function getBlocksAsArrays()
+    {
+        $blocks = [];
+
+        foreach ($this->getBlocks() as $block) {
+            $blocks[] = $block->toArray();
+        }
+
+        return $blocks;
+    }
+
+    /**
+     * Set the blocks for the message.
+     *
+     * @param array $blocks
+     *
+     * @return $this
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function setBlocks(array $blocks)
+    {
+        $this->clearBlocks();
+
+        foreach ($blocks as $block) {
+            $this->withBlock($block);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove all blocks for the message.
+     *
+     * @return $this
+     */
+    public function clearBlocks()
+    {
+        $this->blocks = [];
 
         return $this;
     }
