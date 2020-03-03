@@ -73,6 +73,7 @@ abstract class Block extends Payload
             'context',
             'divider',
             'file',
+            'image',
             'section',
         ];
 

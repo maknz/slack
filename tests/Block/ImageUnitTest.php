@@ -1,7 +1,7 @@
 <?php
-namespace Slack\Tests\BlockElement;
+namespace Slack\Tests\Block;
 
-use Maknz\Slack\BlockElement\Image;
+use Maknz\Slack\Block\Image;
 use Maknz\Slack\BlockElement\Text;
 use Slack\Tests\TestCase;
 
@@ -28,6 +28,7 @@ class ImageUnitTest extends TestCase
             'image_url' => 'http://fake.host/image.png',
             'alt_text'  => 'Alt text',
             'title'     => 'Image title',
+            'block_id'  => 'block_1234',
         ]);
 
         $out = [
@@ -39,6 +40,7 @@ class ImageUnitTest extends TestCase
                 'text' => 'Image title',
                 'emoji' => false,
             ],
+            'block_id' => 'block_1234',
         ];
 
         $this->assertEquals($out, $i->toArray());

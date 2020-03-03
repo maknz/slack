@@ -1,10 +1,10 @@
 <?php
-namespace Maknz\Slack\BlockElement;
+namespace Maknz\Slack\Block;
 
-use Maknz\Slack\BlockElement;
+use Maknz\Slack\Block;
 use Maknz\Slack\ImageTrait;
 
-class Image extends BlockElement
+class Image extends Block
 {
     use ImageTrait;
 
@@ -24,6 +24,7 @@ class Image extends BlockElement
         'image_url' => 'url',
         'alt_text'  => 'alt_text',
         'title'     => 'title',
+        'block_id'  => 'block_id',
     ];
 
     /**
@@ -41,6 +42,10 @@ class Image extends BlockElement
 
         if ($this->getTitle()) {
             $data['title'] = $this->getTitle()->toArray();
+        }
+
+        if ($this->getBlockId()) {
+            $data['block_id'] = $this->getBlockId();
         }
 
         return $data;
