@@ -71,6 +71,7 @@ abstract class Block extends Payload
         $validBlocks = [
             'actions',
             'context',
+            'divider',
             'section',
         ];
 
