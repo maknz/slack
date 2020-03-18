@@ -11,7 +11,7 @@ class OptionGroup extends CompositionObject
     /**
      * Option group label.
      *
-     * @var Maknz\Slack\BlockElement\Text
+     * @var \Maknz\Slack\BlockElement\Text
      */
     protected $label;
 
@@ -28,7 +28,7 @@ class OptionGroup extends CompositionObject
     /**
      * Get the option group label.
      *
-     * @return Maknz\Slack\BlockElement\Text
+     * @return \Maknz\Slack\BlockElement\Text
      */
     public function getLabel()
     {
@@ -40,7 +40,7 @@ class OptionGroup extends CompositionObject
      *
      * @param mixed $label
      *
-     * @return OptionGroup
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */

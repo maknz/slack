@@ -55,7 +55,7 @@ abstract class ElementsBlock extends Block
      *
      * @param array $elements
      *
-     * @return ElementsBlock
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */
@@ -73,7 +73,7 @@ abstract class ElementsBlock extends Block
     /**
      * Remove all elements from the block.
      *
-     * @return ElementsBlock
+     * @return $this
      */
     public function clearElements()
     {
@@ -87,7 +87,7 @@ abstract class ElementsBlock extends Block
      *
      * @param array|BlockElement $element
      *
-     * @return ElementsBlock
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */

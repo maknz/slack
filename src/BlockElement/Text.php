@@ -27,14 +27,14 @@ class Text extends BlockElement implements Field
     /**
      * Whether emojis should be escaped.
      *
-     * @var string
+     * @var bool
      */
     protected $escape_emojis = false;
 
     /**
      * Whether text content should be treated as-is.
      *
-     * @var string
+     * @var bool
      */
     protected $verbatim = false;
 
@@ -65,7 +65,7 @@ class Text extends BlockElement implements Field
      *
      * @param string $type
      *
-     * @return Text
+     * @return $this
      */
     public function setType($type)
     {
@@ -89,7 +89,7 @@ class Text extends BlockElement implements Field
      *
      * @param string $text
      *
-     * @return Text
+     * @return $this
      */
     public function setText($text)
     {
@@ -113,7 +113,7 @@ class Text extends BlockElement implements Field
      *
      * @param bool $escape
      *
-     * @return Text
+     * @return $this
      */
     public function setEscapeEmojis($escape)
     {
@@ -137,7 +137,7 @@ class Text extends BlockElement implements Field
      *
      * @param bool $verbatim
      *
-     * @return Text
+     * @return $this
      */
     public function setVerbatim($verbatim)
     {
@@ -173,7 +173,7 @@ class Text extends BlockElement implements Field
      * @param mixed  $text
      * @param string $type If passed, the Text object will be of this type.
      *
-     * @return Text
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */

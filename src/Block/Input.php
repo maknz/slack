@@ -70,7 +70,7 @@ class Input extends Block
      *
      * @param mixed
      *
-     * @return Input
+     * @return $this
      */
     public function setLabel($label)
     {
@@ -94,7 +94,7 @@ class Input extends Block
      *
      * @param mixed
      *
-     * @return Input
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */
@@ -126,7 +126,7 @@ class Input extends Block
      *
      * @param mixed
      *
-     * @return Input
+     * @return $this
      */
     public function setHint($hint)
     {
@@ -150,7 +150,7 @@ class Input extends Block
      *
      * @param bool
      *
-     * @return Input
+     * @return $this
      */
     public function setOptional($optional)
     {

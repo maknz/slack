@@ -61,7 +61,7 @@ class Section extends Block
     /**
      * Get the section text.
      *
-     * @return string
+     * @return \Maknz\Slack\BlockElement\Text
      */
     public function getText()
     {
@@ -73,7 +73,7 @@ class Section extends Block
      *
      * @param mixed $text
      *
-     * @return Section
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */
@@ -89,7 +89,7 @@ class Section extends Block
      *
      * @param mixed $field
      *
-     * @return Section
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */
@@ -117,7 +117,7 @@ class Section extends Block
      *
      * @param mixed $accessory
      *
-     * @return Section
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */

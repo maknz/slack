@@ -26,7 +26,7 @@ class Checkboxes extends Options
     /**
      * Get the intially selected options.
      *
-     * @return Maknz\Slack\Object\Option[]
+     * @return \Maknz\Slack\Object\Option[]
      */
     public function getInitialOptions()
     {

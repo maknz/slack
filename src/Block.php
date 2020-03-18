@@ -44,7 +44,7 @@ abstract class Block extends Payload
      *
      * @param string $blockId
      *
-     * @return Block
+     * @return $this
      */
     public function setBlockId($blockId)
     {

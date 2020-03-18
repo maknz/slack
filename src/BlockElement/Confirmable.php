@@ -29,7 +29,7 @@ abstract class Confirmable extends BlockElement
      *
      * @param mixed $confirm
      *
-     * @return Confirmable
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */

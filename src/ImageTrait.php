@@ -89,7 +89,7 @@ trait ImageTrait
      *
      * @param mixed $title
      *
-     * @return \Maknz\Slack\BlockElement\Text
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */

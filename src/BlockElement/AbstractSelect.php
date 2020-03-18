@@ -9,21 +9,21 @@ abstract class AbstractSelect extends Options
     /**
      * Select placeholder.
      *
-     * @var Maknz\Slack\BlockElement\Text
+     * @var \Maknz\Slack\BlockElement\Text
      */
     protected $placeholder;
 
     /**
      * Select option groups.
      *
-     * @var Maknz\Slack\Object\OptionGroup[]
+     * @var \Maknz\Slack\Object\OptionGroup[]
      */
     protected $option_groups = [];
 
     /**
      * Get the placeholder.
      *
-     * @return Maknz\Slack\BlockElement\Text
+     * @return \Maknz\Slack\BlockElement\Text
      */
     public function getPlaceholder()
     {
@@ -35,7 +35,7 @@ abstract class AbstractSelect extends Options
      *
      * @param mixed $placeholder
      *
-     * @return AbstractSelect
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */
@@ -51,7 +51,7 @@ abstract class AbstractSelect extends Options
      *
      * @param array $options
      *
-     * @return AbstractSelect
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */
@@ -67,7 +67,7 @@ abstract class AbstractSelect extends Options
      *
      * @param mixed $option
      *
-     * @return AbstractSelect
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */
@@ -82,7 +82,7 @@ abstract class AbstractSelect extends Options
     /**
      * Get the option groups.
      *
-     * @return Maknz\Slack\Object\OptionGroup[]
+     * @return \Maknz\Slack\Object\OptionGroup[]
      */
     public function getOptionGroups()
     {
@@ -110,7 +110,7 @@ abstract class AbstractSelect extends Options
      *
      * @param array $groups
      *
-     * @return AbstractSelect
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */
@@ -129,7 +129,7 @@ abstract class AbstractSelect extends Options
     /**
      * Clear option groups in the block.
      *
-     * @return AbstractSelect
+     * @return $this
      */
     public function clearOptionGroups()
     {
@@ -141,7 +141,7 @@ abstract class AbstractSelect extends Options
     /**
      * Clear options and option groups.
      *
-     * @return AbstractSelect
+     * @return $this
      */
     public function clearAllOptions()
     {
@@ -156,7 +156,7 @@ abstract class AbstractSelect extends Options
      *
      * @param mixed $group
      *
-     * @return AbstractSelect
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */

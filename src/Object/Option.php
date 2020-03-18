@@ -8,7 +8,7 @@ class Option extends CompositionObject
     /**
      * Option text.
      *
-     * @var Maknz\Slack\BlockElement\Text
+     * @var \Maknz\Slack\BlockElement\Text
      */
     protected $text;
 
@@ -22,7 +22,7 @@ class Option extends CompositionObject
     /**
      * Option group description.
      *
-     * @var Maknz\Slack\BlockElement\Text
+     * @var \Maknz\Slack\BlockElement\Text
      */
     protected $description;
 
@@ -56,7 +56,7 @@ class Option extends CompositionObject
     /**
      * Get the option text.
      *
-     * @return Maknz\Slack\BlockElement\Text
+     * @return \Maknz\Slack\BlockElement\Text
      */
     public function getText()
     {
@@ -68,7 +68,7 @@ class Option extends CompositionObject
      *
      * @param mixed $text
      *
-     * @return Option
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */
@@ -94,7 +94,7 @@ class Option extends CompositionObject
      *
      * @param string $value
      *
-     * @return Option
+     * @return $this
      */
     public function setValue($value)
     {
@@ -106,7 +106,7 @@ class Option extends CompositionObject
     /**
      * Get the option description.
      *
-     * @return Maknz\Slack\BlockElement\Text
+     * @return \Maknz\Slack\BlockElement\Text
      */
     public function getDescription()
     {
@@ -118,7 +118,7 @@ class Option extends CompositionObject
      *
      * @param mixed $description
      *
-     * @return Option
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */
@@ -142,9 +142,9 @@ class Option extends CompositionObject
     /**
      * Set the option URL.
      *
-     * @param string $value
+     * @param string $url
      *
-     * @return Option
+     * @return $this
      */
     public function setUrl($url)
     {
@@ -168,7 +168,7 @@ class Option extends CompositionObject
      *
      * @param bool $selected
      *
-     * @return Option
+     * @return $this
      */
     public function setInitiallySelected($selected)
     {

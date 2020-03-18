@@ -8,28 +8,28 @@ class Confirmation extends CompositionObject
     /**
      * Confirmation title.
      *
-     * @var Maknz\Slack\BlockElement\Text
+     * @var \Maknz\Slack\BlockElement\Text
      */
     protected $title;
 
     /**
      * Confirmation explanatory text.
      *
-     * @var Maknz\Slack\BlockElement\Text
+     * @var \Maknz\Slack\BlockElement\Text
      */
     protected $text;
 
     /**
      * Text that confirms the action.
      *
-     * @var Maknz\Slack\BlockElement\Text
+     * @var \Maknz\Slack\BlockElement\Text
      */
     protected $confirm;
 
     /**
      * Text that denies the action.
      *
-     * @var Maknz\Slack\BlockElement\Text
+     * @var \Maknz\Slack\BlockElement\Text
      */
     protected $deny;
 
@@ -48,7 +48,7 @@ class Confirmation extends CompositionObject
     /**
      * Get the confirmation title.
      *
-     * @return Maknz\Slack\BlockElement\Text
+     * @return \Maknz\Slack\BlockElement\Text
      */
     public function getTitle()
     {
@@ -60,7 +60,7 @@ class Confirmation extends CompositionObject
      *
      * @param mixed $title
      *
-     * @return Confirmation
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */
@@ -74,7 +74,7 @@ class Confirmation extends CompositionObject
     /**
      * Get the confirmation explanatory text.
      *
-     * @return Maknz\Slack\BlockElement\Text
+     * @return \Maknz\Slack\BlockElement\Text
      */
     public function getText()
     {
@@ -86,7 +86,7 @@ class Confirmation extends CompositionObject
      *
      * @param mixed $text
      *
-     * @return Confirmation
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */
@@ -100,7 +100,7 @@ class Confirmation extends CompositionObject
     /**
      * Get the text that confirms the action.
      *
-     * @return Maknz\Slack\BlockElement\Text
+     * @return \Maknz\Slack\BlockElement\Text
      */
     public function getConfirm()
     {
@@ -112,7 +112,7 @@ class Confirmation extends CompositionObject
      *
      * @param mixed $confirm
      *
-     * @return Confirmation
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */
@@ -126,7 +126,7 @@ class Confirmation extends CompositionObject
     /**
      * Get the text that denies the action.
      *
-     * @return Maknz\Slack\BlockElement\Text
+     * @return \Maknz\Slack\BlockElement\Text
      */
     public function getDeny()
     {
@@ -138,7 +138,7 @@ class Confirmation extends CompositionObject
      *
      * @param mixed $deny
      *
-     * @return Confirmation
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */

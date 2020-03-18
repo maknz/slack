@@ -83,7 +83,7 @@ class TextInput extends BlockElement
      *
      * @param string $actionId
      *
-     * @return TextInput
+     * @return $this
      */
     public function setActionId($actionId)
     {
@@ -107,7 +107,7 @@ class TextInput extends BlockElement
      *
      * @param mixed $placeholder
      *
-     * @return TextInput
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */
@@ -133,7 +133,7 @@ class TextInput extends BlockElement
      *
      * @param string $initialValue
      *
-     * @return TextInput
+     * @return $this
      */
     public function setInitialValue($initialValue)
     {
@@ -157,7 +157,7 @@ class TextInput extends BlockElement
      *
      * @param bool $multiline
      *
-     * @return TextInput
+     * @return $this
      */
     public function setMultiline($multiline)
     {
@@ -181,7 +181,7 @@ class TextInput extends BlockElement
      *
      * @param int $minLength
      *
-     * @return TextInput
+     * @return $this
      */
     public function setMinLength($minLength)
     {
@@ -205,7 +205,7 @@ class TextInput extends BlockElement
      *
      * @param int $maxLength
      *
-     * @return TextInput
+     * @return $this
      */
     public function setMaxLength($maxLength)
     {

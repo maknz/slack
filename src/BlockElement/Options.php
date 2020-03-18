@@ -29,7 +29,7 @@ abstract class Options extends Confirmable
      *
      * @param string $actionId
      *
-     * @return Options
+     * @return $this
      */
     public function setActionId($actionId)
     {

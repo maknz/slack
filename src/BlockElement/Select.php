@@ -2,6 +2,7 @@
 namespace Maknz\Slack\BlockElement;
 
 use InvalidArgumentException;
+use Maknz\Slack\Object\Option;
 use Maknz\Slack\Object\OptionGroup;
 
 class Select extends AbstractSelect
@@ -38,7 +39,7 @@ class Select extends AbstractSelect
      *
      * @param mixed $option
      *
-     * @return Select
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */
@@ -60,7 +61,7 @@ class Select extends AbstractSelect
     /**
      * Clear option groups in the select.
      *
-     * @return Select
+     * @return $this
      */
     public function clearOptionGroups()
     {
@@ -74,7 +75,7 @@ class Select extends AbstractSelect
     /**
      * Clear options in the select.
      *
-     * @return Select
+     * @return $this
      */
     public function clearOptions()
     {
@@ -90,7 +91,7 @@ class Select extends AbstractSelect
      *
      * @param mixed $group
      *
-     * @return AbstractSelect
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */
@@ -116,7 +117,7 @@ class Select extends AbstractSelect
     /**
      * Get the intially selected option.
      *
-     * @return Maknz\Slack\Object\Option
+     * @return \Maknz\Slack\Object\Option
      */
     public function getInitialOption()
     {

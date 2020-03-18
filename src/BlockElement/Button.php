@@ -17,7 +17,7 @@ class Button extends Confirmable
     /**
      * Button text.
      *
-     * @var Maknz\Slack\BlockElement\Text
+     * @var \Maknz\Slack\BlockElement\Text
      */
     protected $text;
 
@@ -66,7 +66,7 @@ class Button extends Confirmable
     /**
      * Get the button text.
      *
-     * @return Maknz\Slack\BlockElement\Text
+     * @return \Maknz\Slack\BlockElement\Text
      */
     public function getText()
     {
@@ -78,7 +78,7 @@ class Button extends Confirmable
      *
      * @param mixed $text
      *
-     * @return Button
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */
@@ -104,7 +104,7 @@ class Button extends Confirmable
      *
      * @param string $actionId
      *
-     * @return Button
+     * @return $this
      */
     public function setActionId($actionId)
     {
@@ -128,7 +128,7 @@ class Button extends Confirmable
      *
      * @param string $url
      *
-     * @return Button
+     * @return $this
      */
     public function setUrl($url)
     {
@@ -152,7 +152,7 @@ class Button extends Confirmable
      *
      * @param string $value
      *
-     * @return Button
+     * @return $this
      */
     public function setValue($value)
     {
@@ -176,7 +176,7 @@ class Button extends Confirmable
      *
      * @param string $style
      *
-     * @return Button
+     * @return $this
      */
     public function setStyle($style)
     {

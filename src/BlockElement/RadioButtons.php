@@ -34,7 +34,7 @@ class RadioButtons extends Options
     /**
      * Get the intially selected option.
      *
-     * @return Maknz\Slack\Object\Option
+     * @return \Maknz\Slack\Object\Option|null
      */
     public function getInitialOption()
     {
@@ -43,6 +43,8 @@ class RadioButtons extends Options
                 return $option;
             }
         }
+
+        return null;
     }
 
     /**
@@ -50,7 +52,7 @@ class RadioButtons extends Options
      *
      * @param mixed $option
      *
-     * @return RadioButtons
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */
@@ -72,7 +74,7 @@ class RadioButtons extends Options
     /**
      * Clear options available.
      *
-     * @return RadioButtons
+     * @return $this
      */
     public function clearOptions()
     {

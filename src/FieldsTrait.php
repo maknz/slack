@@ -15,7 +15,7 @@ trait FieldsTrait
     /**
      * Get the fields for the block/attachment.
      *
-     * @return Field[]|array
+     * @return \Maknz\Slack\Field[]|array
      */
     public function getFields()
     {

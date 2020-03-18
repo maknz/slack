@@ -60,7 +60,7 @@ class DatePicker extends Confirmable
      *
      * @param string $actionId
      *
-     * @return DatePicker
+     * @return $this
      */
     public function setActionId($actionId)
     {
@@ -84,7 +84,7 @@ class DatePicker extends Confirmable
      *
      * @param mixed $placeholder
      *
-     * @return DatePicker
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */
@@ -110,7 +110,7 @@ class DatePicker extends Confirmable
      *
      * @param \DateTime $initialDate
      *
-     * @return DatePicker
+     * @return $this
      */
     public function setInitialDate(DateTime $initialDate)
     {
