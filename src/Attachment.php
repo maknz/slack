@@ -109,7 +109,7 @@ class Attachment
      *
      * @var array
      */
-    protected $fields = [];
+    protected $fields = array();
 
     /**
      * The fields of the attachment that Slack should interpret
@@ -117,7 +117,7 @@ class Attachment
      *
      * @var array
      */
-    protected $markdown_fields = [];
+    protected $markdown_fields = array();
 
     /**
      * A collection of actions (buttons) to include in the attachment.
@@ -125,7 +125,7 @@ class Attachment
      *
      * @var array
      */
-    protected $actions = [];
+    protected $actions = array();
 
     /**
      * Instantiate a new Attachment.
@@ -581,7 +581,7 @@ class Attachment
      */
     public function clearFields()
     {
-        $this->fields = [];
+        $this->fields = array();
 
         return $this;
     }
@@ -593,7 +593,7 @@ class Attachment
      */
     public function clearActions()
     {
-        $this->actions = [];
+        $this->actions = array();
 
         return $this;
     }
@@ -626,7 +626,7 @@ class Attachment
     /**
      * Get the collection of actions (buttons) to include in the attachment.
      *
-     * @return AttachmentAction[]
+     * @return AttachmentActionarray()
      */
     public function getActions()
     {
@@ -678,7 +678,7 @@ class Attachment
      */
     public function toArray()
     {
-        $data = [
+        $data = array(
             'fallback' => $this->getFallback(),
             'text' => $this->getText(),
             'pretext' => $this->getPretext(),
@@ -694,7 +694,7 @@ class Attachment
             'author_name' => $this->getAuthorName(),
             'author_link' => $this->getAuthorLink(),
             'author_icon' => $this->getAuthorIcon(),
-        ];
+        );
 
         $data['fields'] = $this->getFieldsAsArrays();
         $data['actions'] = $this->getActionsAsArrays();
@@ -710,7 +710,7 @@ class Attachment
      */
     protected function getFieldsAsArrays()
     {
-        $fields = [];
+        $fields = array();
 
         foreach ($this->getFields() as $field) {
             $fields[] = $field->toArray();
@@ -727,7 +727,7 @@ class Attachment
      */
     protected function getActionsAsArrays()
     {
-        $actions = [];
+        $actions = array();
 
         foreach ($this->getActions() as $action) {
             $actions[] = $action->toArray();

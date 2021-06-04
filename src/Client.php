@@ -2,7 +2,7 @@
 
 namespace Maknz\Slack;
 
-use GuzzleHttp\Client as Guzzle;
+use Guzzle\Http\Client as Guzzle;
 use RuntimeException;
 
 class Client
@@ -71,12 +71,12 @@ class Client
      *
      * @var array
      */
-    protected $markdown_in_attachments = [];
+    protected $markdown_in_attachments = array();
 
     /**
      * The Guzzle HTTP client instance.
      *
-     * @var \GuzzleHttp\Client
+     * @var \Guzzle\Http\Client
      */
     protected $guzzle;
 
@@ -87,7 +87,7 @@ class Client
      * @param array $attributes
      * @return void
      */
-    public function __construct($endpoint, array $attributes = [], Guzzle $guzzle = null)
+    public function __construct($endpoint, array $attributes = array(), Guzzle $guzzle = null)
     {
         $this->endpoint = $endpoint;
 
@@ -136,7 +136,7 @@ class Client
      */
     public function __call($name, $arguments)
     {
-        return call_user_func_array([$this->createMessage(), $name], $arguments);
+        return call_user_func_array(array($this->createMessage(), $name), $arguments);
     }
 
     /**
@@ -366,13 +366,16 @@ class Client
     {
         $payload = $this->preparePayload($message);
 
-        $encoded = json_encode($payload, JSON_UNESCAPED_UNICODE);
+        $encoded = json_encode($payload); //, JSON_UNESCAPED_UNICODE);
 
         if ($encoded === false) {
             throw new RuntimeException(sprintf('JSON encoding error %s: %s', json_last_error(), json_last_error_msg()));
         }
 
-        $this->guzzle->post($this->endpoint, ['body' => $encoded]);
+        $request = $this->guzzle->post($this->endpoint);
+        $request->setBody( $encoded, 'application/json' );
+        $request->addHeader( 'Accept', 'application/json' );
+        $request->send();
     }
 
     /**
@@ -383,7 +386,7 @@ class Client
      */
     public function preparePayload(Message $message)
     {
-        $payload = [
+        $payload = array(
             'text' => $message->getText(),
             'channel' => $message->getChannel(),
             'username' => $message->getUsername(),
@@ -391,7 +394,7 @@ class Client
             'unfurl_links' => $this->getUnfurlLinks(),
             'unfurl_media' => $this->getUnfurlMedia(),
             'mrkdwn' => $message->getAllowMarkdown(),
-        ];
+        );
 
         if ($icon = $message->getIcon()) {
             $payload[$message->getIconType()] = $icon;
@@ -410,7 +413,7 @@ class Client
      */
     protected function getAttachmentsAsArrays(Message $message)
     {
-        $attachments = [];
+        $attachments = array();
 
         foreach ($message->getAttachments() as $attachment) {
             $attachments[] = $attachment->toArray();

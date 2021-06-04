@@ -140,11 +140,11 @@ class ActionConfirmation
      */
     public function toArray()
     {
-        return [
+        return array(
             'title' => $this->getTitle(),
             'text' => $this->getText(),
             'ok_text' => $this->getOkText(),
             'dismiss_text' => $this->getDismissText(),
-        ];
+        );
     }
 }

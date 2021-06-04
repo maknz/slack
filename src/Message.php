@@ -63,14 +63,14 @@ class Message
      *
      * @var array
      */
-    protected $markdown_in_attachments = [];
+    protected $markdown_in_attachments = array();
 
     /**
      * An array of attachments to send.
      *
      * @var array
      */
-    protected $attachments = [];
+    protected $attachments = array();
 
     /**
      * @var string
@@ -381,7 +381,7 @@ class Message
      */
     public function clearAttachments()
     {
-        $this->attachments = [];
+        $this->attachments = array();
 
         return $this;
     }

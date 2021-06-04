@@ -125,10 +125,10 @@ class AttachmentField
      */
     public function toArray()
     {
-        return [
+        return array(
             'title' => $this->getTitle(),
             'value' => $this->getValue(),
             'short' => $this->getShort(),
-        ];
+        );
     }
 }

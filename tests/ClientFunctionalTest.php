@@ -330,7 +330,7 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
 
     protected function getNetworkStubbedClient()
     {
-        $guzzle = Mockery::mock('GuzzleHttp\Client');
+        $guzzle = Mockery::mock('Guzzle\Http\Client');
 
         $guzzle->shouldReceive('post');
 

@@ -216,13 +216,13 @@ class AttachmentAction
      */
     public function toArray()
     {
-        return [
+        return array(
             'name' => $this->getName(),
             'text' => $this->getText(),
             'style' => $this->getStyle(),
             'type' => $this->getType(),
             'value' => $this->getValue(),
             'confirm' => $this->getConfirm()->toArray(),
-        ];
+        );
     }
 }
