@@ -8,7 +8,7 @@ on:
 jobs:
   semgrep:
     name: Scan
-    runs-on: [ubuntu-latest]
+    runs-on: [ubuntu-latest]                               # nosemgrep : semgrep.dev/s/swati31196:github_provided_runner
     steps:
       - uses: actions/checkout@v2
       - uses: returntocorp/semgrep-action@v1
@@ -19,7 +19,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   workflow_status:
-    runs-on: [ ubuntu-latest ]
+    runs-on: [ ubuntu-latest ]                               # nosemgrep : semgrep.dev/s/swati31196:github_provided_runner
     name: Update Status Check
     needs: [ semgrep ]
     if: always()
@@ -28,13 +28,13 @@ jobs:
     steps:
       - name: Set github commit id
         run: |
-          if [ "${{ github.event_name }}" = "push" ]; then
+          if [ "${{ github.event_name }}" = "push" ] || [ "${{ github.event_name }}" = "schedule" ]; then
             echo "githubCommit=${{ github.sha }}" >> $GITHUB_ENV
           fi
           exit 0
       - name: Failed
         id: failed
-        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        if: (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')) && github.ref != 'refs/heads/master'
         run: |
           echo 'Failing the workflow for github security status check.'
           curl -X POST -H "Content-Type: application/json" -H "Authorization: token ${{ github.token }}" \
@@ -42,11 +42,10 @@ jobs:
           https://api.github.com/repos/${{ github.repository }}/statuses/${{ env.githubCommit }}
           exit 1
       - name: Success
-        if: steps.failed.conclusion == 'skipped'
+        if: steps.failed.conclusion == 'skipped' || github.ref != 'refs/heads/master'
         run: |
           echo 'Status check has passed!'
           curl -X POST -H "Content-Type: application/json" -H "Authorization: token ${{ github.token }}" \
           -d '{ "state" : "success" , "context" : "github/security-status-check" , "description" : "github/security-status-check", "target_url" : "https://github.com/${{ github.repository }}" }' \
           https://api.github.com/repos/${{ github.repository }}/statuses/${{ env.githubCommit }}
           exit 0
-          
