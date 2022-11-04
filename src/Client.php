@@ -116,7 +116,7 @@ class Client
      *
      * @param string                           $endpoint   endpoint
      * @param array                            $attributes attributes
-     * @param Illuminate\Contracts\Queue\Queue $queue      queue
+     * @param \Illuminate\Contracts\Queue\Queue $queue      queue
      * @param Guzzle                           $guzzle     guzzle
      *
      * @return void
@@ -490,7 +490,7 @@ class Client
     /**
      * Execute the message sending via a Queue
      *
-     * @param Illuminate\Queue\Jobs\Job $job  Job instance
+     * @param \Illuminate\Queue\Jobs\Job $job  Job instance
      * @param array                     $data Slack Payload
      *
      * @return void
@@ -534,12 +534,12 @@ class Client
           'unfurl_media' => $this->getUnfurlMedia(),
           'mrkdwn'       => $message->getAllowMarkdown()
         ];
-        
+
         if ($icon = $message->getIcon())
         {
             $payload[$message->getIconType()] = $icon;
         }
-        
+
         if ($numRetries)
         {
             $payload['metadata'] = ['num_retries' => $numRetries];
@@ -589,7 +589,7 @@ class Client
      * @param array $data Slack Payload
      *
      * @return void
-     * @throws GuzzleHttp\Exception\ClientException   throws exception due to network errors. The client/caller
+     * @throws \GuzzleHttp\Exception\ClientException   throws exception due to network errors. The client/caller
      *                                                needs to handle this as the resulting behavior might be
      *                                                different for different client calls between syncronous and
      *                                                asynchronous calls

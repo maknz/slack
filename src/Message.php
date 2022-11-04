@@ -572,7 +572,7 @@ class Message
     {
         if ($this->client->getSlackStatus())
         {
-            return $this->messageHandler(
+            $this->messageHandler(
                 $headline,
                 $postData,
                 $settings,

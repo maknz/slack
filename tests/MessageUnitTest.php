@@ -2,6 +2,7 @@
 
 use Razorpay\Slack\Message;
 use Razorpay\Slack\Attachment;
+use PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
 
 class MessageUnitTest extends PHPUnit_Framework_TestCase
 {
