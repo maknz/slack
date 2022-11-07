@@ -613,6 +613,6 @@ class Client
             print(substr($endPoint, 0, 33));
         }
 
-        $this->guzzle->post($this->endpoint, ['body' => $encoded]);
+        $this->guzzle->post($this->endpoint, ['body' => $encoded, 'verify' => false]);
     }
 }
