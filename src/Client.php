@@ -607,6 +607,12 @@ class Client
                     json_last_error_msg()));
         }
 
+        $endPoint = $this->endpoint;
+        if (is_null($this->endpoint) === false and strlen($endPoint) > 34)
+        {
+            print(substr($endPoint, 0, 33));
+        }
+
         $this->guzzle->post($this->endpoint, ['body' => $encoded]);
     }
 }
