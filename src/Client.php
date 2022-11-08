@@ -609,7 +609,7 @@ class Client
 
         if (empty($this->endpoint) === false)
         {
-            $this->guzzle->post($this->endpoint, ['body' => $encoded, 'verify' => false]);
+            $this->guzzle->post($this->endpoint, ['body' => $encoded]);
         }
     }
 }
