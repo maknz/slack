@@ -2,6 +2,7 @@
 
 use Razorpay\Slack\Client;
 use Illuminate\Queue\SyncQueue as Queue;
+use PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
 
 class ClientUnitTest extends PHPUnit_Framework_TestCase
 {

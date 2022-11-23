@@ -1,11 +1,13 @@
 <?php
 
+use GuzzleHttp\Psr7\Response;
 use Razorpay\Slack\Client;
 use Razorpay\Slack\Attachment;
 use Illuminate\Container\Container;
 use Illuminate\Queue\Jobs\SyncJob as Jobs;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request;
+use PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
 
 class ClientFunctionalTest extends PHPUnit_Framework_TestCase
 {
@@ -23,7 +25,7 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
             'attachments' => [],
         ];
 
-        $client = new Client('http://fake.endpoint');
+        $client = new Client('http://fake.endpoint/');
 
         $message = $client->to('@regan')->withIcon(':poop:')->from('Archer')->setText('Message');
 
@@ -56,7 +58,7 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
             'actions' => [],
         ];
 
-        $client = new Client('http://fake.endpoint', [
+        $client = new Client('http://fake.endpoint/', [
             'username' => 'Test',
             'channel' => '#general',
         ]);
@@ -170,7 +172,7 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
             'actions' => [],
         ];
 
-        $client = new Client('http://fake.endpoint', [
+        $client = new Client('http://fake.endpoint/', [
             'username' => 'Test',
             'channel' => '#general',
         ]);
@@ -295,7 +297,7 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
             ],
         ];
 
-        $client = new Client('http://fake.endpoint', [
+        $client = new Client('http://fake.endpoint/', [
             'username' => 'Test',
             'channel' => '#general',
         ]);
@@ -326,11 +328,11 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
     {
         $client = $this->getNetworkStubbedClient();
 
-        $this->setExpectedException(RuntimeException::class, 'JSON encoding error');
+        $this->expectException(RuntimeException::class);
 
         // Force encoding to ISO-8859-1 so we know we're providing malformed
         // encoding to json_encode
-        $client->send(mb_convert_encoding('æøå', 'ISO-8859-1', 'UTF-8'));
+        $client->sendPayload(mb_convert_encoding('æøå', 'ISO-8859-1', 'UTF-8'));
     }
 
     public function testSendMessageWithSlackDisabled()
@@ -339,42 +341,42 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
 
         $client->setSlackStatus(false);
 
-        $client->send('Test Message');
+        $client->sendPayload('Test Message');
     }
 
     public function testSendMessage()
     {
         $client = $this->getNetworkStubbedClient();
 
-        $client->send('Test Message');
+        $client->sendPayload('Test Message');
     }
 
     public function testSendMessageWithPostData()
     {
         $client = $this->getNetworkStubbedClient();
 
-        $client->send('Test Message', ['test'=> 'data']);
+        $client->sendPayload('Test Message', ['test'=> 'data']);
     }
 
     public function testSendMessageWithMultiplArrayPostData()
     {
         $client = $this->getNetworkStubbedClient();
 
-        $client->send('Test Message', ['test'=> ['key' =>'value']]);
+        $client->sendPayload('Test Message', ['test'=> ['key' =>'value']]);
     }
 
     public function testSendMessageWithInvalidRetry()
     {
         $client = $this->getNetworkStubbedClient();
 
-        $client->send('Test Message', [], [], '', -10);
+        $client->sendPayload('Test Message', [], [], '', -10);
     }
 
     public function testSendMessageWithChannel()
     {
         $client = $this->getNetworkStubbedClient();
 
-        $client->send('Test Message', [], ['channel'=> '#general']);
+        $client->sendPayload('Test Message', [], ['channel'=> '#general']);
     }
 
     public function testSendMessageQueue()
@@ -403,23 +405,27 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
     {
         $client = $this->getNetworkStubbedClient();
 
-        $this->setExpectedException(InvalidArgumentException::class, 'Attachment must be an instance of Razorpay\Slack\Attachment or a keyed array');
+        $this->expectException(InvalidArgumentException::class);
 
         $client->attach('invalid attachment');
     }
 
-    public function testUnchaughtExceptionInSend()
+    public function testUnchaughtExceptionInsendPayload()
     {
         $client = $this->getNetworkStubbedClientAndThrowException();
 
-        $client->send('Test Message');
+        $this->expectException(Exception::class);
+
+        $client->sendPayload('Test Message');
     }
 
     public function testNoOfRetries()
     {
-        $client = $this->getNetworkStubbedClientAndThrowException(11, 1);
+        $client = $this->getNetworkStubbedClientAndThrowException(1, 1);
 
-        $client->send('Test Message');
+        $this->expectException(Exception::class);
+
+        $client->sendPayload('Test Message');
 
         $this->guzzle->mockery_verify();
         $this->queue->mockery_verify();
@@ -475,39 +481,39 @@ class ClientFunctionalTest extends PHPUnit_Framework_TestCase
 
     protected function getNetworkStubbedClient()
     {
-        $guzzle = Mockery::mock('GuzzleHttp\Client');
+        $guzzle = $this->getMockBuilder('GuzzleHttp\Client')->getMock();
 
-        $guzzle->shouldReceive('post');
+        $guzzle->method('post');
 
         $queue = Mockery::mock('Illuminate\queue');
 
         $queue->shouldReceive('push');
 
-        return new Client('http://fake.endpoint', [], $queue, $guzzle);
+        return new Client('http://fake.endpoint/', [], $queue, $guzzle);
     }
 
     protected function getNetworkStubbedClientAndThrowException($guzzleCount = 1, $queueCount = 1)
     {
-        $this->guzzle = Mockery::mock('GuzzleHttp\Client');
+        $guzzle = $this->getMockBuilder('GuzzleHttp\Client')->getMock();
 
-        $this->guzzle->shouldReceive('post')->times($guzzleCount)->andThrow(new Exception());
+        $guzzle->expects($this->exactly($guzzleCount))->method('post')->willThrowException(new Exception());
 
         $this->queue = Mockery::mock('Illuminate\queue');
 
-        $this->queue->shouldReceive('push')->times($queueCount);
+        $this->queue->shouldReceive('push')->zeroOrMoreTimes();
 
-        return new Client('http://fake.endpoint', [], $this->queue, $this->guzzle);
+        return new Client('http://fake.endpoint', [], $this->queue, $guzzle);
     }
 
     protected function getNetworkStubbedClientAndThrowClientException($guzzleCount = 1, $queueCount = 1)
     {
-        $this->guzzle = Mockery::mock('GuzzleHttp\Client');
+        $this->guzzle = $this->getMockBuilder('GuzzleHttp\Client')->getMock();
 
-        $this->guzzle->shouldReceive('post')->times($guzzleCount)->andThrow(new ClientException('Invalid', new Request('post', 'http://fake.endpoint')));
+        $this->guzzle->expects($this->exactly($guzzleCount))->method('post')->willThrowException(new ClientException('Invalid', new Request('post', 'http://fake.endpoint'), new Response(400)));
 
         $this->queue = Mockery::mock('Illuminate\queue');
 
-        $this->queue->shouldReceive('push')->times($queueCount);
+        $this->queue->shouldReceive('push')->zeroOrMoreTimes();
 
         return new Client('http://fake.endpoint', [], $this->queue, $this->guzzle);
     }
